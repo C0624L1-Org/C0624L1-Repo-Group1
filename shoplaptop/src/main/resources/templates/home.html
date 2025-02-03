@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Hiển thị thông báo -->
+<div th:replace="~{fragments/toast.html}"></div>
+<div th:insert="dashboard/common/navbar :: navbar"></div>
+<div th:insert="dashboard/common/sidebar :: sidebar"></div>
+<h1>Hello World!</h1>
+<a th:href="@{/login}">Login</a>
+<a th:href="@{/dashboard/users/list}">List Customer</a>
+<a th:href="@{/test}">Test</a>
+</body>
+</html>
