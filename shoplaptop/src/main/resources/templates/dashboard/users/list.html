@@ -38,7 +38,8 @@
           <select id="role" name="role" class="form-select">
             <option value="" th:selected="${role == null}">Chọn vai trò</option>
             <option th:each="r : ${roles}"
-                    th:value="${r}" th:text="${r}"
+                    th:value="${r}"
+                    th:text="${r}"
                     th:selected="${role != null && role.name() == r.name()}">
             </option>
           </select>
@@ -95,7 +96,6 @@
                 <a th:href="@{/dashboard/users/delete/{id}(id=${u.id})}" class="btn btn-danger btn-sm me-1" onclick="return confirm('Bạn có chắc chắn muốn xoá?');">
                   <i class="fas fa-trash-alt"></i> Xóa
                 </a>
-
               </td>
             </tr>
           </tbody>
@@ -119,7 +119,8 @@
         th:classappend="${i == users.number} ? 'active' : ''">
       <a class="page-link"
          th:href="@{/dashboard/users/list(page=${i}, keyword=${keyword}, role=${role})}"
-         th:text="${i + 1}"></a>
+         th:text="${i + 1}">
+      </a>
     </li>
 
     <!-- Nút Next -->
@@ -130,7 +131,6 @@
     </li>
   </ul>
 </nav>
-
 
 <!-- FontAwesome for icons -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

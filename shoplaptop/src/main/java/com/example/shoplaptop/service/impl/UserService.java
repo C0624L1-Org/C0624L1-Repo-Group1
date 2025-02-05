@@ -37,8 +37,13 @@ public class UserService implements IUserService {
             if (user.getRole() == null) {
                 user.setRole(Role.CUSTOMER);
             }
+
             if (user.getStatus() == null) {
                 user.setStatus(true);
+            }
+
+            if (user.getAvatar() == null) {
+                user.setAvatar("https://www.chem.indiana.edu/wp-content/uploads/2023/09/defaultpic.jpg");
             }
             user.setPassword(encryptPasswordUtils.encryptPasswordUtils(user.getPassword()));
             iUserRepository.save(user);

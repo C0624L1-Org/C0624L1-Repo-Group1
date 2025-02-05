@@ -16,12 +16,14 @@ public class UserDTO implements Validator {
     @NotNull(message = "Vui lòng chọn giới tính")
     private Boolean gender;
     private String address;
-    private Role role;
+    private String avatar;
     private Boolean status;
+    private Role role;
+
 
     public UserDTO() {}
 
-    public UserDTO(Long id, String username, String password, String email, String phone, String fullName, Boolean gender, String address, Role role, Boolean status) {
+    public UserDTO(Long id, String username, String password, String email, String phone, String fullName, Boolean gender, String address, String avatar, Boolean status, Role role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -30,8 +32,9 @@ public class UserDTO implements Validator {
         this.fullName = fullName;
         this.gender = gender;
         this.address = address;
-        this.role = role;
+        this.avatar = avatar;
         this.status = status;
+        this.role = role;
     }
 
     public Long getId() {
@@ -98,12 +101,12 @@ public class UserDTO implements Validator {
         this.address = address;
     }
 
-    public Role getRole() {
-        return role;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Boolean getStatus() {
@@ -112,6 +115,14 @@ public class UserDTO implements Validator {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
@@ -135,10 +146,12 @@ public class UserDTO implements Validator {
 
         // Validate password
         String password = userDTO.getPassword();
-        if (password.trim().isEmpty()) {
-            errors.rejectValue("password", "input.null", "Vui lòng nhập mật khẩu!");
-        } else if (password.length() < 3 || password.length() > 21) {
-            errors.rejectValue("password", "", "Mật khẩu phải từ 3 đến 20 ký tự!");
+        if (userDTO.getId() == null) {
+            if (password.trim().isEmpty()) {
+                errors.rejectValue("password", "input.null", "Vui lòng nhập mật khẩu!");
+            } else if (password.length() < 3 || password.length() > 20) {
+                errors.rejectValue("password", "", "Mật khẩu phải từ 3 đến 20 ký tự!");
+            }
         }
 
         // Validate email

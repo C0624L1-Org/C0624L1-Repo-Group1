@@ -76,10 +76,10 @@
         </div>
 
         <!-- User Info -->
-        <div class="d-flex align-items-center ms-3">
-            <img alt="avatar" class="rounded-circle border" width="40px">
-            <a href="${pageContext.request.contextPath}/users?action=viewUser&username=${sessionScope.loggedInUser.username}" class="ms-2 text-dark fw-semibold text-decoration-none">
-                ${sessionScope.loggedInUser.fullName}
+        <div class="d-flex align-items-center ms-3" th:object="${users}">
+            <img th:src="${users.avatar}" alt="avatar" class="rounded-circle border" width="40px">
+            <a th:src="${users.avatar}" class="ms-2 text-dark fw-semibold text-decoration-none">
+                <span th:text="${users.fullName}"></span>
             </a>
         </div>
     </div>

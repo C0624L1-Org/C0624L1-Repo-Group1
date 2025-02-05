@@ -30,17 +30,20 @@ public class Users {
     @Column(columnDefinition = "varchar(100)")
     private String address;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20)")
-    private Role role;
+    @Column(columnDefinition = "varchar(255)")
+    private String avatar;
 
     @Column(name = "status")
     private Boolean status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "varchar(20)")
+    private Role role;
+
     // Constructors
     public Users() {}
 
-    public Users(Long id, String username, String password, String email, String phone, String fullName, Boolean gender, String address, Role role, Boolean status) {
+    public Users(Long id, String username, String password, String email, String phone, String fullName, Boolean gender, String address, String avatar, Boolean status, Role role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -49,8 +52,9 @@ public class Users {
         this.fullName = fullName;
         this.gender = gender;
         this.address = address;
-        this.role = role;
+        this.avatar = avatar;
         this.status = status;
+        this.role = role;
     }
 
     // Getters and Setters
@@ -118,12 +122,12 @@ public class Users {
         this.address = address;
     }
 
-    public Role getRole() {
-        return role;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Boolean getStatus() {
@@ -132,5 +136,13 @@ public class Users {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

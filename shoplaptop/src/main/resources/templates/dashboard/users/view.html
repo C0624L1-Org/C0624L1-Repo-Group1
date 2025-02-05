@@ -44,6 +44,9 @@
                       <strong>Trạng thái:</strong>
                       <span th:text="${user.status ? 'Hoạt động' : 'Đang khóa'}"></span>
                   </li>
+                  <li class="list-group-item">
+                      <strong>Avatar:</strong> <img th:src="${user.avatar}" class="img-thumbnail" alt="avatar">
+                  </li>
               </ul>
               <div  class="card-footer d-flex justify-content-between">
                   <a th:href="@{/dashboard/users/list}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Quay lại danh sách</a>
