@@ -28,13 +28,14 @@ public class Product {
 
     public Product() {}
 
-    public Product(Integer id, String name, String description, Double price, String image, Integer stock) {
+    public Product(Integer id, String name, String description, Double price, String image, Integer stock, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.image = image;
         this.stock = stock;
+        this.category = category;
     }
 
     public Integer getId() {
@@ -83,6 +84,14 @@ public class Product {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override

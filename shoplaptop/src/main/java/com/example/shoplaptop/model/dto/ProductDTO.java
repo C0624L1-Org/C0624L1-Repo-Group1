@@ -1,6 +1,7 @@
 package com.example.shoplaptop.model.dto;
 
 
+import com.example.shoplaptop.model.Category;
 import com.example.shoplaptop.model.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,16 +16,18 @@ public class ProductDTO implements Validator {
     @NotNull(message = "This field must not be blank")
     private String image;
     private Integer stock;
+    private Category category;
 
     public ProductDTO() {}
 
-    public ProductDTO(Integer id, String name, String description, Double price, String image, Integer stock) {
+    public ProductDTO(Integer id, String name, String description, Double price, String image, Integer stock, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.image = image;
         this.stock = stock;
+        this.category = category;
     }
 
     public Integer getId() {
@@ -75,6 +78,14 @@ public class ProductDTO implements Validator {
         this.stock = stock;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public boolean supports(Class<?> clazz) {
         return false;
@@ -104,10 +115,11 @@ public class ProductDTO implements Validator {
         } else if (price <= 0 || price > 500000000) {
             errors.rejectValue("price", "", "Invalid price value! Price value must be between 0 and 500000000");
         }
+
         Integer stock = product.getStock();
         if(stock == null) {
             errors.rejectValue("stock", "input.null");
-        } else if (stock <= 0) {
+        } else if (stock < 0) {
             errors.rejectValue("stock", "", "Stock value must be greater than zero");
         }
     }

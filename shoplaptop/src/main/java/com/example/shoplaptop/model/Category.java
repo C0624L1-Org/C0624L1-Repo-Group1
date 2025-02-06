@@ -10,7 +10,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(columnDefinition = "varchar(50) not null")
+    @Column(columnDefinition = "varchar(50) not null unique")
     private String name;
 
     @Column(nullable = false)
@@ -21,10 +21,11 @@ public class Category {
 
     public Category() {}
 
-    public Category(Integer id, String name, String logo) {
+    public Category(Integer id, String name, String logo, List<Product> products) {
         this.id = id;
         this.name = name;
         this.logo = logo;
+        this.products = products;
     }
 
     public Integer getId() {
@@ -49,6 +50,14 @@ public class Category {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     @Override
