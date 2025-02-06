@@ -2,12 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Trang Chủ</title>
+
+    <!-- CUSTOM STYLES-->
+    <link href="/css/dashboard/navbar.css" rel="stylesheet"/>
 </head>
 <body>
 <!-- Hiển thị thông báo -->
 <div th:replace="~{fragments/toast.html}"></div>
-<div th:insert="dashboard/common/navbar :: navbar"></div>
+<div th:replace="dashboard/common/navbar :: navbar"></div>
 <div th:insert="dashboard/common/sidebar :: sidebar"></div>
 <h1>Hello World!</h1>
 <a th:href="@{/login}">Login</a>

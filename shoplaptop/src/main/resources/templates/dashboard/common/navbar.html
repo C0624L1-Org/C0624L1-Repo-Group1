@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!--  Custom Style  -->
+    <link rel="stylesheet" th:href="@{/css/dashboard/navbar.css}">
 
 </head>
 <body>
@@ -50,39 +51,5 @@
         </div>
     </div>
 </div>
-
-<header id="header" class="header bg-light shadow-sm py-2">
-    <!-- Toggle Menu (Cột bên trái) -->
-    <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col-3">
-                <div class="header_toggle">
-                    <i class='bx bx-menu' id="header-toggle"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Search Section (Cột giữa) -->
-
-    <!-- User Section và Cart -->
-    <div class="col-3 d-flex justify-content-end align-items-center">
-        <!-- Cart -->
-        <div class="cart-info ms-3">
-            <a th:href="@{/cart}" class="d-flex align-items-center">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="badge bg-danger ms-2">Giỏ Hàng</span>
-            </a>
-        </div>
-
-        <!-- User Info -->
-        <div class="d-flex align-items-center ms-3" th:object="${users}">
-            <img th:src="${users.avatar}" alt="avatar" class="rounded-circle border" width="40px">
-            <a th:src="${users.avatar}" class="ms-2 text-dark fw-semibold text-decoration-none">
-                <span th:text="${users.fullName}"></span>
-            </a>
-        </div>
-    </div>
-</header>
 
 </body>

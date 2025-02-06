@@ -1,5 +1,6 @@
 package com.example.shoplaptop.config.security;
 
+import com.example.shoplaptop.common.CustomAccessDeniedHandler;
 import com.example.shoplaptop.common.CustomAuthenticationEntryPoint;
 import com.example.shoplaptop.common.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class SpringSecurity {
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     @Autowired
     private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -59,6 +62,7 @@ public class SpringSecurity {
                 )
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 // Tắt hoàn toàn RequestCache phuc vụ việc redirect về trang cố ý truy cập trước khi đăng nhập
                 .requestCache(RequestCacheConfigurer::disable
