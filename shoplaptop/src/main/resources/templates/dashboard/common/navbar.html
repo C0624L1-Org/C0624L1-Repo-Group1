@@ -9,7 +9,6 @@
 
     <!--  Custom Style  -->
     <link rel="stylesheet" th:href="@{/css/dashboard/navbar.css}">
-
 </head>
 <body>
 
@@ -22,13 +21,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" th:href="@{/home}"><i class="fa fa-square-o"></i>&nbsp;Shop Laptop</a>
+                <a class="navbar-brand" th:href="@{/home}"><i class="fa fa-square-o"></i>&nbsp;Nấm Linh Chi</a>
             </div>
 
             <!-- Hiển thị nếu người dùng đã đăng nhập -->
             <div sec:authorize="isAuthenticated()">
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right" style="display: flex; align-items: center">
+                    <ul class="nav navbar-nav navbar-left" style="display: flex; align-items: center">
                         <li>Chào mừng, <span sec:authentication="name"></span>!</li>
                         <li>
                             <a href="/logout">Đăng xuất
