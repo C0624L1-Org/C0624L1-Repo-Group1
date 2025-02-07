@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Product List</h1>
+<a th:href="@{/dashboard/products/create}">Add New Product</a>
 <table>
     <thead>
     <tr>
@@ -15,13 +16,26 @@
         <th>Quantity</th>
         <th>Image</th>
         <th>Brand</th>
+        <th colspan="3">Action</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="">
-        <td></td>
+    <tr th:each="p,l : ${products}">
+        <td th:text="${l.count}"></td>
+        <td th:text="${p.name}"></td>
+        <td th:text="${#numbers.formatDecimal(p.price,3,'POINT',2,'COMMA')} + ' VND'"></td>
+        <td th:text="${p.stock}"></td>
+        <td><img th:src="${p.image}" alt="Error Image" width="100" height="100"></td>
+        <td th:text="${p.category.name}"></td>
+        <td><a th:href="@{/dashboard/products/{id}/detail(id=${p.id})}">Detail</a></td>
+        <td><a th:href="@{/dashboard/products/{id}/remove(id=${p.id})}">Remove</a></td>
+        <td><a th:href="@{/dashboard/products/{id}/edit(id=${p.id})}">Edit</a></td>
     </tr>
     </tbody>
 </table>
+
+<a th:if="${products.hasPrevious()}" th:href="@{/dashboard/products/list(page=${products.number - 1})}">Previous</a>
+<span th:text="${products.number+1} + '/' + ${products.totalPages}"></span>
+<a th:if="${products.hasNext()}" th:href="@{/dashboard/products/list(page=${products.number + 1})}">Next</a>
 </body>
 </html>
