@@ -14,14 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DashboardController {
     @Autowired
     private IUserService iUserService;
+
     @GetMapping
     public String dashboard() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        Users currentUser = iUserService.findByUsername(username);
-        if (currentUser == null || !currentUser.getRole().equals("ROlE_ADMIN")) {
-            return "redirect:/home";
-        }
         return "/dashboard/dashboard";
     }
 

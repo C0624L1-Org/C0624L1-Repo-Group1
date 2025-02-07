@@ -16,7 +16,15 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
+//        if (authentication.getAuthorities().stream()
+//                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"))) {
+//            request.getSession().removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
+//        }
+        System.out.println("User Roles: " + authentication.getAuthorities());
+
         String redirectUrl = determineTargetUrl(request, authentication);
+
+        System.out.println("Redirecting to: " + redirectUrl);
         clearAuthenticationAttributes(request);
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
