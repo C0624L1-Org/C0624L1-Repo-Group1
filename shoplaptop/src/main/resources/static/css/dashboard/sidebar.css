@@ -1,94 +1,35 @@
-/* Sidebar Container */
-.navbar-side {
-    background: linear-gradient(45deg, #1e1e2f, #3a3a5e);
-    color: white;
-    width: 250px; /* Độ rộng của sidebar */
-    height: 100vh;
+/* Sidebar nằm bên trái */
+.sidebar {
+    width: 250px;
+    height: calc(100vh - 100px);
     position: fixed;
-    top: 0;
-    right: 0; /* Đặt sidebar ở bên phải */
-    overflow-y: auto;
-    transition: transform 0.3s ease-in-out;
-    transform: translateX(100%); /* Mặc định ẩn đi */
-    box-shadow: -4px 0 6px rgba(0, 0, 0, 0.2);
+    top: 70px;
+    left: 0;
+    background-color: #343a40;
+    color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 }
 
-/* Hiển thị sidebar khi có class 'active' */
-.navbar-side.active {
-    transform: translateX(0);
-}
-
-/* Sidebar Collapse */
-.sidebar-collapse {
-    padding-top: 20px;
-}
-
-/* Avatar */
 .user-image-back {
-    text-align: center;
-    padding: 20px;
+    padding: 20px 0;
 }
 
 .avatar-user {
-    width: 80px;
-    border-radius: 50%;
     border: 3px solid white;
 }
 
-/* Sidebar Menu */
-.nav {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.nav .nav-item {
+    margin-bottom: 10px;
 }
 
-.nav li {
-    padding: 12px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.nav li a {
+.nav .nav-link {
     color: white;
-    text-decoration: none;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    transition: all 0.3s ease;
-}
-
-.nav li a i {
-    margin-right: 12px;
-}
-
-/* Hover Effect */
-.nav li a:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    padding-left: 25px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .navbar-side {
-        width: 220px;
-    }
-}
-
-/* Nút mở Sidebar */
-.sidebar-toggle {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    background: #007bff;
-    color: white;
-    border: none;
     padding: 10px 15px;
-    font-size: 18px;
     border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.3s;
 }
 
-.sidebar-toggle:hover {
-    background: #0056b3;
+.nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
