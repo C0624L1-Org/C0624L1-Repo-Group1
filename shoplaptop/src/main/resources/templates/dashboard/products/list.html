@@ -31,7 +31,8 @@
         <td th:text="${p.category.name}"></td>
         <td><a th:href="@{/dashboard/products/{id}/detail(id=${p.id})}">Detail</a></td>
         <td>
-            <a th:href="@{/dashboard/products/{id}/remove(id=${p.id})}" th:onclick="return confirm([[${p.name}]]+' will be removed permanently. Are you sure ?')">Remove</a>
+            <a th:href="@{/dashboard/products/{id}/remove(id=${p.id})}"
+               th:onclick="return confirm([[${p.name}]]+' will be removed permanently. Are you sure ?')">Remove</a>
         </td>
         <td><a th:href="@{/dashboard/products/{id}/edit(id=${p.id})}">Edit</a></td>
     </tr>

@@ -137,5 +137,12 @@ public class ProductDTO implements Validator {
         } else if (stock < 0) {
             errors.rejectValue("stock", "", "Stock value must be greater than zero");
         }
+
+        String logo = product.getImage();
+        if (logo == null || logo.isEmpty()) {
+            errors.rejectValue("logo", "input.null");
+        } else if (logo.length() > 255) {
+            errors.rejectValue("logo", "", "Image Link is too long");
+        }
     }
 }

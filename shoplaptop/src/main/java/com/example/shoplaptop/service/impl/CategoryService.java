@@ -39,4 +39,9 @@ public class CategoryService implements ICategoryService {
     public boolean existsByName(String name) {
         return iCategoryRepository.existsByName(name);
     }
+
+    @Override
+    public Category getById(int id) {
+        return iCategoryRepository.getById(id);
+    }
 }

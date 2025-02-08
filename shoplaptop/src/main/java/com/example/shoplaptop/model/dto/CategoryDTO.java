@@ -10,7 +10,7 @@ import java.util.List;
 public class CategoryDTO implements Validator {
     private Integer id;
     private String name;
-    @NotBlank(message = "This field must not be blank")
+    //@NotBlank(message = "This field must not be blank")
     private String logo;
     private List<Product> products;
 
@@ -77,6 +77,13 @@ public class CategoryDTO implements Validator {
         String name = category.getName();
         if (name.trim().isEmpty()) {
             errors.rejectValue("name", "input.null");
+        }
+
+        String logo = category.getLogo();
+        if (logo == null || logo.isEmpty()) {
+            errors.rejectValue("logo", "input.null");
+        } else if (logo.length() > 255) {
+            errors.rejectValue("logo", "", "Image Link is too long");
         }
     }
 }
