@@ -9,12 +9,14 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.math.BigDecimal;
+
 public class ProductDTO implements Validator {
     private Integer id;
     private String name;
     private String description;
     @NumberFormat(pattern = "#,###")
-    private Double price;
+    private BigDecimal price;
     @NotNull(message = "This field must not be blank")
     private String image;
     private Integer stock;
@@ -22,7 +24,7 @@ public class ProductDTO implements Validator {
 
     public ProductDTO() {}
 
-    public ProductDTO(Integer id, String name, String description, Double price, String image, Integer stock, Category category) {
+    public ProductDTO(Integer id, String name, String description, BigDecimal price, String image, Integer stock, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -56,11 +58,11 @@ public class ProductDTO implements Validator {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -124,10 +126,10 @@ public class ProductDTO implements Validator {
             errors.rejectValue("description", "", "Product description contains a maximum of 250 characters");
         }
 
-        Double price = product.getPrice();
+        BigDecimal price = product.getPrice();
         if(price == null) {
             errors.rejectValue("price", "input.null");
-        } else if (price <= 0 || price > 500000000) {
+        } else if (price.compareTo(BigDecimal.ZERO) < 0 || price.compareTo(new BigDecimal("500000000")) > 0) {
             errors.rejectValue("price", "", "Invalid price value! Price value must be between 0 and 500000000");
         }
 
