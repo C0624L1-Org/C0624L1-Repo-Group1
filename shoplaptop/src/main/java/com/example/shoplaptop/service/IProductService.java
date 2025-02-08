@@ -8,4 +8,5 @@ public interface IProductService {
     Page<Product> findAll(Pageable pageable);
     Product getById(Integer id);
     void save(Product product);
+    boolean existsByName(String name);
 }

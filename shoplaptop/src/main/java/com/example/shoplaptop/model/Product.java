@@ -23,7 +23,7 @@ public class Product {
     @Column(columnDefinition = "int check (stock >= 0) not null")
     private Integer stock;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
     public Product() {}
@@ -103,6 +103,7 @@ public class Product {
                 ", price=" + price +
                 ", image='" + image + '\'' +
                 ", stock=" + stock +
+                ", category=" + category.getName() +
                 '}';
     }
 }

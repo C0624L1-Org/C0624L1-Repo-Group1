@@ -23,9 +23,9 @@
     <tr th:each="p,l : ${products}">
         <td th:text="${l.count}"></td>
         <td th:text="${p.name}"></td>
-        <td th:text="${#numbers.formatDecimal(p.price,3,'POINT',2,'COMMA')} + ' VND'"></td>
+        <td th:text="${#numbers.formatInteger(p.price,3,'POINT')} + ' VND'"></td>
         <td th:text="${p.stock}"></td>
-        <td><img th:src="${p.image}" alt="Error Image" width="100" height="100"></td>
+        <td><img th:src="${p.image}" th:alt="${p.name}" width="100" height="100"></td>
         <td th:text="${p.category.name}"></td>
         <td><a th:href="@{/dashboard/products/{id}/detail(id=${p.id})}">Detail</a></td>
         <td><a th:href="@{/dashboard/products/{id}/remove(id=${p.id})}">Remove</a></td>

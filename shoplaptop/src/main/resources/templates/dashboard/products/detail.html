@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Page</title>
+</head>
+<body>
+<h1 th:text="${product.name}"></h1>
+<table>
+    <tr>
+        <td rowspan="4">
+            <img th:src="${product.image}" th:alt="${product.name}" width="200" height="200">
+        </td>
+        <td>Brand</td>
+        <td th:text="${product.category.name}"></td>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td th:if="${product.stock > 0}">In Stock</td>
+        <td th:if="${product.stock == 0}">Out of Stock</td>
+    </tr>
+    <tr>
+        <td>Price</td>
+        <td th:text="${#numbers.formatInteger(product.price,3,'POINT')} + ' VND'"></td>
+    </tr>
+    <tr>
+        <td>Description</td>
+        <td th:text="${product.description}"></td>
+    </tr>
+</table>
+<a th:href="@{/dashboard/products}">Back To Product List</a>
+</body>
+</html>

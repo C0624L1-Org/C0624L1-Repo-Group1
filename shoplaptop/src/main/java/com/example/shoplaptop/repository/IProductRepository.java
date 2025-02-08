@@ -11,5 +11,5 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
     Page<Product> findAll(Pageable pageable);
     Product getById(Integer id);
     Product save(Product product);
-
+    boolean existsByName(String name);
 }

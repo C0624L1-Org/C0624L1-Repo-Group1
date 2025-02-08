@@ -27,4 +27,9 @@ public class ProductService implements IProductService {
     public void save(Product product) {
         iProductRepository.save(product);
     }
+
+    @Override
+    public boolean existsByName(String name) {
+        return iProductRepository.existsByName(name);
+    }
 }

@@ -87,6 +87,19 @@ public class ProductDTO implements Validator {
     }
 
     @Override
+    public String toString() {
+        return "ProductDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", image='" + image + '\'' +
+                ", stock=" + stock +
+                ", category=" + category.toString() +
+                '}';
+    }
+
+    @Override
     public boolean supports(Class<?> clazz) {
         return false;
     }

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Product Page</title>
+</head>
+<body>
+<h1>Edit Product</h1>
+<form th:action="@{/dashboard/products/update}" method="POST" th:object="${productDTO}">
+    <input type="hidden" th:field="*{id}">
+
+    <!--Product Name-->
+    <label for="name">Product Name</label><br>
+    <input type="text" id="name" th:field="*{name}"><br>
+    <p th:if="${#fields.hasErrors()}" th:errors="*{name}"></p>
+
+    <!--Product Description-->
+    <label for="description">Product Description</label><br>
+    <textarea id="description" th:field="*{description}"  rows="4" cols="50"></textarea><br>
+    <p th:if="${#fields.hasErrors()}" th:errors="*{description}"></p>
+
+    <!--Product Price-->
+    <label for="price">Price</label><br>
+    <input type="text" id="price" th:field="*{price}" th:value="${#numbers.formatInteger(productDTO.price,'POINT')}"><br>
+    <p th:if="${#fields.hasErrors()}" th:errors="*{price}"></p>
+
+    <!--Quantity-->
+    <label for="stock">Quantity</label><br>
+    <input type="number" id="stock" th:field="*{stock}"><br>
+    <p th:if="${#fields.hasErrors()}" th:errors="*{stock}"></p>
+
+    <!--Image-->
+    <label for="image">Image Link</label><br>
+    <input type="text" id="image" th:field="*{image}"><br>
+    <p th:if="${#fields.hasErrors()}" th:errors="*{image}"></p>
+
+    <!--Category-->
+    <label for="category">Brand</label><br>
+    <select id="category" th:field="*{category}">
+        <option value="" disabled selected>-- Brand --</option>
+        <option th:each="brand : ${categories}" th:value="${brand.id}" th:text="${brand.name}"></option>
+    </select><br>
+    <p th:if="${#fields.hasErrors()}" th:errors="*{category}"></p>
+
+    <!--Submit button-->
+    <button type="submit" value="submit">Update</button>
+</form>
+<hr>
+<a th:href="@{/dashboard/products}">Back to product list</a>
+</body>
+</html>

@@ -56,6 +56,16 @@ public class CategoryDTO implements Validator {
     }
 
     @Override
+    public String toString() {
+        return "CategoryDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", logo='" + logo + '\'' +
+                ", products=" + products +
+                '}';
+    }
+
+    @Override
     public boolean supports(Class<?> clazz) {
         return false;
     }
