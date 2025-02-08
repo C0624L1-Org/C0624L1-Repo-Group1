@@ -2,6 +2,8 @@ package com.example.shoplaptop.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 public class Product {
     @Id
@@ -14,13 +16,13 @@ public class Product {
     @Column(columnDefinition = "varchar(200) not null")
     private String description;
 
-    @Column(columnDefinition = "double check (price >= 0) not null")
-    private Double price;
+    @Column(columnDefinition = "decimal(10,2) not null")
+    private BigDecimal price;
 
     @Column(nullable = false)
     private String image;
 
-    @Column(columnDefinition = "int check (stock >= 0) not null")
+    @Column(columnDefinition = "check (stock >= 0) not null")
     private Integer stock;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,7 +30,7 @@ public class Product {
 
     public Product() {}
 
-    public Product(Integer id, String name, String description, Double price, String image, Integer stock, Category category) {
+    public Product(Integer id, String name, String description, BigDecimal price, String image, Integer stock, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -62,11 +64,11 @@ public class Product {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
