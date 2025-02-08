@@ -32,4 +32,9 @@ public class ProductService implements IProductService {
     public boolean existsByName(String name) {
         return iProductRepository.existsByName(name);
     }
+
+    @Override
+    public void delete(Product product) {
+        iProductRepository.delete(product);
+    }
 }

@@ -11,7 +11,7 @@
 
     <!--Product Name-->
     <label for="name">Product Name</label><br>
-    <input type="text" id="name" th:field="*{name}"><br>
+    <input type="text" id="name" th:field="*{name}" width="100"><br>
     <p th:if="${#fields.hasErrors()}" th:errors="*{name}"></p>
 
     <!--Product Description-->
@@ -21,7 +21,7 @@
 
     <!--Product Price-->
     <label for="price">Price</label><br>
-    <input type="text" id="price" th:field="*{price}" th:value="${#numbers.formatInteger(productDTO.price,'POINT')}"><br>
+    <input type="number" id="price" th:field="*{price}" ><br>
     <p th:if="${#fields.hasErrors()}" th:errors="*{price}"></p>
 
     <!--Quantity-->
@@ -48,4 +48,15 @@
 <hr>
 <a th:href="@{/dashboard/products}">Back to product list</a>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let priceInput = document.getElementById("price");
+        if (priceInput) {
+            let value = priceInput.value;
+            if (value.includes("E") || value.includes("e")) {
+                priceInput.value = Number(value).toFixed(0); // Chuyển về dạng số thông thường
+            }
+        }
+    });
+</script>
 </html>

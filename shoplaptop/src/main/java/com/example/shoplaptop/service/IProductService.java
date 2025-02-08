@@ -9,4 +9,5 @@ public interface IProductService {
     Product getById(Integer id);
     void save(Product product);
     boolean existsByName(String name);
+    void delete(Product product);
 }

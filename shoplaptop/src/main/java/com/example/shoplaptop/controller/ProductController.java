@@ -85,11 +85,6 @@ public class ProductController {
     public String showProductEditForm(@PathVariable Integer id, Model model) {
         ProductDTO productDTO = new ProductDTO();
         BeanUtils.copyProperties(iProductService.getById(id), productDTO);
-        DecimalFormat decimalFormat = new DecimalFormat("#.###########");
-        System.out.println();
-        Double price = Double.parseDouble(decimalFormat.format(productDTO.getPrice()));
-        System.out.println(price);
-        productDTO.setPrice(price);
         System.out.println("productDTO: "+productDTO.toString());
         model.addAttribute("productDTO", productDTO);
         model.addAttribute("categories", iCategoryService.findAll());
@@ -98,8 +93,9 @@ public class ProductController {
 
     @PostMapping("/update")
     public String updateProduct(@Valid @ModelAttribute("productDTO") ProductDTO productDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        System.out.println("updateProduct function starts");
-        if (iProductService.existsByName(productDTO.getName())) {
+        Product product = iProductService.getById(productDTO.getId());
+        System.out.println("updated productDTO: "+productDTO.toString());
+        if (!product.getName().equals(productDTO.getName()) && iProductService.existsByName(productDTO.getName())) {
             bindingResult.rejectValue("name", "", "Product name already exists");
         }
 
@@ -109,11 +105,25 @@ public class ProductController {
             model.addAttribute("product", productDTO);
             return "dashboard/products/edit";
         }
-        Product product = new Product();
+
         BeanUtils.copyProperties(productDTO, product);
         iProductService.save(product);
         redirectAttributes.addFlashAttribute("messageType", "success");
         redirectAttributes.addFlashAttribute("message", "Product updated successfully");
+        return "redirect:/dashboard/products/list";
+    }
+
+    @GetMapping("/{id}/remove")
+    public String removeProduct(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        Product product = iProductService.getById(id);
+        if (product == null) {
+            redirectAttributes.addFlashAttribute("messageType", "error");
+            redirectAttributes.addFlashAttribute("message", "Product not found");
+        } else {
+            iProductService.delete(product);
+            redirectAttributes.addFlashAttribute("messageType", "success");
+            redirectAttributes.addFlashAttribute("message", "Product removed successfully");
+        }
         return "redirect:/dashboard/products/list";
     }
 

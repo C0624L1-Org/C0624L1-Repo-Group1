@@ -5,6 +5,7 @@ import com.example.shoplaptop.model.Category;
 import com.example.shoplaptop.model.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -12,6 +13,7 @@ public class ProductDTO implements Validator {
     private Integer id;
     private String name;
     private String description;
+    @NumberFormat(pattern = "#,###")
     private Double price;
     @NotNull(message = "This field must not be blank")
     private String image;

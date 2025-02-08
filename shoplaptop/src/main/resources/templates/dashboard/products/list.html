@@ -6,6 +6,8 @@
 </head>
 <body>
 <h1>Product List</h1>
+
+<p th:text="${message}"></p>
 <a th:href="@{/dashboard/products/create}">Add New Product</a>
 <table>
     <thead>
@@ -23,12 +25,14 @@
     <tr th:each="p,l : ${products}">
         <td th:text="${l.count}"></td>
         <td th:text="${p.name}"></td>
-        <td th:text="${#numbers.formatInteger(p.price,3,'POINT')} + ' VND'"></td>
+        <td th:text="${#numbers.formatInteger(p.price,1,'POINT')} + ' VND'"></td>
         <td th:text="${p.stock}"></td>
         <td><img th:src="${p.image}" th:alt="${p.name}" width="100" height="100"></td>
         <td th:text="${p.category.name}"></td>
         <td><a th:href="@{/dashboard/products/{id}/detail(id=${p.id})}">Detail</a></td>
-        <td><a th:href="@{/dashboard/products/{id}/remove(id=${p.id})}">Remove</a></td>
+        <td>
+            <a th:href="@{/dashboard/products/{id}/remove(id=${p.id})}" th:onclick="return confirm([[${p.name}]]+' will be removed permanently. Are you sure ?')">Remove</a>
+        </td>
         <td><a th:href="@{/dashboard/products/{id}/edit(id=${p.id})}">Edit</a></td>
     </tr>
     </tbody>
