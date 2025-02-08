@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Category Page</title>
+</head>
+<body>
+<h1>Add New Category</h1>
+<form th:action="@{/dashboard/productTypes/add}" method="POST" th:object="${categoryDTO}">
+  <!--Product Name-->
+  <label for="name">Brand Name</label><br>
+  <input type="text" id="name" th:field="*{name}"><br>
+  <p th:if="${#fields.hasErrors()}" th:errors="*{name}"></p>
+
+  <!--Image-->
+  <label for="image">Image Link</label><br>
+  <input type="text" id="image" th:field="*{logo}"><br>
+  <p th:if="${#fields.hasErrors()}" th:errors="*{logo}"></p>
+
+  <!--Submit button-->
+  <button type="submit" value="submit">Add Category</button>
+</form>
+<hr>
+<a th:href="@{/dashboard/productTypes}">Back to category list</a>
+</body>
+</html>

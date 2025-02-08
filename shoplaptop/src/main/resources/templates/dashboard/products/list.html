@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+</head>
+<body>
+<h1>Product List</h1>
+
+<p th:text="${message}"></p>
+<a th:href="@{/dashboard/products/create}">Add New Product</a>
+<table>
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Laptop Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Image</th>
+        <th>Brand</th>
+        <th colspan="3">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p,l : ${products}">
+        <td th:text="${l.count}"></td>
+        <td th:text="${p.name}"></td>
+        <td th:text="${#numbers.formatInteger(p.price,1,'POINT')} + ' VND'"></td>
+        <td th:text="${p.stock}"></td>
+        <td><img th:src="${p.image}" th:alt="${p.name}" width="100" height="100"></td>
+        <td th:text="${p.category.name}"></td>
+        <td><a th:href="@{/dashboard/products/{id}/detail(id=${p.id})}">Detail</a></td>
+        <td>
+            <a th:href="@{/dashboard/products/{id}/remove(id=${p.id})}"
+               th:onclick="return confirm([[${p.name}]]+' will be removed permanently. Are you sure ?')">Remove</a>
+        </td>
+        <td><a th:href="@{/dashboard/products/{id}/edit(id=${p.id})}">Edit</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:if="${products.hasPrevious()}" th:href="@{/dashboard/products/list(page=${products.number - 1})}">Previous</a>
+<span th:text="${products.number+1} + '/' + ${products.totalPages}"></span>
+<a th:if="${products.hasNext()}" th:href="@{/dashboard/products/list(page=${products.number + 1})}">Next</a>
+</body>
+</html>
