@@ -1,55 +1,35 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <title>Navbar</title>
+<div th:fragment="navbar" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/home}">
+                <img th:src="@{/css/img/logo.png}" alt="logo" width="50" height="50" class="nav_logo rounded-circle">
+                <span class="nav_logo-name">Nấm Linh Chi</span>
+            </a>
 
-    <!--  Bootstrap CSS  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <!--  Custom Style  -->
-    <link rel="stylesheet" th:href="@{/css/dashboard/navbar.css}">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <!-- Hiển thị nếu người dùng đã đăng nhập -->
+                    <li sec:authorize="isAuthenticated()" class="nav-item">
+                        <span class="nav-link text-white">Chào mừng, <span sec:authentication="name"></span>!</span>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item">
+                        <a class="nav-link" href="/logout">Đăng xuất <i class="fas fa-sign-out-alt ms-1"></i></a>
+                    </li>
 
-</head>
-<body>
-
-<div th:fragment="navbar">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="adjust-nav">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" th:href="@{/home}"><i class="fa fa-square-o"></i>&nbsp;Shop Laptop</a>
-            </div>
-
-            <!-- Hiển thị nếu người dùng đã đăng nhập -->
-            <div sec:authorize="isAuthenticated()">
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right" style="display: flex; align-items: center">
-                        <li>Chào mừng, <span sec:authentication="name"></span>!</li>
-                        <li>
-                            <a href="/logout">Đăng xuất
-                                <i style="margin-left: 8px" class="fas fa-sign-out-alt"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Hiển thị nếu người dùng chưa đăng nhập -->
-            <div sec:authorize="isAnonymous()">
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/login">Đăng nhập</a></li>
-                        <li><a href="/register">Đăng ký</a></li>
-                    </ul>
-                </div>
+                    <!-- Hiển thị nếu người dùng chưa đăng nhập -->
+                    <li sec:authorize="isAnonymous()" class="nav-item">
+                        <a class="nav-link" href="/login">Đăng nhập</a>
+                    </li>
+                    <li sec:authorize="isAnonymous()" class="nav-item">
+                        <a class="nav-link" href="/register">Đăng ký</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 </div>
-
-</body>
