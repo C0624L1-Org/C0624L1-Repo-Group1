@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.persistence.criteria.Fetch;
 import jakarta.validation.constraints.Min;
 
+import java.util.List;
+
 @Entity
 @Table(name = "cart_item")
 public class CartItem {
@@ -12,8 +14,8 @@ public class CartItem {
     private Long id;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="cart_id")
-    private Cart cart;
+    @JoinColumn(name="user_id")
+    private Users user ;
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "product_id")
@@ -22,21 +24,22 @@ public class CartItem {
     @Min(1)
     private int quantity;
 
-    @Min(1)
-    private long price;
 
-    private long totalPrice;
 
     public CartItem() {
     }
 
-    public CartItem(Long id, Cart cart, Product product, int quantity, long price, long totalPrice) {
+    public CartItem(Long id, Users user, Product product, int quantity) {
         this.id = id;
-        this.cart = cart;
+        this.user = user;
         this.product = product;
         this.quantity = quantity;
-        this.price = price;
-        this.totalPrice = totalPrice;
+    }
+
+    public CartItem(Users user, Product product, int quantity) {
+        this.user = user;
+        this.product = product;
+        this.quantity = quantity;
     }
 
     public Long getId() {
@@ -45,11 +48,11 @@ public class CartItem {
     public void setId(Long id) {
         this.id = id;
     }
-    public Cart getCart() {
-        return cart;
+    public Users getUser() {
+        return user;
     }
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setUser(Users user) {
+        this.user = user;
     }
     public Product getProduct() {
         return product;
@@ -63,17 +66,66 @@ public class CartItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    public long getPrice() {
-        return price;
-    }
-    public void setPrice(long price) {
-        this.price = price;
-    }
-    public long getTotalPrice() {
-        return totalPrice;
-    }
-    public void setTotalPrice(long totalPrice) {
-        this.totalPrice = totalPrice;
+
+
+    public double totalPrice() {
+        return this.quantity*this.product.getPrice();
     }
 
+    // check san pham co trong gio hang hay chua
+    public boolean checkProductInCartItemOfUser(Users user, Product product) {
+
+        List<CartItem> cartItems = user.getCartItems();
+
+        for (CartItem cartItem : cartItems) {
+            if (cartItem.getProduct().equals(product)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //chon san pham trong gio hang
+    public CartItem selectProductInCartItemOfUser(Users user, Product product) {
+        CartItem selectCartItem = null;
+        if (checkProductInCartItemOfUser(user, product)) {
+            List<CartItem> cartItems = user.getCartItems();
+            for (CartItem cartItem : cartItems) {
+                if(cartItem.getProduct().equals(product)) {
+                    selectCartItem = cartItem;
+                }
+            }
+        }
+        return selectCartItem;
+    }
+
+    // them san pham vao gio hang khi chua co va da co trong gio hang
+    public CartItem addProductInCartItemOfUser(Users user, Product product) {
+        if (!checkProductInCartItemOfUser(user, product)) {
+            CartItem cartItem = new CartItem(user, product, 1);
+            return cartItem;
+        }
+        else{
+            CartItem cartItem = selectProductInCartItemOfUser(user, product);
+            cartItem.setQuantity(cartItem.getQuantity()+1);
+            return cartItem;
+        }
+    }
+
+    //dem mot nguoi mua bao nhieu san pham trong gio hang
+    public int countProductInCartItemOfUser(Users user, Product product) {
+        List<CartItem> cartItems = user.getCartItems();
+        return cartItems.size();
+    }
+
+    // dem tong so tien
+    public double totalPriceOfProductInCartItemOfUser(Users user, Product product) {
+        List<CartItem> cartItems = user.getCartItems();
+
+        double totalPrice = 0;
+        for (CartItem cartItem : cartItems) {
+            totalPrice+=cartItem.getQuantity()*cartItem.getProduct().getPrice();
+        }
+        return totalPrice;
+    }
 }

@@ -7,7 +7,16 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class Users {
+    @OneToMany(mappedBy = "user",fetch=FetchType.LAZY)
+    private List<CartItem> cartItems;
 
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
