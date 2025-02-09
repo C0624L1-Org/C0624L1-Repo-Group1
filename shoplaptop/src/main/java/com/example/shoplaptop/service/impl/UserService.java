@@ -45,7 +45,11 @@ public class UserService implements IUserService {
             if (user.getAvatar() == null) {
                 user.setAvatar("https://www.chem.indiana.edu/wp-content/uploads/2023/09/defaultpic.jpg");
             }
-            user.setPassword(encryptPasswordUtils.encryptPasswordUtils(user.getPassword()));
+
+            if (!user.getPassword().startsWith("$2a$")) {
+                user.setPassword(encryptPasswordUtils.encryptPasswordUtils(user.getPassword()));
+            }
+
             iUserRepository.save(user);
         } catch (Exception e) {
             throw new RuntimeException("Có lỗi khi thêm người dùng : " + e.getMessage());
@@ -78,8 +82,13 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public long countUsers() {
+        return iUserRepository.count();
+    }
+
+    @Override
     public String encryptPassword(String password) {
-        return "";
+        return encryptPasswordUtils.encryptPasswordUtils(password);
     }
 
     @Override

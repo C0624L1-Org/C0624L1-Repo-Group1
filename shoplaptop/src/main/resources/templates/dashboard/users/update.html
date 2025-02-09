@@ -29,7 +29,6 @@
             <form th:action="@{/dashboard/users/update}" th:object="${user}" method="post">
                 <input type="hidden" th:field="*{id}"/>
                 <input type="hidden" th:field="*{password}"/>
-
                 <!-- Username -->
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
@@ -80,15 +79,19 @@
                 </div>
 
                 <!-- Role -->
-                <div class="mb-3">
-                    <label for="role" class="form-label">Role</label>
-                    <select id="role" class="form-select" th:field="*{role}">
-                        <option value="" disabled selected>-- Select Role --</option>
-                        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
-                    </select>
-                </div>
+                <th:block th:unless="${self}">
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select id="role" class="form-select" th:field="*{role}">
+                            <option value="" disabled selected>-- Select Role --</option>
+                            <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                        </select>
+                        <p class="text-danger small" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></p>
+                    </div>
+                </th:block>
 
                 <!-- Status -->
+                <th:block th:unless="${self}">
                 <div class="mb-3">
                     <label class="form-label">Status</label><br>
                     <div class="form-check">
@@ -101,6 +104,7 @@
                     </div>
                     <p class="text-danger small" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></p>
                 </div>
+                </th:block>
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Update User</button>

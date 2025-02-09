@@ -28,5 +28,7 @@ public interface IUserService {
 
     Page<Users> searchUsers(String keyword, Role role, Pageable pageable);
 
+    long countUsers();
+
     String encryptPassword(String password);
 }
