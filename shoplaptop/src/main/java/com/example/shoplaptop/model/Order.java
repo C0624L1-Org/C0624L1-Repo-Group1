@@ -1,6 +1,7 @@
 package com.example.shoplaptop.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import org.apache.catalina.User;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.util.List;
 public class Order {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -22,6 +23,9 @@ public class Order {
 
     @OneToMany(mappedBy = "order",cascade= CascadeType.ALL,fetch= FetchType.LAZY)
     private List<OrderItem> orderItems;
+
+    @Min(1)
+    private long totalPayment;
 
     public Order(long id, Users user, LocalDateTime orderDate, List<OrderItem> orderItems) {
         this.id = id;

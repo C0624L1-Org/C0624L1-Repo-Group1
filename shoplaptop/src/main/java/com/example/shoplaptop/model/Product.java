@@ -2,8 +2,14 @@ package com.example.shoplaptop.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Product {
+
+    @OneToMany(mappedBy="product")
+    private List<CartItem> cartItems;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,6 +31,8 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
+
+
 
     public Product() {}
 

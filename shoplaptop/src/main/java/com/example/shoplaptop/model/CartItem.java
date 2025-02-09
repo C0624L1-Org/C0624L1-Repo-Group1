@@ -1,57 +1,55 @@
 package com.example.shoplaptop.model;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.Fetch;
 import jakarta.validation.constraints.Min;
 
 @Entity
-@Table(name="order_item")
-public class OrderItem {
+@Table(name = "cart_item")
+public class CartItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name="cart_id")
+    private Cart cart;
 
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "quantity",nullable = false)
     @Min(1)
     private int quantity;
 
-    @Column(name = "price",nullable = false, precision = 10, scale = 2)
-    @Min(0)
+    @Min(1)
     private long price;
 
+    private long totalPrice;
 
-
-    public OrderItem() {
+    public CartItem() {
     }
 
-    public OrderItem(long id, Order order, Product product, int quantity, long price) {
+    public CartItem(Long id, Cart cart, Product product, int quantity, long price, long totalPrice) {
         this.id = id;
-        this.order = order;
+        this.cart = cart;
         this.product = product;
         this.quantity = quantity;
         this.price = price;
-
+        this.totalPrice = totalPrice;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
-
-    public Order getOrder() {
-        return order;
+    public Cart getCart() {
+        return cart;
     }
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
     public Product getProduct() {
         return product;
@@ -71,6 +69,11 @@ public class OrderItem {
     public void setPrice(long price) {
         this.price = price;
     }
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+    public void setTotalPrice(long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
-    
 }

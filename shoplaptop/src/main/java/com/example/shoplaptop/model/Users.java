@@ -2,9 +2,13 @@ package com.example.shoplaptop.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class Users {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,6 +43,9 @@ public class Users {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "varchar(20)")
     private Role role;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    private List<Order> orders;
 
     // Constructors
     public Users() {}
