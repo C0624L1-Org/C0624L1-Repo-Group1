@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 
@@ -16,17 +17,15 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
-//        if (authentication.getAuthorities().stream()
-//                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"))) {
-//            request.getSession().removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
-//        }
-        System.out.println("User Roles: " + authentication.getAuthorities());
+        request.getSession().setAttribute("SUCCESS_MESSAGE", "Đăng nhập thành công!");
+//        RedirectAttributes redirectAttributes = (RedirectAttributes) request.getSession().getAttribute("redirectAttributes");
+//        redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", "Đăng nhập thành công!");
 
         String redirectUrl = determineTargetUrl(request, authentication);
 
-        System.out.println("Redirecting to: " + redirectUrl);
         clearAuthenticationAttributes(request);
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
+//        request.getSession().setAttribute("SUCCESS_MESSAGE", null);
     }
 
     private String determineTargetUrl(HttpServletRequest request, Authentication authentication) {

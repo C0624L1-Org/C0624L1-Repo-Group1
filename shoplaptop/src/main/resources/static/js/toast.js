@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const toastElList = document.querySelectorAll('.toast');
     toastElList.forEach(toastEl => {
-        toastEl.classList.add('show');
+        toastEl.style.display = 'flex';
 
         setTimeout(() => {
             toastEl.classList.add('fade-out');

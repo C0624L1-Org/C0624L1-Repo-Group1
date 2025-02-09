@@ -32,8 +32,9 @@ public class ProductController {
     }
 
     @GetMapping("/list")
-    public String showProductList(@RequestParam(name = "page", defaultValue = "0", required = false) int page, Model model) {
-        Pageable pageable = PageRequest.of(page,3);
+    public String showProductList(@RequestParam(name = "page", defaultValue = "0", required = false) int page,
+                                  Model model) {
+        Pageable pageable = PageRequest.of(page,10);
         Page<Product> products =  iProductService.findAll(pageable);
         model.addAttribute("products", products);
         return "dashboard/products/list";

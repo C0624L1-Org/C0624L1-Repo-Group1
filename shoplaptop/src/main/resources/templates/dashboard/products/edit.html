@@ -3,60 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Product Page</title>
+
+    <!-- Customer CSS -->
+    <link rel="stylesheet" href="/css/dashboard/users/pagination.css">
+    <link href="/css/dashboard/navbar.css" rel="stylesheet">
+    <link href="/css/dashboard/sidebar.css" rel="stylesheet"/>
+    <link href="/css/dashboard/dashboard.css" rel="stylesheet"/>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
-<h1>Edit Product</h1>
-<form th:action="@{/dashboard/products/update}" method="POST" th:object="${productDTO}">
-    <input type="hidden" th:field="*{id}">
+<!-- Navbar -->
+<div th:insert="dashboard/common/navbar :: navbar"></div>
+<!-- Sidebar -->
+<div th:insert="dashboard/common/sidebar :: sidebar"></div>
+<!-- Hiển thị thông báo -->
+<div th:replace="~{fragments/toast.html}"></div>
 
-    <!--Product Name-->
-    <label for="name">Product Name</label><br>
-    <input type="text" id="name" th:field="*{name}" width="100"><br>
-    <p th:if="${#fields.hasErrors()}" th:errors="*{name}"></p>
+<div class="main-content mt-5">
+    <div class="card">
+        <div class="card-header text-center">
+            <h2>Edit Product</h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/dashboard/products/update}" method="POST" th:object="${productDTO}">
+                <input type="hidden" th:field="*{id}">
 
-    <!--Product Description-->
-    <label for="description">Product Description</label><br>
-    <textarea id="description" th:field="*{description}"  rows="4" cols="50"></textarea><br>
-    <p th:if="${#fields.hasErrors()}" th:errors="*{description}"></p>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Product Name</label>
+                    <input type="text" id="name" class="form-control" th:field="*{name}">
+                    <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
 
-    <!--Product Price-->
-    <label for="price">Price</label><br>
-    <input type="number" id="price" th:field="*{price}" ><br>
-    <p th:if="${#fields.hasErrors()}" th:errors="*{price}"></p>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Product Description</label>
+                    <textarea id="description" class="form-control" rows="4" th:field="*{description}"></textarea>
+                    <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                </div>
 
-    <!--Quantity-->
-    <label for="stock">Quantity</label><br>
-    <input type="number" id="stock" th:field="*{stock}"><br>
-    <p th:if="${#fields.hasErrors()}" th:errors="*{stock}"></p>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" id="price" class="form-control" th:field="*{price}">
+                    <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                </div>
 
-    <!--Image-->
-    <label for="image">Image Link</label><br>
-    <input type="text" id="image" th:field="*{image}"><br>
-    <p th:if="${#fields.hasErrors()}" th:errors="*{image}"></p>
+                <div class="mb-3">
+                    <label for="stock" class="form-label">Quantity</label>
+                    <input type="number" id="stock" class="form-control" th:field="*{stock}">
+                    <div class="text-danger" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></div>
+                </div>
 
-    <!--Category-->
-    <label for="category">Brand</label><br>
-    <select id="category" th:field="*{category}">
-        <option value="" disabled selected>-- Brand --</option>
-        <option th:each="brand : ${categories}" th:value="${brand.id}" th:text="${brand.name}"></option>
-    </select><br>
-    <p th:if="${#fields.hasErrors()}" th:errors="*{category}"></p>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image Link</label>
+                    <input type="text" id="image" class="form-control" th:field="*{image}">
+                    <div class="text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></div>
+                </div>
+                <div class="mb-3 text-center">
+                    <img th:src="*{image}" class="img-thumbnail" width="150" height="150" alt="Product Image">
+                </div>
 
-    <!--Submit button-->
-    <button type="submit" value="submit">Update</button>
-</form>
-<hr>
-<a th:href="@{/dashboard/products}">Back to product list</a>
-</body>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Brand</label>
+                    <select id="category" class="form-select" th:field="*{category}">
+                        <option value="" disabled selected>-- Brand --</option>
+                        <option th:each="brand : ${categories}" th:value="${brand.id}" th:text="${brand.name}"></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a th:href="@{/dashboard/products}" class="btn btn-secondary">Back to product list</a>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let priceInput = document.getElementById("price");
         if (priceInput) {
             let value = priceInput.value;
             if (value.includes("E") || value.includes("e")) {
-                priceInput.value = Number(value).toFixed(0); // Chuyển về dạng số thông thường
+                priceInput.value = Number(value).toFixed(0);
             }
         }
     });
 </script>
+
+<!-- FontAwesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
