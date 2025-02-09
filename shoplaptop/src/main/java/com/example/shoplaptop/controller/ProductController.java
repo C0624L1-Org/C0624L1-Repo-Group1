@@ -1,5 +1,6 @@
 package com.example.shoplaptop.controller;
 
+import com.example.shoplaptop.model.Category;
 import com.example.shoplaptop.model.Product;
 import com.example.shoplaptop.model.dto.ProductDTO;
 import com.example.shoplaptop.service.ICategoryService;
@@ -16,6 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
+
 
 @Controller
 @RequestMapping("/dashboard/products")
@@ -27,15 +30,27 @@ public class ProductController {
     private ICategoryService iCategoryService;
 
     @GetMapping("")
-    public String directToProductList(){
+    public String directToProductList() {
         return "redirect:/dashboard/products/list";
     }
 
     @GetMapping("/list")
-    public String showProductList(@RequestParam(name = "page", defaultValue = "0", required = false) int page, Model model) {
-        Pageable pageable = PageRequest.of(page,3);
-        Page<Product> products =  iProductService.findAll(pageable);
+    public String showProductList(@RequestParam(name = "page", defaultValue = "0", required = false) int page,
+                                  @RequestParam(name = "productName", required = false) String productName,
+                                  @RequestParam(name = "brand", required = false) String brand,
+                                  Model model) {
+
+        Pageable pageable = PageRequest.of(page, 3);
+        Page<Product> products = iProductService.findAll(pageable);
+        System.out.println("productName: " + productName);
+        System.out.println("brand: " + brand);
+        if (productName != null && brand != null && (!productName.trim().isEmpty() || !brand.trim().isEmpty())) {
+            products = iProductService.searchProductByNameAndCategory(productName, brand, pageable);
+        }
         model.addAttribute("products", products);
+        model.addAttribute("categories", iCategoryService.findAll());
+        model.addAttribute("brand", brand);
+        model.addAttribute("productName", productName);
         return "dashboard/products/list";
     }
 
@@ -47,7 +62,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@Valid @ModelAttribute("product") ProductDTO productDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes ) {
+    public String addProduct(@Valid @ModelAttribute("product") ProductDTO productDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (iProductService.existsByName(productDTO.getName())) {
             bindingResult.rejectValue("name", "", "Product name already exists");
         }
@@ -84,7 +99,7 @@ public class ProductController {
     public String showProductEditForm(@PathVariable Integer id, Model model) {
         ProductDTO productDTO = new ProductDTO();
         BeanUtils.copyProperties(iProductService.getById(id), productDTO);
-        System.out.println("productDTO: "+productDTO.toString());
+        System.out.println("productDTO: " + productDTO.toString());
         model.addAttribute("productDTO", productDTO);
         model.addAttribute("categories", iCategoryService.findAll());
         return "dashboard/products/edit";
@@ -93,7 +108,7 @@ public class ProductController {
     @PostMapping("/update")
     public String updateProduct(@Valid @ModelAttribute("productDTO") ProductDTO productDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         Product product = iProductService.getById(productDTO.getId());
-        System.out.println("updated productDTO: "+productDTO.toString());
+        System.out.println("updated productDTO: " + productDTO.toString());
         if (!product.getName().equals(productDTO.getName()) && iProductService.existsByName(productDTO.getName())) {
             bindingResult.rejectValue("name", "", "Product name already exists");
         }

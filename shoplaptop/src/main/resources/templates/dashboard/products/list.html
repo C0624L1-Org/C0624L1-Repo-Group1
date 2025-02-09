@@ -9,6 +9,17 @@
 
 <p th:text="${message}"></p>
 <a th:href="@{/dashboard/products/create}">Add New Product</a>
+
+<form th:action="@{/dashboard/products/list}" method="GET">
+    <input type="text" name="productName" placeholder="Enter Product Name to Search" th:value="${productName}">
+    ||
+    <select name="brand" id="brand">
+        <option value="" th:selected="${brand == null}">Brand</option>
+        <option th:each="c : ${categories}" th:value="${c.name}" th:text="${c.name}" th:selected="${brand != null && brand == c.name}"></option>
+    </select>
+    <button type="submit">Search</button>
+</form>
+
 <table>
     <thead>
     <tr>
@@ -39,8 +50,8 @@
     </tbody>
 </table>
 
-<a th:if="${products.hasPrevious()}" th:href="@{/dashboard/products/list(page=${products.number - 1})}">Previous</a>
+<a th:if="${products.hasPrevious()}" th:href="@{/dashboard/products/list(page=${products.number - 1}, productName=${productName}, brand=${brand})}">Previous</a>
 <span th:text="${products.number+1} + '/' + ${products.totalPages}"></span>
-<a th:if="${products.hasNext()}" th:href="@{/dashboard/products/list(page=${products.number + 1})}">Next</a>
+<a th:if="${products.hasNext()}" th:href="@{/dashboard/products/list(page=${products.number + 1}, productName=${productName}, brand=${brand})}">Next</a>
 </body>
 </html>
