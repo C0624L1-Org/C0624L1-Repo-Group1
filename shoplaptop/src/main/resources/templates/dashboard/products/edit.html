@@ -44,7 +44,7 @@
 
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
-                    <input type="number" id="price" class="form-control" th:field="*{price}">
+                    <input type="number" id="price" class="form-control" th:value="${productDTO.price.toPlainString()}" th:field="*{price}">
                     <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
                 </div>
 
@@ -81,7 +81,7 @@
     </div>
 </div>
 
-<script>
+<!--<script>
     document.addEventListener("DOMContentLoaded", function() {
         let priceInput = document.getElementById("price");
         if (priceInput) {
@@ -91,7 +91,7 @@
             }
         }
     });
-</script>
+</script>-->
 
 <!-- FontAwesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">

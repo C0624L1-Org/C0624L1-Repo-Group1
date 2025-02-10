@@ -40,7 +40,7 @@ public class ProductController {
                                   @RequestParam(name = "brand", required = false) String brand,
                                   Model model) {
 
-        Pageable pageable = PageRequest.of(page, 3);
+        Pageable pageable = PageRequest.of(page, 8);
         Page<Product> products = iProductService.findAll(pageable);
         System.out.println("productName: " + productName);
         System.out.println("brand: " + brand);
@@ -108,6 +108,7 @@ public class ProductController {
     @PostMapping("/update")
     public String updateProduct(@Valid @ModelAttribute("productDTO") ProductDTO productDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         Product product = iProductService.getById(productDTO.getId());
+        //productDTO.setPrice(productDTO.getPrice().divide(new BigDecimal("100")));
         System.out.println("updated productDTO: " + productDTO.toString());
         if (!product.getName().equals(productDTO.getName()) && iProductService.existsByName(productDTO.getName())) {
             bindingResult.rejectValue("name", "", "Product name already exists");
