@@ -2,6 +2,7 @@ package com.example.shoplaptop.config.security;
 
 import com.example.shoplaptop.common.CustomAccessDeniedHandler;
 import com.example.shoplaptop.common.CustomAuthenticationEntryPoint;
+import com.example.shoplaptop.common.CustomAuthenticationFailureHandler;
 import com.example.shoplaptop.common.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +34,9 @@ public class SpringSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/clear-session")
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/css/**", "/js/**","/favicon.ico", "/home", "/").permitAll()
                         .requestMatchers("/dashboard/**").hasRole("ADMIN")
@@ -45,6 +49,7 @@ public class SpringSecurity {
                                 .passwordParameter("password")
                                 .loginProcessingUrl("/perform_login")
                                 .successHandler(customAuthenticationSuccessHandler)
+                                .failureHandler(new CustomAuthenticationFailureHandler())
                                 .permitAll()
                 )
                 .logout(logout -> logout

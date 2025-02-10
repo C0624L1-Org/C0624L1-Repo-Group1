@@ -31,6 +31,8 @@ public interface IUserRepository extends JpaRepository<Users, Long> {
 
     List<Users> findAllByRole(Role role);
 
+    long count();
+
     @Query("SELECT u FROM Users u WHERE " +
             "(:keyword IS NULL OR LOWER(u.username) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(u.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +

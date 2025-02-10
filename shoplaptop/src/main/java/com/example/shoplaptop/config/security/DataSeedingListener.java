@@ -33,6 +33,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             admin.setAddress("TP.HCM");
             admin.setStatus(true);
             admin.setRole(Role.ADMIN);
+            admin.setAvatar("https://www.chem.indiana.edu/wp-content/uploads/2023/09/defaultpic.jpg");
             iUserRepository.save(admin);
         }
 
@@ -48,6 +49,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             customer.setAddress("Hà Nội");
             customer.setStatus(true);
             customer.setRole(Role.CUSTOMER);
+            customer.setAvatar("https://www.chem.indiana.edu/wp-content/uploads/2023/09/defaultpic.jpg");
             iUserRepository.save(customer);
         }
     }
