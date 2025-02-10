@@ -33,10 +33,21 @@ public class ProductController {
 
     @GetMapping("/list")
     public String showProductList(@RequestParam(name = "page", defaultValue = "0", required = false) int page,
+                                  @RequestParam(name = "productName", required = false) String productName,
+                                  @RequestParam(name = "brand", required = false) String brand,
                                   Model model) {
-        Pageable pageable = PageRequest.of(page,10);
-        Page<Product> products =  iProductService.findAll(pageable);
+
+        Pageable pageable = PageRequest.of(page, 3);
+        Page<Product> products = iProductService.findAll(pageable);
+        System.out.println("productName: " + productName);
+        System.out.println("brand: " + brand);
+        if (productName != null && brand != null && (!productName.trim().isEmpty() || !brand.trim().isEmpty())) {
+            products = iProductService.searchProductByNameAndCategory(productName, brand, pageable);
+        }
         model.addAttribute("products", products);
+        model.addAttribute("categories", iCategoryService.findAll());
+        model.addAttribute("brand", brand);
+        model.addAttribute("productName", productName);
         return "dashboard/products/list";
     }
 
