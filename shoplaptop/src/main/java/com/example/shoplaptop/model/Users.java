@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class Users {
-    @OneToMany(mappedBy="user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<CartItem> cartItems;
 
     public List<CartItem> getCartItems() {

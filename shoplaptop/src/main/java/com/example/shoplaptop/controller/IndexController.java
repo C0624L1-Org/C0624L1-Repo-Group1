@@ -1,7 +1,9 @@
 package com.example.shoplaptop.controller;
 
 import com.example.shoplaptop.model.Product;
+import com.example.shoplaptop.model.Users;
 import com.example.shoplaptop.service.IProductService;
+import com.example.shoplaptop.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,10 +13,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+
 @Controller
 public class IndexController {
     @Autowired
     private IProductService iProductService;
+
+    @Autowired
+    private IUserService iUserService;
 
     @GetMapping("/")
     public String index() {
@@ -28,10 +35,14 @@ public class IndexController {
 
     @GetMapping("/allProduct")
     public String showProductList(@RequestParam(name = "page", defaultValue = "0", required = false) int page,
-                                  Model model) {
+                                  Principal principal, Model model) {
         Pageable pageable = PageRequest.of(page,10);
         Page<Product> products =  iProductService.findAll(pageable);
         model.addAttribute("products", products);
-        return "allProduct";
+
+        String username = principal.getName();
+        Users user = iUserService.findByUsername(username);
+        model.addAttribute("user", user);
+        return "/allProduct";
     }
 }
