@@ -1,5 +1,6 @@
 package com.example.shoplaptop.service.impl;
 
+import com.example.shoplaptop.model.Category;
 import com.example.shoplaptop.model.Product;
 import com.example.shoplaptop.repository.IProductRepository;
 import com.example.shoplaptop.service.IProductService;
@@ -37,4 +38,12 @@ public class ProductService implements IProductService {
     public void delete(Product product) {
         iProductRepository.delete(product);
     }
+
+
+    @Override
+    public Page<Product> searchProductByNameAndCategory(String name, String category, Pageable pageable) {
+        return iProductRepository.findByNameContainingAndCategory(name, category, pageable);
+    }
+
+
 }
