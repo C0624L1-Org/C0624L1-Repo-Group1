@@ -2,9 +2,22 @@ package com.example.shoplaptop.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class Users {
+    @OneToMany(mappedBy="user",cascade = CascadeType.ALL)
+    private List<CartItem> cartItems;
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
