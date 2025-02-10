@@ -32,30 +32,26 @@
             </a>
 
             <!-- Search -->
-<!--            <form th:action="@{/dashboard/users/list}" method="get" class="row g-3 mb-3 align-items-center">-->
-<!--                <div class="col-md-4">-->
-<!--                    <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Tìm kiếm theo Tài khoản, Gmail và Họ Tên" th:value="${keyword}">-->
-<!--                </div>-->
-<!--                <div class="col-md-1 text-center">-->
-<!--                    <p class="fw-bold my-1">Hoặc</p>-->
-<!--                </div>-->
-<!--                <div class="col-md-4">-->
-<!--                    <select id="role" name="role" class="form-select">-->
-<!--                        <option value="" th:selected="${role == null}">Chọn vai trò</option>-->
-<!--                        <option th:each="r : ${roles}"-->
-<!--                                th:value="${r}"-->
-<!--                                th:text="${r}"-->
-<!--                                th:selected="${role != null && role.name() == r.name()}">-->
-<!--                        </option>-->
-<!--                    </select>-->
-<!--                </div>-->
+            <form th:action="@{/dashboard/products/list}" method="get" class="row g-3 mb-3 align-items-center">
+                <div class="col-md-4">
+                    <input type="text" name="productName" id="productName" class="form-control" placeholder="Enter Product Name to Search" th:value="${productName}">
+                </div>
+                <div class="col-md-1 text-center">
+                    <p class="fw-bold my-1">OR</p>
+                </div>
+                <div class="col-md-4">
+                                       <select name="brand" id="brand" class="form-select">
+                        <option value="" th:selected="${brand == null}">Brand</option>
+                        <option th:each="c : ${categories}" th:value="${c.name}" th:text="${c.name}" th:selected="${brand != null && brand == c.name}"></option>
+                    </select>
+                </div>
 
-<!--                <div class="col-md-1 d-flex align-items-end">-->
-<!--                    <button type="submit" class="btn btn-primary w-100">-->
-<!--                        <i class="fas fa-search"></i> Tìm kiếm-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </form>-->
+                <div class="col-md-1 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
 
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
@@ -71,16 +67,16 @@
                     </tr>
                     </thead>
                     <tbody id="product-list">
-            <!--        <tr th:if="${products.content.isEmpty()}">-->
-            <!--            <td colspan="6" class="text-center">No products found!</td>-->
-            <!--        </tr>-->
-            <!--        <tr th:if="${products.content.isEmpty()}">-->
-            <!--            <td colspan="6" class="text-center">-->
-            <!--                <a th:href="@{/dashboard/products/list}" class="btn btn-secondary">-->
-            <!--                    <i class="fas fa-arrow-left"></i> Back To List-->
-            <!--                </a>-->
-            <!--            </td>-->
-            <!--        </tr>-->
+                    <!--        <tr th:if="${products.content.isEmpty()}">-->
+                    <!--            <td colspan="6" class="text-center">No products found!</td>-->
+                    <!--        </tr>-->
+                    <!--        <tr th:if="${products.content.isEmpty()}">-->
+                    <!--            <td colspan="6" class="text-center">-->
+                    <!--                <a th:href="@{/dashboard/products/list}" class="btn btn-secondary">-->
+                    <!--                    <i class="fas fa-arrow-left"></i> Back To List-->
+                    <!--                </a>-->
+                    <!--            </td>-->
+                    <!--        </tr>-->
                     <tr th:each="p,l : ${products}">
                         <td th:text="${l.count}"></td>
                         <td th:text="${p.name}"></td>
@@ -116,7 +112,7 @@
     <ul class="pagination justify-content-center">
         <!-- Nút Previous -->
         <li class="page-item" th:classappend="${products.hasPrevious()} ? '' : 'disabled'">
-            <a class="page-link" th:href="@{/dashboard/products/list(page=${products.number - 1})}" aria-label="Previous">
+            <a class="page-link" th:href="@{/dashboard/products/list(page=${products.number - 1}, productName=${productName}, brand=${brand})}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
@@ -132,7 +128,7 @@
 
         <!-- Nút Next -->
         <li class="page-item" th:classappend="${products.hasNext()} ? '' : 'disabled'">
-            <a class="page-link" th:href="@{/dashboard/products/list(page=${products.number + 1})}" aria-label="Next">
+            <a class="page-link" th:href="@{/dashboard/products/list(page=${products.number + 1}, productName=${productName}, brand=${brand})}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
