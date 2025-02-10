@@ -12,5 +12,7 @@ public interface IProductService {
     boolean existsByName(String name);
     void delete(Product product);
 
+    long countProducts();
+
     Page<Product> searchProductByNameAndCategory(String name, String category, Pageable pageable);
 }

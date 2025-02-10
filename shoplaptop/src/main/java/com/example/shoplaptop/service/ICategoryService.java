@@ -13,4 +13,5 @@ public interface ICategoryService {
     void delete(Category category);
     boolean existsByName(String name);
     Category getById(int id);
+    long countCategory();
 }

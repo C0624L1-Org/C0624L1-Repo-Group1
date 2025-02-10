@@ -44,4 +44,9 @@ public class CategoryService implements ICategoryService {
     public Category getById(int id) {
         return iCategoryRepository.getById(id);
     }
+
+    @Override
+    public long countCategory() {
+        return iCategoryRepository.count();
+    }
 }

@@ -28,21 +28,45 @@
         <div id="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>Trang chủ Admin</h1>
-                    <p>Chào mừng bạn đến với trang quản trị!</p>
+                    <p>Welcome to Admin Dashboard</p>
                 </div>
             </div>
 
             <!-- Thống kê chung -->
             <div class="row" style="margin-top: 20px">
-                <!-- Tổng số người dùng -->
                 <div class="col-md-4">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            Số lượng khách hàng
+                            Number of customers
                         </div>
                         <div class="panel-body">
                             <h3 th:text="${countUsers} + ' Users'"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 20px">
+                <div class="col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Number of products
+                        </div>
+                        <div class="panel-body">
+                            <h3 th:text="${countProducts} + ' Products'"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 20px">
+                <div class="col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Number of categories
+                        </div>
+                        <div class="panel-body">
+                            <h3 th:text="${countCategories} + ' Categories'"></h3>
                         </div>
                     </div>
                 </div>
