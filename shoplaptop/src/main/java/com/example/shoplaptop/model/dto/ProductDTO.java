@@ -15,7 +15,7 @@ public class ProductDTO implements Validator {
     private Integer id;
     private String name;
     private String description;
-    @NumberFormat(pattern = "#,###")
+    @NumberFormat(pattern = "############")
     private BigDecimal price;
     @NotNull(message = "This field must not be blank")
     private String image;
