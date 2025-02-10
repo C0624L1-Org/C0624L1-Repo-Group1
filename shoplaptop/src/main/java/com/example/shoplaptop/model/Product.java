@@ -22,7 +22,7 @@ public class Product {
     @Column(nullable = false)
     private String image;
 
-    @Column(columnDefinition = "check (stock >= 0) not null")
+    @Column(nullable = false)
     private Integer stock;
 
     @ManyToOne(fetch = FetchType.LAZY)
