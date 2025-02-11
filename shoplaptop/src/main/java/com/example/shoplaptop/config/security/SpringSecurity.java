@@ -24,6 +24,8 @@ public class SpringSecurity {
     private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -38,7 +40,15 @@ public class SpringSecurity {
                         .ignoringRequestMatchers("/clear-session")
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**","/favicon.ico", "/home", "/").permitAll()
+                        .requestMatchers("/login",
+                                "/css/**",
+                                "/js/**",
+                                "/favicon.ico",
+                                "/home",
+                                "/",
+                                "/register",
+                                "/clear-session",
+                                "/allProduct").permitAll()
                         .requestMatchers("/dashboard/**").hasRole("ADMIN")
                         .requestMatchers("/home/**").hasAnyRole("CUSTOMER", "ADMIN")
                         .anyRequest().authenticated()
@@ -49,12 +59,15 @@ public class SpringSecurity {
                                 .passwordParameter("password")
                                 .loginProcessingUrl("/perform_login")
                                 .successHandler(customAuthenticationSuccessHandler)
-                                .failureHandler(new CustomAuthenticationFailureHandler())
+                                .failureHandler(customAuthenticationFailureHandler)
                                 .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            request.getSession().setAttribute("SUCCESS_MESSAGE", "Đăng xuất thành công!");
+                            response.sendRedirect("/login");
+                        })
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)

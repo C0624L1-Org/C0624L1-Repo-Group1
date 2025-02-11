@@ -1,11 +1,12 @@
 package com.example.shoplaptop.config.security;
 
-
 import com.example.shoplaptop.common.EncryptPasswordUtils;
 
 import com.example.shoplaptop.model.Role;
 import com.example.shoplaptop.model.Users;
 import com.example.shoplaptop.repository.IUserRepository;
+import com.example.shoplaptop.service.ICategoryService;
+import com.example.shoplaptop.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,10 +17,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
     @Autowired
     private IUserRepository iUserRepository;
 
-
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-
         //them admin
         if (iUserRepository.findByUsername("admin") == null) {
             Users admin = new Users();

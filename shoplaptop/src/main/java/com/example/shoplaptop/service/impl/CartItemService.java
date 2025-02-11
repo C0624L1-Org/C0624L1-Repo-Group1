@@ -60,6 +60,7 @@ public class CartItemService implements ICartItemService {
             if(cartItem.getProduct().getId() == product.getId()){
                 if(cartItem.getQuantity() == 1){
                     cartItemList.remove(cartItem);
+                    cartItemRepository.delete(cartItem);
                     break;
                 }
                 cartItem.setQuantity(cartItem.getQuantity() - 1);

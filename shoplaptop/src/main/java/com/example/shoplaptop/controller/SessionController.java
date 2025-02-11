@@ -2,14 +2,12 @@ package com.example.shoplaptop.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class SessionController {
 
-    @PostMapping("/clear-session")
+    @RequestMapping(value = "/clear-session", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<Void> clearSession(@RequestParam String key, HttpSession session) {
         session.removeAttribute(key);
         return ResponseEntity.ok().build();

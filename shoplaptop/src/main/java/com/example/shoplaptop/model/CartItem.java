@@ -18,7 +18,7 @@ public class CartItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Min(1)
+    
     private int quantity;
 
     public CartItem(Long id, Users user, Product product, int quantity) {

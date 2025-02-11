@@ -62,6 +62,8 @@
 <script th:inline="javascript">
   window.onload = function() {
     setTimeout(() => {
+      document.querySelectorAll('.toast').forEach(el => el.remove());
+
       fetch('/clear-session?key=SUCCESS_MESSAGE', { method: 'POST' });
       fetch('/clear-session?key=ERROR_MESSAGE', { method: 'POST' });
     }, 3000);

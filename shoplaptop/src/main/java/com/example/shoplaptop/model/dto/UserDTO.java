@@ -179,5 +179,11 @@ public class UserDTO implements Validator {
         } else if (fullName.length() < 3 || fullName.length() > 50) {
             errors.rejectValue("fullName", "", "Họ và tên phải từ 3 đến 50 ký tự!");
         }
+
+        // Validate Address
+        String address = userDTO.getAddress();
+        if (address.trim().isEmpty()) {
+            errors.rejectValue("address", "input.null");
+        }
     }
 }

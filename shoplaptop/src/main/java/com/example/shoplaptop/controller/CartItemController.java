@@ -5,8 +5,13 @@ import com.example.shoplaptop.model.Product;
 import com.example.shoplaptop.model.Users;
 import com.example.shoplaptop.repository.IProductRepository;
 import com.example.shoplaptop.repository.IUserRepository;
+import com.example.shoplaptop.service.IProductService;
 import com.example.shoplaptop.service.impl.CartItemService;
+import com.example.shoplaptop.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +31,9 @@ public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
 
+    @Autowired
+    private IProductService iProductService;
+
     @RequestMapping("")
     public String index(Model model, Principal principal) {
         String username = principal.getName();
@@ -42,11 +50,16 @@ public class CartItemController {
     }
 
     @RequestMapping("/add")
-    public String addProductInCart(@RequestParam(name = "userId") long userId, Model model,
+    public String addProductInCart(@RequestParam(name = "page", defaultValue = "0", required = false) int page,
+                                   @RequestParam(name = "userId") long userId, Model model,
                                    @RequestParam(name = "productId") int productId) {
         Users user = userRepository.getById(userId);
         Product product = productRepository.getById(productId);
         cartItemService.addProductToCartItemOfUser(user, product);
+
+        Pageable pageable = PageRequest.of(page,10);
+        Page<Product> products =  iProductService.findAll(pageable);
+        model.addAttribute("products", products);
         return "redirect:/allProduct";
     }
 
