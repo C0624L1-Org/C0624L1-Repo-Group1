@@ -3,9 +3,32 @@ package com.example.shoplaptop.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Product {
+    @OneToMany(mappedBy="product",cascade=CascadeType.ALL)
+    private List<CartItem> cartItemList;
+
+    public List<CartItem> getCartItemList() {
+        return cartItemList;
+    }
+
+    public void setCartItemList(List<CartItem> cartItemList) {
+        this.cartItemList = cartItemList;
+    }
+
+    public Product(List<CartItem> cartItemList, Integer id, String name, String description, BigDecimal price, String image, Integer stock, Category category) {
+        this.cartItemList = cartItemList;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.stock = stock;
+        this.category = category;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
