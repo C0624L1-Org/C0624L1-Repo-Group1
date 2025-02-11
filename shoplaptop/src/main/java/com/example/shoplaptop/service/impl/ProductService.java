@@ -39,6 +39,11 @@ public class ProductService implements IProductService {
         iProductRepository.delete(product);
     }
 
+    @Override
+    public long countProducts() {
+        return iProductRepository.count();
+    }
+
 
     @Override
     public Page<Product> searchProductByNameAndCategory(String name, String category, Pageable pageable) {

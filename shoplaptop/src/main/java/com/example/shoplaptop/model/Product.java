@@ -7,15 +7,26 @@ import java.util.List;
 
 @Entity
 public class Product {
-    @OneToMany(mappedBy="product",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-    private List<CartItem> cartItem;
+    @OneToMany(mappedBy="product",cascade=CascadeType.ALL)
+    private List<CartItem> cartItemList;
 
-    public List<CartItem> getCartItem() {
-        return cartItem;
+    public List<CartItem> getCartItemList() {
+        return cartItemList;
     }
 
-    public void setCartItem(List<CartItem> cartItem) {
-        this.cartItem = cartItem;
+    public void setCartItemList(List<CartItem> cartItemList) {
+        this.cartItemList = cartItemList;
+    }
+
+    public Product(List<CartItem> cartItemList, Integer id, String name, String description, BigDecimal price, String image, Integer stock, Category category) {
+        this.cartItemList = cartItemList;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.stock = stock;
+        this.category = category;
     }
 
     @Id

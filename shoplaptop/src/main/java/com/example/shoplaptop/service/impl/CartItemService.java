@@ -22,43 +22,66 @@ public class CartItemService implements ICartItemService {
     }
 
     @Override
-    public CartItem selectProductInCartItemOfUser(Users user, Product product) {
-        CartItem findcartItem = null;
-        if(cartItemRepository.existsByProductAndUser(user, product)){
+    public boolean checkProductAndUserInCartItem(Users user, Product product) {
+        return cartItemRepository.existsByUserAndProduct(user,product);
+    }
 
-            for(CartItem cartItem : cartItemRepository.getCartItemsByUser(user)){
-
-                if(cartItem.getProduct().equals(product)){
-                    findcartItem = cartItem;
-                    return findcartItem;
-                }
-            }
-        }
-        return findcartItem;
+    @Override
+    public CartItem selectCartItemOfUser(Users user) {
+        CartItem cartItem = null;
+        return cartItem;
     }
 
     @Override
     public void addProductToCartItemOfUser(Users user, Product product) {
-        if(!cartItemRepository.existsByProductAndUser(user, product)){
-
-           CartItem cartItem = new CartItem(user,product,1);
-           cartItemRepository.save(cartItem);
-        }
-        else{
-            CartItem cartItem = selectProductInCartItemOfUser(user, product);
-            cartItem.setQuantity(cartItem.getQuantity()+1);
+        if(!checkProductAndUserInCartItem(user,product)) {
+            CartItem cartItem = new CartItem(user,product,1);
             cartItemRepository.save(cartItem);
         }
+        else{
+            List<CartItem> cartItemList = cartItemRepository.getCartItemsByUser(user);
+            for(CartItem cartItem : cartItemList){
+                if(cartItem.getProduct().getId() == product.getId()){
+                    if(cartItem.getQuantity() < product.getStock()){
+                        cartItem.setQuantity(cartItem.getQuantity()+1);
+                        cartItemRepository.save(cartItem);
+                        break;
+                    }
 
+                }
+            }
+        }
     }
 
-
+    @Override
+    public void removeProductFromCartItemOfUser(Users user, Product product) {
+        List<CartItem> cartItemList = cartItemRepository.getCartItemsByUser(user);
+        for(CartItem cartItem : cartItemList){
+            if(cartItem.getProduct().getId() == product.getId()){
+                if(cartItem.getQuantity() == 1){
+                    cartItemList.remove(cartItem);
+                    break;
+                }
+                cartItem.setQuantity(cartItem.getQuantity() - 1);
+                cartItemRepository.save(cartItem);
+            }
+        }
+    }
 
     @Override
     public int countProductInCartItemOfUser(Users user) {
-        return 0;
+        List<CartItem> cartItemList = cartItemRepository.getCartItemsByUser(user);
+        return cartItemList.size();
     }
+
+    @Override
+    public long totalPriceInCartItemOfUser(Users user) {
+        long totalPrice = 0;
+        List<CartItem> cartItemList = cartItemRepository.getCartItemsByUser(user);
+        for(CartItem cartItem : cartItemList){
+            totalPrice += cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())).doubleValue();
+        }
+        return totalPrice;
+    }
+
 }
-
-
-

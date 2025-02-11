@@ -8,8 +8,10 @@ import java.util.List;
 
 public interface ICartItemService {
     List<CartItem> getCartItemsByUser(Users user);
-    CartItem selectProductInCartItemOfUser(Users user, Product product);
+    boolean checkProductAndUserInCartItem(Users user, Product product);
+    CartItem selectCartItemOfUser(Users user);
     void addProductToCartItemOfUser(Users user, Product product);
-//    Long totalPriceOfCartItemOfUser(Users user);
+    void removeProductFromCartItemOfUser(Users user, Product product);
     int countProductInCartItemOfUser(Users user);
+    long totalPriceInCartItemOfUser(Users user);
 }

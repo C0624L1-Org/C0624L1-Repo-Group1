@@ -3,30 +3,23 @@ package com.example.shoplaptop.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 
-import java.math.BigDecimal;
-
 @Entity
-@Table(name = "cart_item")
+@Table(name ="cart_item")
 public class CartItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Users user;
 
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Min(0)
+    @Min(1)
     private int quantity;
-
-    public CartItem() {
-    }
 
     public CartItem(Long id, Users user, Product product, int quantity) {
         this.id = id;
@@ -35,10 +28,13 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public CartItem( Users user, Product product, int quantity) {
+    public CartItem(Users user, Product product, int quantity) {
         this.user = user;
         this.product = product;
         this.quantity = quantity;
+    }
+
+    public CartItem() {
     }
 
     public Long getId() {
@@ -66,7 +62,5 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public BigDecimal totalPriceAsProduct() {
-        return  this.getProduct().getPrice().multiply(BigDecimal.valueOf(this.getQuantity()));
-    }
 }
+

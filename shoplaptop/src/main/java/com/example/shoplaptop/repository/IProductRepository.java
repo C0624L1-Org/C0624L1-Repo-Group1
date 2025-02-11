@@ -21,6 +21,8 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 
     void delete(Product product);
 
+    long count();
+
     @Query(value = "select p from Product p where (:name is null or lower(p.name) like lower(concat('%',:name,'%')))" +
             "and (:brand is null or lower(p.category.name) like lower(concat('%',:brand,'%')))")
     Page<Product> findByNameContainingAndCategory(@Param("name") String name, @Param("brand") String brand, Pageable pageable);

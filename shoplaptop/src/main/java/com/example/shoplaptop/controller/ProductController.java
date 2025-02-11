@@ -2,11 +2,9 @@ package com.example.shoplaptop.controller;
 
 import com.example.shoplaptop.model.Category;
 import com.example.shoplaptop.model.Product;
-import com.example.shoplaptop.model.Users;
 import com.example.shoplaptop.model.dto.ProductDTO;
 import com.example.shoplaptop.service.ICategoryService;
 import com.example.shoplaptop.service.IProductService;
-import com.example.shoplaptop.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 
 
 @Controller
@@ -31,9 +28,6 @@ public class ProductController {
 
     @Autowired
     private ICategoryService iCategoryService;
-
-    @Autowired
-    private IUserService iUserService;
 
     @GetMapping("")
     public String directToProductList() {
@@ -57,7 +51,6 @@ public class ProductController {
         model.addAttribute("categories", iCategoryService.findAll());
         model.addAttribute("brand", brand);
         model.addAttribute("productName", productName);
-
         return "dashboard/products/list";
     }
 
