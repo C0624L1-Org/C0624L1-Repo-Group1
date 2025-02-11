@@ -15,18 +15,21 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
-        if (request.getRequestURI().contains("favicon.ico")) {
+        String requestURI = request.getRequestURI();
+
+        if (requestURI.contains("favicon.ico")) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-        // Lưu URL hiện tại vào session
-        String targetUrl = request.getRequestURI();
-        String queryString = request.getQueryString();
-        if (queryString != null) {
-            targetUrl += "?" + queryString;
-        }
 
-        request.getSession().setAttribute("REDIRECT_URL", targetUrl);
+        if (!requestURI.equals("/clear-session")) {
+            String targetUrl = requestURI;
+            String queryString = request.getQueryString();
+            if (queryString != null) {
+                targetUrl += "?" + queryString;
+            }
+            request.getSession().setAttribute("REDIRECT_URL", targetUrl);
+        }
 
         // Redirect tới trang login
         response.sendRedirect("/login");
