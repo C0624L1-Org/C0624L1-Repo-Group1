@@ -18,7 +18,6 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
                                         AuthenticationException exception) throws IOException, ServletException {
         request.getSession().setAttribute("ERROR_MESSAGE", "Sai tài khoản hoặc mật khẩu!");
 
-        System.out.println("ERROR_MESSAGE trước khi redirect: " + request.getSession().getAttribute("ERROR_MESSAGE"));
         super.setDefaultFailureUrl("/login");
         super.onAuthenticationFailure(request, response, exception);
     }

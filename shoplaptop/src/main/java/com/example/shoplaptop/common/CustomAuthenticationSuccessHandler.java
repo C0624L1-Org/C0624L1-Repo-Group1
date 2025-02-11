@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 
@@ -40,8 +39,14 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             // Lấy URL từ session mà Customer truy cập trước đó
             String targetUrl = (String) request.getSession().getAttribute("REDIRECT_URL");
             request.getSession().removeAttribute("REDIRECT_URL");
+            System.out.println("REDIRECT_URL: " + request.getSession().getAttribute("REDIRECT_URL"));
 
-            if (targetUrl == null || targetUrl.isEmpty() || targetUrl.contains("favicon.ico") || targetUrl.contains("error") || targetUrl.contains("dashboard")) {
+            if (targetUrl == null
+                    || targetUrl.isEmpty()
+                    || targetUrl.contains("favicon.ico")
+                    || targetUrl.contains("error")
+                    || targetUrl.contains("dashboard")
+                    || targetUrl.startsWith("/clear-session")) {
                 targetUrl = "/home";
             }
             return targetUrl;
