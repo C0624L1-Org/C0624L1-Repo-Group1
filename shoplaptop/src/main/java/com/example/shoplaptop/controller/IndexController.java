@@ -44,9 +44,15 @@ public class IndexController {
         Page<Product> products =  iProductService.findAll(pageable);
         model.addAttribute("products", products);
 
-        String username = principal.getName();
-        Users user = userService.findByUsername(username);
-        model.addAttribute("user", user);
+        if(principal != null) {
+            String username = principal.getName();
+            Users user = userService.findByUsername(username);
+            model.addAttribute("user", user);
+        }
+        else {
+            model.addAttribute("user", null);
+        }
+
         return "allProduct";
     }
 }
