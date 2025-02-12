@@ -39,7 +39,7 @@
         <div class="mb-3">
           <div class="text-danger" th:if="${#fields.hasErrors('logo')}" th:errors="*{logo}"></div>
           <div class="mt-3 text-center">
-            <img id="imagePreview" src="#" alt="Category Logo" class="img-thumbnail d-none" width="150">
+            <img id="imagePreview" th:src="${categoryDTO.logo}" alt="Category Logo" class="img-thumbnail d-none" width="150">
           </div>
         </div>
 
