@@ -17,18 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/register")
 public class RegisterController {
     @Autowired
     private IUserService iUserService;
 
-    @GetMapping("")
+    @GetMapping("/register")
     public String registerForm(Model model) {
         model.addAttribute("users", new Users());
         return "register";
     }
 
-    @PostMapping("")
+    @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("users") UserDTO userDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes,
