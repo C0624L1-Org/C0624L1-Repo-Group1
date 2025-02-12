@@ -47,21 +47,16 @@ public class CartItemService implements ICartItemService {
             List<CartItem> cartItemList = cartItemRepository.getCartItemsByUser(user);
             for(CartItem cartItem : cartItemList){
                 if(cartItem.getProduct().getId() == product.getId()){
-                    if(cartItem.getQuantity() < product.getStock()){
+                    if (product.getStock() >0){
                         cartItem.setQuantity(cartItem.getQuantity()+1);
                         cartItemRepository.save(cartItem);
+                        product.setStock(product.getStock() - 1);
+                        productService.save(product);
                         break;
                     }
                 }
             }
 
-            for (CartItem cartItem : cartItemList) {
-                if(cartItem.getProduct().getId() == product.getId()){
-                    product.setStock(product.getStock() - 1);
-                    productService.save(product);
-                    break;
-                }
-            }
         }
     }
 
@@ -81,6 +76,7 @@ public class CartItemService implements ICartItemService {
                 product.setStock(product.getStock()+1);
                 productService.save(product);
                 cartItemRepository.save(cartItem);
+                break;
             }
         }
     }
