@@ -16,6 +16,9 @@ public class CartItemService implements ICartItemService {
     @Autowired
     private ICartItemRepository cartItemRepository;
 
+    @Autowired
+    private ProductService productService;
+
     @Override
     public List<CartItem> getCartItemsByUser(Users user) {
         return cartItemRepository.getCartItemsByUser(user);
@@ -37,6 +40,8 @@ public class CartItemService implements ICartItemService {
         if(!checkProductAndUserInCartItem(user,product)) {
             CartItem cartItem = new CartItem(user,product,1);
             cartItemRepository.save(cartItem);
+            product.setStock(product.getStock()-1);
+            productService.save(product);
         }
         else{
             List<CartItem> cartItemList = cartItemRepository.getCartItemsByUser(user);
@@ -47,7 +52,14 @@ public class CartItemService implements ICartItemService {
                         cartItemRepository.save(cartItem);
                         break;
                     }
+                }
+            }
 
+            for (CartItem cartItem : cartItemList) {
+                if(cartItem.getProduct().getId() == product.getId()){
+                    product.setStock(product.getStock() - 1);
+                    productService.save(product);
+                    break;
                 }
             }
         }
@@ -61,9 +73,13 @@ public class CartItemService implements ICartItemService {
                 if(cartItem.getQuantity() == 1){
                     cartItemList.remove(cartItem);
                     cartItemRepository.delete(cartItem);
+                    product.setStock(product.getStock()+1);
+                    productService.save(product);
                     break;
                 }
                 cartItem.setQuantity(cartItem.getQuantity() - 1);
+                product.setStock(product.getStock()+1);
+                productService.save(product);
                 cartItemRepository.save(cartItem);
             }
         }

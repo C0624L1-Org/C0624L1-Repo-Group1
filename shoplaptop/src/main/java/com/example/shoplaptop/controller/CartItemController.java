@@ -51,8 +51,11 @@ public class CartItemController {
 
     @RequestMapping("/add")
     public String addProductInCart(@RequestParam(name = "page", defaultValue = "0", required = false) int page,
-                                   @RequestParam(name = "userId") long userId, Model model,
+                                   @RequestParam(name = "userId") Long userId, Model model,
                                    @RequestParam(name = "productId") int productId) {
+        if(userId == null){
+            return "redirect:/login";
+        }
         Users user = userRepository.getById(userId);
         Product product = productRepository.getById(productId);
         cartItemService.addProductToCartItemOfUser(user, product);
