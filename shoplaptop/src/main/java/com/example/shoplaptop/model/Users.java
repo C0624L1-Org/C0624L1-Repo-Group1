@@ -173,4 +173,22 @@ public class Users {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "cartItemList=" + cartItemList +
+                ", id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", gender=" + gender +
+                ", address='" + address + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", status=" + status +
+                ", role=" + role +
+                '}';
+    }
 }

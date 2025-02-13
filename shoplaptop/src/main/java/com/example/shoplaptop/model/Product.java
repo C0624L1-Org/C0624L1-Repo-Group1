@@ -7,28 +7,6 @@ import java.util.List;
 
 @Entity
 public class Product {
-    @OneToMany(mappedBy="product",cascade=CascadeType.ALL)
-    private List<CartItem> cartItemList;
-
-    public List<CartItem> getCartItemList() {
-        return cartItemList;
-    }
-
-    public void setCartItemList(List<CartItem> cartItemList) {
-        this.cartItemList = cartItemList;
-    }
-
-    public Product(List<CartItem> cartItemList, Integer id, String name, String description, BigDecimal price, String image, Integer stock, Category category) {
-        this.cartItemList = cartItemList;
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.image = image;
-        this.stock = stock;
-        this.category = category;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -51,9 +29,15 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
+    @OneToMany(mappedBy="product",cascade=CascadeType.ALL)
+    private List<CartItem> cartItemList;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItemList;
+
     public Product() {}
 
-    public Product(Integer id, String name, String description, BigDecimal price, String image, Integer stock, Category category) {
+    public Product(Integer id, String name, String description, BigDecimal price, String image, Integer stock, Category category, List<CartItem> cartItemList, List<OrderItem> orderItemList) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -61,6 +45,16 @@ public class Product {
         this.image = image;
         this.stock = stock;
         this.category = category;
+        this.cartItemList = cartItemList;
+        this.orderItemList = orderItemList;
+    }
+
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
     }
 
     public Integer getId() {
@@ -117,6 +111,14 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public List<CartItem> getCartItemList() {
+        return cartItemList;
+    }
+
+    public void setCartItemList(List<CartItem> cartItemList) {
+        this.cartItemList = cartItemList;
     }
 
     @Override
