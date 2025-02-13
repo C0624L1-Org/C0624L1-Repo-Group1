@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class Order {
+public class OrderSummary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,20 +17,21 @@ public class Order {
 
     private LocalDateTime orderDateTime;
 
+    @Column(nullable = false, columnDefinition = "decimal(10,2)")
     private BigDecimal orderAmount;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "varchar(20)")
     private OrderStatus orderStatus;
 
-    private boolean isPaid;
+    private Boolean isPaid;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "orderSummary")
     private List<OrderItem> orderItemList;
 
-    public Order() {}
+    public OrderSummary() {}
 
-    public Order(Integer id, Users user, LocalDateTime orderDateTime, BigDecimal orderAmount, OrderStatus orderStatus, boolean isPaid, List<OrderItem> orderItems) {
+    public OrderSummary(Integer id, Users user, LocalDateTime orderDateTime, BigDecimal orderAmount, OrderStatus orderStatus, Boolean isPaid, List<OrderItem> orderItems) {
         this.id = id;
         this.user = user;
         this.orderDateTime = orderDateTime;
@@ -80,11 +81,11 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public boolean isPaid() {
+    public Boolean isPaid() {
         return isPaid;
     }
 
-    public void setPaid(boolean paid) {
+    public void setPaid(Boolean paid) {
         isPaid = paid;
     }
 

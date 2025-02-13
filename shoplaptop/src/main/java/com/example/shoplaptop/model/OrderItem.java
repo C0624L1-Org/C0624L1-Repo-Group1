@@ -1,10 +1,8 @@
 package com.example.shoplaptop.model;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 public class OrderItem {
@@ -16,17 +14,18 @@ public class OrderItem {
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Order order;
+    private OrderSummary orderSummary;
+
     private Integer quantity;
     private BigDecimal unitPrice;
     private BigDecimal totalPrice;
 
     public OrderItem() {}
 
-    public OrderItem(Integer id, Product product, Order order, Integer quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
+    public OrderItem(Integer id, Product product, OrderSummary orderSummary, Integer quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
         this.id = id;
         this.product = product;
-        this.order = order;
+        this.orderSummary = orderSummary;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.totalPrice = totalPrice;
@@ -48,12 +47,12 @@ public class OrderItem {
         this.product = product;
     }
 
-    public Order getOrder() {
-        return order;
+    public OrderSummary getOrder() {
+        return orderSummary;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrder(OrderSummary orderSummary) {
+        this.orderSummary = orderSummary;
     }
 
     public Integer getQuantity() {
@@ -85,7 +84,7 @@ public class OrderItem {
         return "OrderItem{" +
                 "id=" + id +
                 ", product=" + product +
-                ", order=" + order +
+                ", order=" + orderSummary +
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
                 ", totalPrice=" + totalPrice +

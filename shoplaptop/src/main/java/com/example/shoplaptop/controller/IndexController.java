@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
@@ -23,8 +24,12 @@ public class IndexController {
 
     @Autowired
     private IUserService iUserService;
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GlobalControllerAdvice globalControllerAdvice;
 
     @GetMapping("/")
     public String index() {
@@ -38,21 +43,19 @@ public class IndexController {
 
     @GetMapping("/allProduct")
     public String showProductList(@RequestParam(name = "page", defaultValue = "0", required = false) int page,
-                                  Principal principal,
                                   Model model) {
-        Pageable pageable = PageRequest.of(page,10);
-        Page<Product> products =  iProductService.findAll(pageable);
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Product> products = iProductService.findAll(pageable);
         model.addAttribute("products", products);
-
-        if(principal != null) {
-            String username = principal.getName();
-            Users user = userService.findByUsername(username);
-            model.addAttribute("user", user);
-        }
-        else {
-            model.addAttribute("user", null);
-        }
-
+        Users user = globalControllerAdvice.currentUser();
+        model.addAttribute("user", user);
         return "allProduct";
+    }
+
+    @GetMapping("/allProduct/inform")
+    public String displayRequestLogin(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("messageType", "error");
+        redirectAttributes.addFlashAttribute("message", "You need to login first");
+        return "redirect:/allProduct";
     }
 }

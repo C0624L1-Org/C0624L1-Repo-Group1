@@ -50,7 +50,8 @@ public class SpringSecurity {
                                 "/clear-session",
                                 "/forgot-password",
                                 "/reset-password",
-                                "/allProduct").permitAll()
+                                "/allProduct",
+                                "/allProduct/inform").permitAll()
                         .requestMatchers("/dashboard/**").hasRole("ADMIN")
                         .requestMatchers("/home/**").hasAnyRole("CUSTOMER", "ADMIN")
                         .anyRequest().authenticated()
