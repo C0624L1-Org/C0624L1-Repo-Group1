@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -19,7 +19,55 @@
 <div th:replace="~{fragments/toast.html}"></div>
 
 <div class="main-content mt-5">
-    <h1>Order Summary goes here</h1>
+    <h1>Đơn Hàng</h1>
+    <form th:action="@{/home/order/{user}/create(user=${user.id})}" method="POST" th:object="${orderDTO}" >
+        <!--Full Name-->
+        <label for="fullname">Tên Người Nhận</label>
+        <input type="text" id="fullname" th:field="*{fullName}"/>
+        <p class="text-danger small" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
+
+        <!-- Phone Number -->
+        <label for="phone">Số Điện Thoại</label>
+        <input type="text" id="phone" th:field="*{phoneNumber}"/>
+        <p class="text-danger small" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
+
+        <!-- Address -->
+        <label for="address">Địa Chỉ</label>
+        <input type="text" id="address" th:field="*{address}" />
+        <p class="text-danger small" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p>
+
+        <p>Trạng thái đơn hàng sẽ được gửi qua email nên hãy chắc chắn email mà bạn đăng ký là chính xác <span th:text="${user.email}"></span></p>
+
+        <!--Order Items-->
+        <table>
+            <tr th:each="item : ${cartItemList}" >
+                <td>
+                    <img th:src="${item.product.image}" th:alt="${item.product.name}" width="50" height="50">
+                </td>
+                <td>
+                    <p th:text="${item.product.name}"></p>
+                    <p th:text="${#numbers.formatInteger(item.product.price,1,'POINT') + ' VNĐ x' + item.quantity }"></p>
+                </td>
+            </tr>
+        </table>
+
+        <!--Order Amount-->
+
+        <input type="hidden" name="orderAmount" th:value="${totalPrice}"/>
+        <p><b>Tổng tiền: </b><span th:text="${#numbers.formatInteger(totalPrice,1,'POINT')}"></span></p>
+
+        <p><b>Phương thức thanh toán</b></p>
+        <div class="form-check" th:each="pt,l : ${paymentTypes}">
+            <input class="form-check-input" type="radio" th:field="*{paymentType}" th:value="${pt}" th:id="'pt_'+${l.count}">
+            <label class="form-check-label" th:text="${pt}" th:for="'pt_'+${l.count}">
+            </label>
+        </div>
+        <p class="text-danger small" th:if="${#fields.hasErrors('paymentType')}" th:errors="*{paymentType}"></p>
+
+
+
+        <button type="submit">Đặt Hàng</button>
+    </form>
 
 </div>
 

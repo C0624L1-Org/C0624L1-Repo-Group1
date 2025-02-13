@@ -16,8 +16,13 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     private OrderSummary orderSummary;
 
+    @Column(nullable = false)
     private Integer quantity;
+
+    @Column(nullable = false, columnDefinition = "decimal(10,2)")
     private BigDecimal unitPrice;
+
+    @Column(nullable = false, columnDefinition = "decimal(12,2)")
     private BigDecimal totalPrice;
 
     public OrderItem() {}

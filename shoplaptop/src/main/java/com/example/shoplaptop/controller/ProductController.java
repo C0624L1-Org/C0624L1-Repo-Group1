@@ -42,8 +42,6 @@ public class ProductController {
 
         Pageable pageable = PageRequest.of(page, 8);
         Page<Product> products = iProductService.findAll(pageable);
-        System.out.println("productName: " + productName);
-        System.out.println("brand: " + brand);
         if (productName != null && brand != null && (!productName.trim().isEmpty() || !brand.trim().isEmpty())) {
             products = iProductService.searchProductByNameAndCategory(productName, brand, pageable);
         }
@@ -99,7 +97,7 @@ public class ProductController {
     public String showProductEditForm(@PathVariable Integer id, Model model) {
         ProductDTO productDTO = new ProductDTO();
         BeanUtils.copyProperties(iProductService.getById(id), productDTO);
-        System.out.println("productDTO: " + productDTO.toString());
+
         model.addAttribute("productDTO", productDTO);
         model.addAttribute("categories", iCategoryService.findAll());
         return "dashboard/products/edit";
@@ -108,7 +106,7 @@ public class ProductController {
     @PostMapping("/update")
     public String updateProduct(@Valid @ModelAttribute("productDTO") ProductDTO productDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         Product product = iProductService.getById(productDTO.getId());
-        //productDTO.setPrice(productDTO.getPrice().divide(new BigDecimal("100")));
+
         System.out.println("updated productDTO: " + productDTO.toString());
         if (!product.getName().equals(productDTO.getName()) && iProductService.existsByName(productDTO.getName())) {
             bindingResult.rejectValue("name", "", "Sản phẩm này đã tồn tại");
