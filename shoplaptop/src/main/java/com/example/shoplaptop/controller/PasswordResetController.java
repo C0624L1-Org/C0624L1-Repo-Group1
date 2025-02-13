@@ -3,6 +3,8 @@ package com.example.shoplaptop.controller;
 import com.example.shoplaptop.model.PasswordResetToken;
 import com.example.shoplaptop.model.Role;
 import com.example.shoplaptop.model.Users;
+import com.example.shoplaptop.model.dto.ForgotPasswordDTO;
+import com.example.shoplaptop.model.dto.ResetPasswordDTO;
 import com.example.shoplaptop.model.dto.UserDTO;
 import com.example.shoplaptop.service.IUserService;
 import com.example.shoplaptop.service.impl.PasswordResetService;
@@ -27,14 +29,22 @@ public class PasswordResetController {
     private PasswordResetService passwordResetService;
 
     @GetMapping("/forgot-password")
-    public String showForgotPasswordForm() {
+    public String showForgotPasswordForm(Model model) {
+        model.addAttribute("forgotPasswordDTO", new ForgotPasswordDTO());
         return "forgot-password";
     }
 
     @PostMapping("/forgot-password")
-    public String processForgotPasswordForm(@RequestParam("email") String email,
+    public String processForgotPasswordForm(@Valid @ModelAttribute("forgotPasswordDTO") ForgotPasswordDTO forgotPasswordDTO,
+                                            BindingResult bindingResult,
+                                            @RequestParam("email") String email,
                                             RedirectAttributes redirectAttributes,
                                             Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "forgot-password";
+        }
+
         Users user = iUserService.findByEmail(email);
         if (user == null) {
             redirectAttributes.addFlashAttribute("messageType", "error");
@@ -93,7 +103,7 @@ public class PasswordResetController {
         passwordResetService.deleteToken(user);
 
         redirectAttributes.addFlashAttribute("messageType", "success");
-        redirectAttributes.addFlashAttribute("message", "Mật khẩu đã được thay đổi thành công!");
+        redirectAttributes.addFlashAttribute("message", "Mật khẩu đã được thay đổi thành công! Vui lòng tiếp tục đăng nhập!");
         return "redirect:/login";
     }
 }

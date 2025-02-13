@@ -25,14 +25,14 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             admin.setUsername("admin");
             // mã hóa mật khẩu
             admin.setPassword(EncryptPasswordUtils.encryptPasswordUtils("admin"));
-            admin.setEmail("admin@gmail.com");
-            admin.setPhone("123456789");
+            admin.setEmail("vuduytan2000@gmail.com");
+            admin.setPhone("0368769799");
             admin.setFullName("Admin");
             admin.setGender(true);
             admin.setAddress("TP.HCM");
             admin.setStatus(true);
             admin.setRole(Role.ADMIN);
-            admin.setAvatar("https://www.chem.indiana.edu/wp-content/uploads/2023/09/defaultpic.jpg");
+            admin.setAvatar("https://anhcute.net/wp-content/uploads/2024/10/Hinh-ve-meme-hai-huoc-de-thuong.jpg");
             iUserRepository.save(admin);
         }
 
