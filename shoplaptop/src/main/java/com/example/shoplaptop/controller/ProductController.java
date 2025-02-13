@@ -64,7 +64,7 @@ public class ProductController {
     @PostMapping("/add")
     public String addProduct(@Valid @ModelAttribute("product") ProductDTO productDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (iProductService.existsByName(productDTO.getName())) {
-            bindingResult.rejectValue("name", "", "Product name already exists");
+            bindingResult.rejectValue("name", "", "Sản phẩm không có sẵn!");
         }
 
         new ProductDTO().validate(productDTO, bindingResult);
@@ -78,7 +78,7 @@ public class ProductController {
         BeanUtils.copyProperties(productDTO, product);
         iProductService.save(product);
         redirectAttributes.addFlashAttribute("messageType", "success");
-        redirectAttributes.addFlashAttribute("message", "Product added successfully");
+        redirectAttributes.addFlashAttribute("message", "Thêm mới sản phẩm thành công");
         return "redirect:/dashboard/products/list";
     }
 
@@ -87,7 +87,7 @@ public class ProductController {
         Product product = iProductService.getById(id);
         if (product == null) {
             redirectAttributes.addFlashAttribute("messageType", "error");
-            redirectAttributes.addFlashAttribute("message", "Product not found");
+            redirectAttributes.addFlashAttribute("message", "Sản phẩm không có sẵn!");
             return "redirect:/dashboard/products/list";
         } else {
             model.addAttribute("product", product);
@@ -111,7 +111,7 @@ public class ProductController {
         //productDTO.setPrice(productDTO.getPrice().divide(new BigDecimal("100")));
         System.out.println("updated productDTO: " + productDTO.toString());
         if (!product.getName().equals(productDTO.getName()) && iProductService.existsByName(productDTO.getName())) {
-            bindingResult.rejectValue("name", "", "Product name already exists");
+            bindingResult.rejectValue("name", "", "Sản phẩm này đã tồn tại");
         }
 
         new ProductDTO().validate(productDTO, bindingResult);
@@ -124,7 +124,7 @@ public class ProductController {
         BeanUtils.copyProperties(productDTO, product);
         iProductService.save(product);
         redirectAttributes.addFlashAttribute("messageType", "success");
-        redirectAttributes.addFlashAttribute("message", "Product updated successfully");
+        redirectAttributes.addFlashAttribute("message", "Cập nhật sản phẩm thành công");
         return "redirect:/dashboard/products/list";
     }
 
@@ -133,11 +133,11 @@ public class ProductController {
         Product product = iProductService.getById(id);
         if (product == null) {
             redirectAttributes.addFlashAttribute("messageType", "error");
-            redirectAttributes.addFlashAttribute("message", "Product not found");
+            redirectAttributes.addFlashAttribute("message", "Sản phẩm không có sẵn");
         } else {
             iProductService.delete(product);
             redirectAttributes.addFlashAttribute("messageType", "success");
-            redirectAttributes.addFlashAttribute("message", "Product removed successfully");
+            redirectAttributes.addFlashAttribute("message", "Xoá sản phẩm thành công");
         }
         return "redirect:/dashboard/products/list";
     }

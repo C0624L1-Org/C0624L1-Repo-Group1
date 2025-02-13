@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User List</title>
+    <title>Danh sách người dùng</title>
 
   <!-- Customer CSS -->
   <link rel="stylesheet" href="/css/dashboard/users/pagination.css">
@@ -24,24 +24,21 @@
   <div class="row">
     <main class="fade-in" id="page-title">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">LIST USERS</h1>
+        <h1 class="h2">DANH SÁCH NGƯỜI DÙNG</h1>
       </div>
       <!-- Button Thêm Người Dùng -->
       <a th:href="@{/dashboard/users/create}" class="btn btn-success btn-md mb-3">
-        <i class="fas fa-user-plus"></i> Create New User
+        <i class="fas fa-user-plus"></i> Thêm mới người dùng
       </a>
 
       <!-- Search -->
       <form th:action="@{/dashboard/users/list}" method="get" class="row g-3 mb-3 align-items-center">
         <div class="col-md-4">
-          <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Search by Username, Gmail and Full Name" th:value="${keyword}">
-        </div>
-        <div class="col-md-1 text-center">
-          <p class="fw-bold my-1">OR</p>
+          <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Tìm kiếm theo Tài khoản, email, Họ Tên" th:value="${keyword}">
         </div>
         <div class="col-md-4">
           <select id="role" name="role" class="form-select">
-            <option value="" th:selected="${role == null}">Choose Role</option>
+            <option value="" th:selected="${role == null}">Chọn Role</option>
             <option th:each="r : ${roles}"
                     th:value="${r}"
                     th:text="${r}"
@@ -52,7 +49,7 @@
 
         <div class="col-md-1 d-flex align-items-end">
           <button type="submit" class="btn btn-primary w-100">
-            <i class="fas fa-search"></i> Search
+            <i class="fas fa-search"></i> Tìm kiếm
           </button>
         </div>
       </form>
@@ -62,20 +59,20 @@
           <thead>
             <tr>
               <th>STT</th>
-              <th>Username</th>
-              <th>Full Name</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>Tài khoản</th>
+              <th>Họ Tên</th>
+              <th>Vai trò</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
             </tr>
           </thead>
           <tbody id="user-list">
           <tr th:if="${users.content.isEmpty()}">
             <td colspan="6" class="text-center">
-              No users found.
+              Không tìm thấy người dùng nào.
               <br>
               <a th:href="@{/dashboard/users/list}" class="btn btn-secondary mt-2">
-                <i class="fas fa-arrow-left"></i> Back to list
+                <i class="fas fa-arrow-left"></i> Quay lại danh sách
               </a>
             </td>
           </tr>
@@ -85,20 +82,20 @@
               <td th:text="${u.fullName}"></td>
               <td th:text="${u.role}"></td>
               <td>
-                <span class="badge rounded-pill bg-success s-6 px-2 py-1" th:if="${u.status} == true">Active</span>
-                <span class="badge rounded-pill bg-danger s-6 px-2 py-1" th:unless="${u.status} == true">Block</span>
+                <span class="badge rounded-pill bg-success s-6 px-2 py-1" th:if="${u.status} == true">Hoạt động</span>
+                <span class="badge rounded-pill bg-danger s-6 px-2 py-1" th:unless="${u.status} == true">Khoá</span>
               </td>
               <td>
                 <a th:href="@{/dashboard/users/view/{id}(id=${u.id}, page=${currentPage})}" class="btn btn-primary btn-sm me-1">
-                  <i class="fas fa-eye"></i> View
+                  <i class="fas fa-eye"></i> Xem
                 </a>
 
                 <a th:href="@{/dashboard/users/update/{id}(id=${u.id}, page=${currentPage})}" class="btn btn-secondary btn-sm me-1">
-                  <i class="fas fa-pen"></i> Update
+                  <i class="fas fa-pen"></i> Cập Nhật
                 </a>
 
-                <a th:href="@{/dashboard/users/delete/{id}(id=${u.id}, page=${currentPage})}" class="btn btn-danger btn-sm me-1" onclick="return confirm('Are you sure you want to delete?');">
-                  <i class="fas fa-trash-alt"></i> Delete
+                <a th:href="@{/dashboard/users/delete/{id}(id=${u.id}, page=${currentPage})}" class="btn btn-danger btn-sm me-1" onclick="return confirm('Bạn có chắc chắn muốn xoá?');">
+                  <i class="fas fa-trash-alt"></i> Xoá
                 </a>
               </td>
             </tr>

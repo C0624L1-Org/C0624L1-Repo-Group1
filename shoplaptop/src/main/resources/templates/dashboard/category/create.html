@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Add Category Page</title>
+  <title>Thêm nhãn hàng mới</title>
 
   <!-- Customer CSS -->
   <link rel="stylesheet" href="../../../static/css/dashboard/users/pagination.css">
@@ -25,22 +25,22 @@
     <div class="col-md-6">
       <div class="card shadow-lg">
         <div class="card-header bg-primary text-white text-center">
-          <h3>Add New Category</h3>
+          <h3>Thêm mới nhãn hàng</h3>
         </div>
         <div class="card-body">
           <form th:action="@{/dashboard/productTypes/add}" method="POST" th:object="${categoryDTO}">
 
             <!-- Brand Name -->
             <div class="mb-3">
-              <label for="name" class="form-label">Brand Name</label>
-              <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter brand name">
+              <label for="name" class="form-label">Tên nhãn hàng</label>
+              <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Nhập tên nhãn hàng">
               <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
 
             <!-- Image Link -->
             <div class="mb-3">
-              <label for="image" class="form-label">Image Link</label>
-              <input type="text" id="image" th:field="*{logo}" class="form-control" placeholder="Enter image URL">
+              <label for="image" class="form-label">Logo Nhãn hàng (URL)</label>
+              <input type="text" id="image" th:field="*{logo}" class="form-control" placeholder="Nhập đường dẫn Logo">
               <div class="text-danger" th:if="${#fields.hasErrors('logo')}" th:errors="*{logo}"></div>
             </div>
 
@@ -51,12 +51,12 @@
 
             <!-- Submit Button -->
             <div class="d-grid">
-              <button type="submit" class="btn btn-primary">Add Category</button>
+              <button type="submit" class="btn btn-primary">Thêm mới danh mục</button>
             </div>
           </form>
           <hr>
           <div class="text-center">
-            <a th:href="@{/dashboard/productTypes}" class="btn btn-secondary">Back to category list</a>
+            <a th:href="@{/dashboard/productTypes}" class="btn btn-secondary">Quay lại danh sách</a>
           </div>
         </div>
       </div>

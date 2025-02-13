@@ -33,7 +33,7 @@ public class UserController {
                        @RequestParam(name = "keyword", required = false) String keyword,
                        @RequestParam(name = "role", required = false) Role role,
                        Model model) {
-        Pageable pageable = PageRequest.of(page, 2);
+        Pageable pageable = PageRequest.of(page, 5);
         Page<Users> users;
 
         if ((keyword != null && !keyword.trim().isEmpty()) || role != null) {
@@ -273,7 +273,7 @@ public class UserController {
         try {
             iUserService.deleteById(id);
             long totalUsers = iUserService.countUsers();
-            int lastPage = (int) Math.ceil((double) totalUsers / 2) - 1;
+            int lastPage = (int) Math.ceil((double) totalUsers / 5) - 1;
 
             if (page > lastPage) {
                 page = lastPage;

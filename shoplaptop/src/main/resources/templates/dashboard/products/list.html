@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Product List</title>
+    <title>Danh sách sản phẩm</title>
 
     <!-- Customer CSS -->
     <link rel="stylesheet" href="/css/dashboard/users/pagination.css">
@@ -24,31 +24,31 @@
     <div class="row">
         <main class="fade-in" id="page-title">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">LIST PRODUCTS</h1>
+                <h1 class="h2">DANH SÁCH SẢN PHẨM</h1>
             </div>
             <!-- Button Thêm Product -->
             <a th:href="@{/dashboard/products/create}" class="btn btn-success btn-md mb-3">
-                <i class="fas fa-user-plus"></i> Create New Product
+                <i class="fas fa-user-plus"></i> Thêm sản phẩm mới
             </a>
 
             <!-- Search -->
             <form th:action="@{/dashboard/products/list}" method="get" class="row g-3 mb-3 align-items-center">
                 <div class="col-md-4">
-                    <input type="text" name="productName" id="productName" class="form-control" placeholder="Enter Product Name to Search" th:value="${productName}">
+                    <input type="text" name="productName" id="productName" class="form-control" placeholder="Tìm kiếm theo tên sản phẩm" th:value="${productName}">
                 </div>
-                <div class="col-md-1 text-center">
-                    <p class="fw-bold my-1">OR</p>
-                </div>
+<!--                <div class="col-md-1 text-center">-->
+<!--                    <p class="fw-bold my-1">OR</p>-->
+<!--                </div>-->
                 <div class="col-md-4">
-                                       <select name="brand" id="brand" class="form-select">
-                        <option value="" th:selected="${brand == null}">Brand</option>
+                    <select name="brand" id="brand" class="form-select">
+                        <option value="" th:selected="${brand == null}">Nhãn hàng</option>
                         <option th:each="c : ${categories}" th:value="${c.name}" th:text="${c.name}" th:selected="${brand != null && brand == c.name}"></option>
                     </select>
                 </div>
 
                 <div class="col-md-1 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-search"></i> Search
+                        <i class="fas fa-search"></i> Tìm kiếm
                     </button>
                 </div>
             </form>
@@ -58,12 +58,12 @@
                     <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Laptop Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Image</th>
-                        <th>Brand</th>
-                        <th colspan="3">Action</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Ảnh sản phẩm(URL)</th>
+                        <th>Nhãn hàng</th>
+                        <th colspan="3">Hành động</th>
                     </tr>
                     </thead>
                     <tbody id="product-list">
@@ -86,15 +86,15 @@
                         <td th:text="${p.category.name}"></td>
                         <td>
                             <a th:href="@{/dashboard/products/{id}/detail(id=${p.id})}" class="btn btn-primary btn-sm me-1">
-                                <i class="fas fa-eye"></i> View
+                                <i class="fas fa-eye"></i> Xem
                             </a>
 
                             <a th:href="@{/dashboard/products/{id}/edit(id=${p.id})}" class="btn btn-secondary btn-sm me-1">
-                                <i class="fas fa-pen"></i> Update
+                                <i class="fas fa-pen"></i> Cập nhật
                             </a>
 
-                            <a th:href="@{/dashboard/products/{id}/remove(id=${p.id})}" class="btn btn-danger btn-sm me-1" th:onclick="return confirm([[${p.name}]]+' will be removed permanently. Are you sure ?')">
-                                <i class="fas fa-trash-alt"></i> Delete
+                            <a th:href="@{/dashboard/products/{id}/remove(id=${p.id})}" class="btn btn-danger btn-sm me-1" th:onclick="return confirm([[${p.name}]]+' sẽ được xoá. Bạn có chắc chắn chưa?')">
+                                <i class="fas fa-trash-alt"></i> Xoá
                             </a>
                         </td>
                     </tr>

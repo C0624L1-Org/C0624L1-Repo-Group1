@@ -49,12 +49,12 @@ public class PasswordResetService {
 
     public void sendPasswordResetEmail(String email, String token) {
         String resetUrl = "http://localhost:8080/reset-password?token=" + token;
-        System.out.println("Sending email with reset URL: " + resetUrl);
+        System.out.println("Gửi Email đến URL: " + resetUrl);
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("Password Reset");
-        message.setText("Your password reset link has been sent to " + email + "\nLink: " + resetUrl);
+        message.setText("Link đổi mật khẩu của bạn: " + email + "\nLink: " + resetUrl);
 
         javaMailSender.send(message);
     }

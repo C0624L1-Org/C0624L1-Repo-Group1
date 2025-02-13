@@ -55,7 +55,7 @@ public class IndexController {
     @GetMapping("/allProduct/inform")
     public String displayRequestLogin(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("messageType", "error");
-        redirectAttributes.addFlashAttribute("message", "You need to login first");
-        return "redirect:/allProduct";
+        redirectAttributes.addFlashAttribute("message", "Bạn cần phải đăng nhập!");
+        return "redirect:/login";
     }
 }

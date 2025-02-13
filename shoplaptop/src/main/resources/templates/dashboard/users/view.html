@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>View User</title>
+    <title>Chi tiết người dùng</title>
 
     <!-- Customer CSS -->
     <link rel="stylesheet" href="../../../static/css/dashboard/users/pagination.css">
@@ -22,47 +22,47 @@
   <div class="main-content mt-5">
       <div class="card shadow w-50 mx-auto">
           <div class="card-header bg-primary text-white">
-              <h1 class="h4 mb-0">User Details: <strong th:text="${user.fullName}"></strong></h1>
+              <h1 class="h4 mb-0">Chi tiết người dùng: <strong th:text="${user.fullName}"></strong></h1>
           </div>
           <div class="card-body">
               <ul class="list-group list-group-flush">
                   <li class="list-group-item">
-                      <strong>Username:</strong> <span th:text="${user.username}"></span>
+                      <strong>Tài khoản:</strong> <span th:text="${user.username}"></span>
                   </li>
                   <li class="list-group-item">
-                      <strong>Full Name:</strong> <span th:text="${user.fullName}"></span>
+                      <strong>Họ Tên:</strong> <span th:text="${user.fullName}"></span>
                   </li>
                   <li class="list-group-item">
                       <strong>Email:</strong> <span th:text="${user.email}"></span>
                   </li>
                   <li class="list-group-item">
-                      <strong>Phone:</strong> <span th:text="${user.phone}"></span>
+                      <strong>Số điện thoại:</strong> <span th:text="${user.phone}"></span>
                   </li>
                   <li class="list-group-item">
-                      <strong>Gender:</strong>
+                      <strong>Giới tính:</strong>
                       <span th:text="${user.gender ? 'Nam' : 'Nữ'}"></span>
                   </li>
                   <li class="list-group-item">
-                      <strong>Address:</strong> <span th:text="${user.address}"></span>
+                      <strong>Địa chỉ:</strong> <span th:text="${user.address}"></span>
                   </li>
                   <li class="list-group-item">
-                      <strong>ROLE:</strong> <span th:text="${user.role}"></span>
+                      <strong>Vai trò:</strong> <span th:text="${user.role}"></span>
                   </li>
 
                   <li class="list-group-item">
-                      <strong>Status:</strong>
+                      <strong>Trạng thái:</strong>
                       <span th:text="${user.status ? 'Active' : 'Block'}"></span>
                   </li>
                   <li class="list-group-item">
-                      <strong>Avatar:</strong> <img th:src="${user.avatar}" class="img-thumbnail" alt="avatar">
+                      <strong>Ảnh đại diện:</strong> <img th:src="${user.avatar}" class="img-thumbnail" alt="avatar">
                   </li>
               </ul>
               <div  class="card-footer d-flex justify-content-between" th:if="${user}">
-                  <a th:href="@{/dashboard/users/list}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To List</a>
+                  <a th:href="@{/dashboard/users/list}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Quay lại danh sách</a>
                   <a th:href="@{/dashboard/users/delete/{id}(id=${user.id})}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xoá?');">
-                      <i class="fas fa-trash-alt"></i> Delete
+                      <i class="fas fa-trash-alt"></i> Xoá
                   </a>
-                  <a th:href="@{/dashboard/users/update/{id}(id=${user.id})}" class="btn btn-secondary"><i class="fas fa-edit"></i> Update User</a>
+                  <a th:href="@{/dashboard/users/update/{id}(id=${user.id})}" class="btn btn-secondary"><i class="fas fa-edit"></i> Cập nhật người dùng</a>
               </div>
           </div>
       </div>

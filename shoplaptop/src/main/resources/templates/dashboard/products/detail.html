@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Detail</title>
+    <title>Chi tiết sản phẩm</title>
 
     <!-- Customer CSS -->
     <link rel="stylesheet" href="/css/dashboard/users/pagination.css">
@@ -33,13 +33,13 @@
                     <h3 class="card-title" th:text="${product.name}"></h3>
                     <p class="card-text"><strong>Brand:</strong> <span th:text="${product.category.name}"></span></p>
                     <p class="card-text">
-                        <strong>Status:</strong>
-                        <span class="badge bg-success" th:if="${product.stock > 0}">In Stock</span>
-                        <span class="badge bg-danger" th:if="${product.stock == 0}">Out of Stock</span>
+                        <strong>Trạng thái:</strong>
+                        <span class="badge bg-success" th:if="${product.stock > 0}">Còn hàng</span>
+                        <span class="badge bg-danger" th:if="${product.stock == 0}">Hết hàng</span>
                     </p>
                     <p class="card-text"><strong>Price:</strong> <span th:text="${#numbers.formatInteger(product.price,3,'POINT')} + ' VND'"></span></p>
                     <p class="card-text"><strong>Description:</strong> <span th:text="${product.description}"></span></p>
-                    <a th:href="@{/dashboard/products}" class="btn btn-secondary mt-3"><i class="fas fa-arrow-left"></i> Back To Product List</a>
+                    <a th:href="@{/dashboard/products}" class="btn btn-secondary mt-3"><i class="fas fa-arrow-left"></i> Quay lại danh sách</a>
                 </div>
             </div>
         </div>

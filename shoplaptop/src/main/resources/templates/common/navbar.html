@@ -15,7 +15,7 @@
                 <ul class="navbar-nav ms-auto align-items-center">
                     <!-- Hiển thị nếu người dùng đã đăng nhập -->
                     <li sec:authorize="isAuthenticated()" class="nav-item">
-                        <span class="nav-link text-white">Welcome, <span sec:authentication="name"></span>!</span>
+                        <span class="nav-link text-white">Xin chào, <span sec:authentication="name"></span>!</span>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarAvatarDropdown" role="button"
@@ -27,23 +27,23 @@
                                  style="width:40px; height:40px; border-radius:50%;">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAvatarDropdown">
-                            <li><a class="dropdown-item" th:href="@{/profile/{id}(id=${currentUser.id})}">Profile</a></li>
-                            <li><a class="dropdown-item" th:href="@{/cart}">Cart</a></li>
-                            <li><a class="dropdown-item" th:href="@{/change-password}">Change Password</a></li>
+                            <li><a class="dropdown-item" th:href="@{/profile/{id}(id=${currentUser.id})}">Thông tin cá nhân</a></li>
+                            <li><a class="dropdown-item" th:href="@{/cart}">Giỏ hàng</a></li>
+                            <li><a class="dropdown-item" th:href="@{/change-password}">Đổi mật khẩu</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                            <li><a class="dropdown-item" th:href="@{/logout}">Đăng xuất</a></li>
                         </ul>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item">
-                        <a class="nav-link" href="/logout">Logout <i class="fas fa-sign-out-alt ms-1"></i></a>
+                        <a class="nav-link" href="/logout">Đăng xuất <i class="fas fa-sign-out-alt ms-1"></i></a>
                     </li>
 
                     <!-- Hiển thị nếu người dùng chưa đăng nhập -->
                     <li sec:authorize="isAnonymous()" class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
+                        <a class="nav-link" href="/login">Đăng Nhập</a>
                     </li>
                     <li sec:authorize="isAnonymous()" class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
+                        <a class="nav-link" href="/register">Đăng Ký</a>
                     </li>
                 </ul>
             </div>
