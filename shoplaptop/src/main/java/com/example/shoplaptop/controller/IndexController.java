@@ -37,7 +37,9 @@ public class IndexController {
     }
 
     @GetMapping("/home")
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute("products", iProductService.findAll());
+        model.addAttribute("categories", iProductService.findAll());
         return "home";
     }
 

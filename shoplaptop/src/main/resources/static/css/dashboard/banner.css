@@ -1,0 +1,70 @@
+/* Các chỉ mục của carousel */
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.carousel-indicators .active {
+    width: 14px;
+    height: 14px;
+    background-color: #ffffff;
+    transform: scale(1.3);
+}
+
+.carousel-indicators button:hover {
+    background-color: #ffffff;
+    transform: scale(1.5);
+}
+
+/* Hiệu ứng cho slide */
+.carousel-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    z-index: 0;
+}
+
+.carousel-item.active {
+    position: relative;
+    opacity: 1;
+    z-index: 1;
+}
+
+/* Hiệu ứng hover ảnh */
+.carousel-item img {
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item img:hover {
+    transform: scale(1.03);
+}
+
+/* Hiệu ứng cho caption */
+.carousel-caption {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.carousel-item.active .carousel-caption {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Nút điều hướng */
+.carousel-control-prev, .carousel-control-next {
+    filter: brightness(0.7);
+    transition: all 0.4s ease-in-out;
+}
+
+.carousel-control-prev:hover, .carousel-control-next:hover {
+    filter: brightness(1);
+    transform: scale(1.15);
+}

@@ -12,6 +12,8 @@
     <!-- Custom Styles -->
     <link href="/css/dashboard/navbar.css" rel="stylesheet">
     <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/dashboard/banner.css" rel="stylesheet">
+    <link href="/css/flashSale.css" rel="stylesheet">
 </head>
 <body>
 <!-- Navbar -->
@@ -19,12 +21,88 @@
 <!-- Hiển thị thông báo -->
 <div th:replace="~{fragments/toast.html}"></div>
 
-<div class="main-content mt-5">
-    <h1>Hello World!</h1>
-    <a th:href="@{/login}">Login</a>
-    <a th:href="@{/dashboard/users/list}">List Customer</a>
-    <a th:href="@{/allProduct}">All Products</a>
+<!-- Banner -->
+<div id="customCarousel" class="carousel slide carousel-fade mb-5" data-bs-ride="carousel" style="margin-top: 70px;">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#customCarousel" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#customCarousel" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#customCarousel" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/css/img/slider/banner1.jpg" class="d-block w-100 img-fluid" alt="Banner 1">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                <h5>Khuyến mãi cực hấp dẫn</h5>
+                <p>Nhận voucher lên đến 50% khi mua sản phẩm</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/css/img/slider/banner2.jpg" class="d-block w-100 img-fluid" alt="Banner 2">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                <h5>Hàng mới về</h5>
+                <p>Model mới nhất 2025</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/css/img/slider/banner3.jpg" class="d-block w-100 img-fluid" alt="Banner 3">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                <h5>Mua sắm dễ dàng</h5>
+                <p>Giao hàng nhanh chóng, miễn phí toàn quốc</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#customCarousel"
+            data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#customCarousel"
+            data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
+
+<!-- Flash Sale Section -->
+<div class="flash-sale-section">
+    <div class="container">
+        <!-- Header -->
+        <div class="flash-sale-header d-flex justify-content-between align-items-center mb-4">
+            <h2 class="flash-sale-title">FLASH SALE</h2>
+            <div class="countdown-timer d-flex align-items-center">
+                <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+            </div>
+            <a href="#" class="btn btn-outline-primary">Xem thêm</a>
+        </div>
+        <!-- Slide -->
+        <div class="flash-sale-slider overflow-hidden">
+            <div class="flash-sale-items d-flex">
+                <div class="product-card me-3" th:each="product : ${products}">
+                    <div class="product-image position-relative">
+                        <img th:src="@{${product.image}}" alt="Sản phẩm" class="img-fluid">
+                        <span class="discount-badge" th:text="'-' + ${product.id} + '%'"></span>
+                    </div>
+                    <div class="product-info mt-2 text-center">
+                        <h6 class="product-title" th:text="${product.name}">Tên sản phẩm</h6>
+                        <div class="product-price">
+                            <span class="price-current" th:text="${product.price}">0₫</span>
+                            <span class="price-old" th:text="${product.price}">0₫</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="/js/banner.js"></script>
+<script src="/js/flashSale.js"></script>
 
 <!-- FontAwesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
