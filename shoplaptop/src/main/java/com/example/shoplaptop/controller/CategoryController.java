@@ -45,7 +45,7 @@ public class CategoryController {
     @PostMapping("/add")
     public String addCategory(@Valid @ModelAttribute("categoryDTO") CategoryDTO categoryDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (iCategoryService.existsByName(categoryDTO.getName())) {
-            bindingResult.rejectValue("name", "", "Category name already exists");
+            bindingResult.rejectValue("name", "", "Nhãn hàng đã tồn tại!");
         }
         new CategoryDTO().validate(categoryDTO,bindingResult);
         if (bindingResult.hasErrors()) {
@@ -56,7 +56,7 @@ public class CategoryController {
         BeanUtils.copyProperties(categoryDTO,category);
         iCategoryService.save(category);
         redirectAttributes.addFlashAttribute("messageType", "success");
-        redirectAttributes.addFlashAttribute("message", "Category created successfully");
+        redirectAttributes.addFlashAttribute("message", "Thêm mới nhãn hàng thành công!");
         return "redirect:/dashboard/productTypes/list";
     }
 
@@ -72,7 +72,7 @@ public class CategoryController {
     public String updateCategory(@Valid @ModelAttribute("categoryDTO") CategoryDTO categoryDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         Category category = iCategoryService.getById(categoryDTO.getId());
         if (!category.getName().equals(categoryDTO.getName()) && iCategoryService.existsByName(categoryDTO.getName())) {
-            bindingResult.rejectValue("name", "", "Category name already exists");
+            bindingResult.rejectValue("name", "", "Nhãn hàng đã tồn tại!");
         }
         new CategoryDTO().validate(categoryDTO,bindingResult);
         if (bindingResult.hasErrors()) {
@@ -82,7 +82,7 @@ public class CategoryController {
         BeanUtils.copyProperties(categoryDTO,category);
         iCategoryService.save(category);
         redirectAttributes.addFlashAttribute("messageType", "success");
-        redirectAttributes.addFlashAttribute("message", "Category updated successfully");
+        redirectAttributes.addFlashAttribute("message", "Cập nhật nhãn hàng thành công");
         return "redirect:/dashboard/productTypes/list";
     }
 
@@ -91,11 +91,11 @@ public class CategoryController {
         Category category = iCategoryService.getById(id);
         if (category == null) {
             redirectAttributes.addFlashAttribute("messageType", "error");
-            redirectAttributes.addFlashAttribute("message", "Category not found");
+            redirectAttributes.addFlashAttribute("message", "Danh mục không có sẵn!");
         } else {
             iCategoryService.delete(category);
             redirectAttributes.addFlashAttribute("messageType", "success");
-            redirectAttributes.addFlashAttribute("message", "Category removed successfully");
+            redirectAttributes.addFlashAttribute("message", "Xoá danh mục thành công!");
         }
         return "redirect:/dashboard/productTypes/list";
     }

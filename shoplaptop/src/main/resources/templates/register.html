@@ -27,7 +27,7 @@
       <form method="POST" th:action="@{/register}" th:object="${users}">
         <!-- Username -->
         <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
+          <label for="username" class="form-label">Tài khoản</label>
           <input type="text" id="username" th:field="*{username}" class="form-control">
           <p class="text-danger small" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
         </div>
@@ -48,43 +48,43 @@
 
         <!-- Phone -->
         <div class="mb-3">
-          <label for="phone" class="form-label">Phone</label>
+          <label for="phone" class="form-label">Số điện thoại</label>
           <input type="text" id="phone" th:field="*{phone}" class="form-control">
           <p class="text-danger small" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></p>
         </div>
 
         <!-- Full Name -->
         <div class="mb-3">
-          <label for="fullName" class="form-label">Full Name</label>
+          <label for="fullName" class="form-label">Họ Tên</label>
           <input type="text" id="fullName" th:field="*{fullName}" class="form-control">
           <p class="text-danger small" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
         </div>
 
         <!-- Gender -->
         <div class="mb-3">
-          <label class="form-label">Gender</label><br>
+          <label class="form-label">Giới tính</label><br>
           <div class="form-check">
             <input type="radio" id="male" th:field="*{gender}" value="true" class="form-check-input">
-            <label for="male" class="form-check-label">Male</label>
+            <label for="male" class="form-check-label">Nam</label>
           </div>
           <div class="form-check">
             <input type="radio" id="female" th:field="*{gender}" value="false" class="form-check-input">
-            <label for="female" class="form-check-label">Female</label>
+            <label for="female" class="form-check-label">Nữ</label>
           </div>
           <p class="text-danger small" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></p>
         </div>
 
         <!-- Address -->
         <div class="mb-3">
-          <label for="address" class="form-label">Address</label>
+          <label for="address" class="form-label">Địa chỉ</label>
           <input type="text" id="address" th:field="*{address}" class="form-control">
           <p class="text-danger small" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p>
         </div>
 
         <!-- Submit Button -->
         <div class="text-center">
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Register</button>
-          <a th:href="@{/login}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Login</a>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Đăng Ký</button>
+          <a th:href="@{/login}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Đăng Nhập</a>
         </div>
       </form>
     </div>

@@ -157,7 +157,7 @@ public class UserDTO implements Validator {
         String email = userDTO.getEmail();
         if (email.trim().isEmpty()) {
             errors.rejectValue("email", "input.null", "Vui lòng nhập email!");
-        } else if (!email.matches("^[a-zA-Z0-9]+@gmail\\.com$")) {
+        } else if (!email.matches("^[a-zA-Z0-9._%+-]+@gmail\\.com$")) {
             errors.rejectValue("email", "", "Email phải có dạng hợp lệ, ví dụ: a@gmail.com!");
         }
 
