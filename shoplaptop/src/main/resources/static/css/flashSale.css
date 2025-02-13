@@ -1,0 +1,102 @@
+/* Flash Sale Section */
+.flash-sale-section {
+    background-color: #fff;
+    padding: 20px 0;
+    border-top: 3px solid #ff4d4f;
+}
+
+.flash-sale-header {
+    padding: 0 15px;
+}
+
+.flash-sale-title {
+    font-weight: bold;
+    color: #ff4d4f;
+    font-size: 24px;
+}
+
+/* Countdown Timer */
+.countdown-timer span {
+    font-size: 20px;
+    font-weight: bold;
+    background: #000;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 0 2px;
+    border-radius: 4px;
+}
+
+/* Slider Container */
+.flash-sale-slider {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Slider Inner: sử dụng flex để hiển thị các sản phẩm theo hàng ngang */
+.flash-sale-items {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+/* Mỗi product card chiếm 20% chiều rộng (5 sản phẩm hiển thị cùng lúc) */
+.flash-sale-items .product-card {
+    flex: 0 0 20%;
+}
+
+/* Các khoảng cách giữa các card (me-3 đã có trong HTML) */
+
+/* Các style của product-card, discount badge, … giữ nguyên hoặc tùy chỉnh thêm */
+.product-card {
+    border: 1px solid #eaeaea;
+    padding: 10px;
+    border-radius: 5px;
+    background: #fff;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.product-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ff4d4f;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.product-title {
+    font-size: 16px;
+    margin: 10px 0 5px;
+    min-height: 40px;
+}
+
+.product-price .price-current {
+    font-weight: bold;
+    color: #ff4d4f;
+}
+
+.product-price .price-old {
+    font-size: 14px;
+    color: #999;
+    text-decoration: line-through;
+    margin-left: 5px;
+}
+
+/* Optional: Hover hiệu ứng cho ảnh */
+.product-image img {
+    transition: transform 0.3s ease-in-out;
+}
+
+.product-image img:hover {
+    transform: scale(1.05);
+}
