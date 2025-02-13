@@ -1,50 +1,36 @@
-package com.example.shoplaptop.model;
+package com.example.shoplaptop.model.dto;
 
+import com.example.shoplaptop.model.OrderItem;
+import com.example.shoplaptop.model.OrderStatus;
+import com.example.shoplaptop.model.PaymentType;
+import com.example.shoplaptop.model.Users;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-public class OrderSummary {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrderSummaryDTO implements Validator {
     private Integer id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     private Users user; //role Customer
-
     private LocalDateTime orderDateTime;
-
-    @Column(nullable = false, columnDefinition = "decimal(12,2)")
     private BigDecimal orderAmount;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20)")
     private OrderStatus orderStatus;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20)")
     private PaymentType paymentType;
-
     private Boolean isPaid;
-
-    @OneToMany(mappedBy = "orderSummary")
     private List<OrderItem> orderItemList;
-
-    @Column(nullable = false, columnDefinition = "varchar(50)")
     private String fullName;
-
-    @Column(nullable = false, columnDefinition = "varchar(100)")
     private String address;
-
-    @Column(nullable = false, columnDefinition = "varchar(15)")
     private String phoneNumber;
 
-    public OrderSummary() {}
+    public OrderSummaryDTO() {}
 
-    public OrderSummary(Integer id, Users user, LocalDateTime orderDateTime, BigDecimal orderAmount, OrderStatus orderStatus, PaymentType paymentType, Boolean isPaid, List<OrderItem> orderItemList, String fullName, String address, String phoneNumber) {
+    public OrderSummaryDTO(Integer id, Users user, LocalDateTime orderDateTime, BigDecimal orderAmount, OrderStatus orderStatus, PaymentType paymentType, Boolean isPaid, List<OrderItem> orderItemList, String fullName, String address, String phoneNumber) {
         this.id = id;
         this.user = user;
         this.orderDateTime = orderDateTime;
@@ -152,7 +138,7 @@ public class OrderSummary {
 
     @Override
     public String toString() {
-        return "OrderSummary{" +
+        return "OrderSummaryDTO{" +
                 "id=" + id +
                 ", user=" + user +
                 ", orderDateTime=" + orderDateTime +
@@ -165,5 +151,41 @@ public class OrderSummary {
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return false;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        OrderSummaryDTO orderSummaryDTO = (OrderSummaryDTO) target;
+
+        String fullName = orderSummaryDTO.getFullName();
+        if(fullName.trim().isEmpty()) {
+            errors.rejectValue("fullName", "input.null");
+        } else if (fullName.length() > 50) {
+            errors.rejectValue("fullName", "", "Tên người nhận hàng phải dưới 50 ký tự !");
+        }
+
+        String phoneNumber = orderSummaryDTO.getPhoneNumber();
+        if (phoneNumber.trim().isEmpty()) {
+            errors.rejectValue("phoneNumber", "input.null", "Vui lòng nhập số điện thoại!");
+        } else if (!phoneNumber.matches("^\\d{2,15}$")) {
+            errors.rejectValue("phoneNumber", "", "Số điện thoại phải là chữ số và chỉ chứa tối đa 15 số!");
+        }
+
+        String address = orderSummaryDTO.getAddress();
+        if(address.trim().isEmpty()) {
+            errors.rejectValue("address", "input.null");
+        } else if (address.length() > 100) {
+            errors.rejectValue("address", "", "Địa chỉ nhận hàng phải dưới 100 ký tự !");
+        }
+
+        PaymentType paymentType = orderSummaryDTO.getPaymentType();
+        if(paymentType == null) {
+            errors.rejectValue("paymentType", "", "Vui lòng chọn phương thức thanh toán !");
+        }
     }
 }
