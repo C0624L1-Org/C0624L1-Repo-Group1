@@ -27,11 +27,9 @@
                                  style="width:40px; height:40px; border-radius:50%;">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAvatarDropdown">
-                            <li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
+                            <li><a class="dropdown-item" th:href="@{/profile/{id}(id=${currentUser.id})}">Profile</a></li>
                             <li><a class="dropdown-item" th:href="@{/cart}">Cart</a></li>
-<!--                            <li>-->
-<!--                                <a class="dropdown-item" th:href="@{/cart}">Your Cart</a>-->
-<!--                            </li>-->
+                            <li><a class="dropdown-item" th:href="@{/change-password}">Change Password</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
                         </ul>

@@ -20,7 +20,6 @@ public class UserDTO implements Validator {
     private Boolean status;
     private Role role;
 
-
     public UserDTO() {}
 
     public UserDTO(Long id, String username, String password, String email, String phone, String fullName, Boolean gender, String address, String avatar, Boolean status, Role role) {
