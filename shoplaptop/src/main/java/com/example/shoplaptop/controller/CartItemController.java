@@ -42,7 +42,6 @@ public class CartItemController {
     public String index(Model model) {
         System.out.println("Vào cart thành công");
         Users user = globalControllerAdvice.currentUser();
-        System.out.println("In user " + user.toString());
 
         model.addAttribute("user", user);
         List<CartItem> cartItemList = cartItemService.getCartItemsByUser(user);

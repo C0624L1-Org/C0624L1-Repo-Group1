@@ -71,7 +71,7 @@ public class OrderController {
 
         OrderSummary savedOrder = iOrderService.save(orderSummary);
         iOrderService.saveOrderItems(savedOrder, iUserService.getById(id));
-
+        iCartItemService.deleteByUser(user);
         redirectAttributes.addFlashAttribute("messageType","success");
         redirectAttributes.addFlashAttribute("message", "Đặt hàng thành công");
         return "redirect:/Vss";

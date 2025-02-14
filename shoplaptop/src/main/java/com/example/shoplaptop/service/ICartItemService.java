@@ -14,4 +14,5 @@ public interface ICartItemService {
     void removeProductFromCartItemOfUser(Users user, Product product);
     int countProductInCartItemOfUser(Users user);
     long totalPriceInCartItemOfUser(Users user);
+    void deleteByUser(Users user);
 }

@@ -46,7 +46,14 @@
                 </td>
                 <td>
                     <p th:text="${item.product.name}"></p>
-                    <p th:text="${#numbers.formatInteger(item.product.price,1,'POINT') + ' VNĐ x' + item.quantity }"></p>
+                    <p>
+                        <span class="text-danger fw-bold"
+                              th:text="${#numbers.formatInteger(item.product.discountPrice,1,'POINT')+' đ'}">0₫</span>
+                        <span class="text-muted text-decoration-line-through ms-2"
+                              th:if="${item.product.discount != null and item.product.discount > 0}"
+                              th:text="${#numbers.formatInteger(item.product.price,1,'POINT')+' đ'}">0₫</span>
+                        <span th:text="${' x'+item.quantity}"></span>
+                    </p>
                 </td>
             </tr>
         </table>

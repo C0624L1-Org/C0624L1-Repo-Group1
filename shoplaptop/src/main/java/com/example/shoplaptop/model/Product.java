@@ -17,7 +17,7 @@ public class Product {
     @Column(columnDefinition = "varchar(200) not null")
     private String description;
 
-    @Column(columnDefinition = "decimal(10,2) not null")
+    @Column(columnDefinition = "decimal(12,2) not null")
     private BigDecimal price;
 
     @Column(nullable = false)
@@ -29,14 +29,14 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
-    @OneToMany(mappedBy="product",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="product",fetch = FetchType.LAZY)
     private List<CartItem> cartItemList;
 
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItemList;
 
-    @Column()
-    private Integer discount=0;
+    @Column
+    private Integer discount;
 
     public Product() {}
 

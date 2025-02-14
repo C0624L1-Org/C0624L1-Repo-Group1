@@ -5,8 +5,11 @@ import com.example.shoplaptop.model.Product;
 import com.example.shoplaptop.model.Users;
 import com.example.shoplaptop.repository.ICartItemRepository;
 import com.example.shoplaptop.service.ICartItemService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -92,9 +95,29 @@ public class CartItemService implements ICartItemService {
         long totalPrice = 0;
         List<CartItem> cartItemList = cartItemRepository.getCartItemsByUser(user);
         for(CartItem cartItem : cartItemList){
-            totalPrice += cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())).doubleValue();
+            totalPrice += cartItem.getProduct().getDiscountPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())).doubleValue();
         }
         return totalPrice;
+    }
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Transactional
+    @Override
+    public void deleteByUser(Users user) {
+        try {
+            List<CartItem> cartItemList = this.getCartItemsByUser(user);
+            //cartItemRepository.deleteAll(cartItemList);
+            for(CartItem cartItem : cartItemList){
+                System.out.println(cartItem.getId());
+                cartItemRepository.delete(cartItem);
+                entityManager.flush();
+            }
+            System.out.println("Remove successfully");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

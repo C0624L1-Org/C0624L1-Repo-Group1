@@ -30,7 +30,7 @@ public class OrderService implements IOrderService {
             OrderItem orderItem = new OrderItem();
             orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setProduct(cartItem.getProduct());
-            orderItem.setUnitPrice(orderItem.getProduct().getPrice());
+            orderItem.setUnitPrice(orderItem.getProduct().getDiscountPrice());
             orderItem.setTotalPrice(orderItem.getUnitPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity().doubleValue())));
             orderItem.setOrder(order);
             iOrderItemRepository.save(orderItem);
