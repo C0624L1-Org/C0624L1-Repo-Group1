@@ -55,6 +55,17 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="discount" class="form-label">Giảm giá(%)</label>
+                    <input type="number" id="discount" class="form-control" th:field="*{discount}">
+                    <div class="text-danger" th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="discountPrice" class="form-label">Mã sau giảm</label>
+                    <input type="number" id="discountPrice" class="form-control" th:field="*{discountPrice}" readonly>
+                </div>
+
+                <div class="mb-3">
                     <label for="image" class="form-label">Ảnh sản phẩm(URL)</label>
                     <input type="text" id="image" class="form-control" th:field="*{image}">
                     <div class="text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></div>
@@ -81,17 +92,28 @@
     </div>
 </div>
 
-<!--<script>
+<script>
     document.addEventListener("DOMContentLoaded", function() {
-        let priceInput = document.getElementById("price");
-        if (priceInput) {
-            let value = priceInput.value;
-            if (value.includes("E") || value.includes("e")) {
-                priceInput.value = Number(value).toFixed(0);
+        const priceInput = document.getElementById("price");
+        const discountInput = document.getElementById("discount");
+        const discountPriceInput = document.getElementById("discountPrice");
+
+        function updateDiscountPrice() {
+            let price = parseFloat(priceInput.value) || 0;
+            let discount = parseFloat(discountInput.value) || 0;
+
+            let discountedPrice = price;
+            if(discount > 0) {
+                discountedPrice = price * (100 - discount) / 100;
             }
+            discountPriceInput.value = discountedPrice.toFixed(2);
         }
+
+        priceInput.addEventListener("input", updateDiscountPrice);
+        discountInput.addEventListener("input", updateDiscountPrice);
     });
-</script>-->
+</script>
+
 
 <!-- FontAwesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">

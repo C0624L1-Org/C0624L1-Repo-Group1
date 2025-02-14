@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const slider = document.querySelector('.flash-sale-items');
     const productCards = document.querySelectorAll('.flash-sale-items .product-card');
-    
+
     const cardStyle = getComputedStyle(productCards[0]);
     const cardMarginRight = parseInt(cardStyle.marginRight);
     const cardWidth = productCards[0].offsetWidth + cardMarginRight;
@@ -28,4 +28,27 @@ document.addEventListener("DOMContentLoaded", function() {
             }, 500);
         }
     }, 3000);
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    let countdownTime = 3600;
+
+    function updateCountdown() {
+        let hours = Math.floor(countdownTime / 3600);
+        let minutes = Math.floor((countdownTime % 3600) / 60);
+        let seconds = countdownTime % 60;
+
+        document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+        document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+        document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+
+        if (countdownTime > 0) {
+            countdownTime--;
+        } else {
+            clearInterval(timer);
+        }
+    }
+
+    updateCountdown();
+    let timer = setInterval(updateCountdown, 1000);
 });

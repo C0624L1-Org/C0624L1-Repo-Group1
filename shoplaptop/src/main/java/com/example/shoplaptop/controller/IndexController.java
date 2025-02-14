@@ -2,6 +2,7 @@ package com.example.shoplaptop.controller;
 
 import com.example.shoplaptop.model.Product;
 import com.example.shoplaptop.model.Users;
+import com.example.shoplaptop.service.ICategoryService;
 import com.example.shoplaptop.service.IProductService;
 import com.example.shoplaptop.service.IUserService;
 import com.example.shoplaptop.service.impl.UserService;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,6 +23,9 @@ import java.security.Principal;
 public class IndexController {
     @Autowired
     private IProductService iProductService;
+
+    @Autowired
+    private ICategoryService iCategoryService;
 
     @Autowired
     private IUserService iUserService;
@@ -39,7 +44,9 @@ public class IndexController {
     @GetMapping("/home")
     public String home(Model model) {
         model.addAttribute("products", iProductService.findAll());
-        model.addAttribute("categories", iProductService.findAll());
+        model.addAttribute("categories", iCategoryService.findAll());
+        Users user = globalControllerAdvice.currentUser();
+        model.addAttribute("user", user);
         return "home";
     }
 
@@ -59,5 +66,11 @@ public class IndexController {
         redirectAttributes.addFlashAttribute("messageType", "error");
         redirectAttributes.addFlashAttribute("message", "Bạn cần phải đăng nhập!");
         return "redirect:/login";
+    }
+
+    @GetMapping("/detail-product/{id}")
+    public String detailProduct(@PathVariable int id, Model model) {
+        model.addAttribute("product", iProductService.getById(id));
+        return "detail-product";
     }
 }

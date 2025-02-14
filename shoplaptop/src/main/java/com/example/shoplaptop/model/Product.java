@@ -35,9 +35,12 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItemList;
 
+    @Column()
+    private Integer discount=0;
+
     public Product() {}
 
-    public Product(Integer id, String name, String description, BigDecimal price, String image, Integer stock, Category category, List<CartItem> cartItemList, List<OrderItem> orderItemList) {
+    public Product(Integer id, String name, String description, BigDecimal price, String image, Integer stock, Category category, List<CartItem> cartItemList, List<OrderItem> orderItemList, Integer discount) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -47,6 +50,7 @@ public class Product {
         this.category = category;
         this.cartItemList = cartItemList;
         this.orderItemList = orderItemList;
+        this.discount = discount;
     }
 
     public List<OrderItem> getOrderItemList() {
@@ -121,6 +125,22 @@ public class Product {
         this.cartItemList = cartItemList;
     }
 
+    public Integer getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Integer discount) {
+        this.discount = discount;
+    }
+
+    public BigDecimal getDiscountPrice() {
+        if (discount != null && discount > 0) {
+            BigDecimal discountPrice = BigDecimal.valueOf(100 - discount).divide(BigDecimal.valueOf(100));
+            return price.multiply(discountPrice);
+        }
+        return price;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -130,7 +150,10 @@ public class Product {
                 ", price=" + price +
                 ", image='" + image + '\'' +
                 ", stock=" + stock +
-                ", category=" + category.getName() +
+                ", category=" + category +
+                ", cartItemList=" + cartItemList +
+                ", orderItemList=" + orderItemList +
+                ", discount=" + discount +
                 '}';
     }
 }
