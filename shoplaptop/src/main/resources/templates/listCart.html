@@ -36,7 +36,7 @@
                 <a class="link-offset-2 link-underline link-underline-opacity-0"
                    th:href="@{/cart/addQuantity(userId=${user.getId()},productId=${cartItem.getProduct().getId()})}">+</a>
             </td>
-            <td th:text="${#numbers.formatInteger(cartItem.getQuantity()*cartItem.getProduct().price,1,'POINT') + ' VNĐ' }"></td>
+            <td th:text="${#numbers.formatInteger(cartItem.getQuantity()*cartItem.getProduct().discountPrice,1,'POINT') + ' VNĐ' }"></td>
         </tr>
 
         </tbody>

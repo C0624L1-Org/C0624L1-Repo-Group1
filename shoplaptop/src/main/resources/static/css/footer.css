@@ -1,0 +1,22 @@
+/* Đặt chiều cao cho html và body */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Sử dụng flex cho body */
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Phần nội dung chính sẽ chiếm không gian còn lại */
+.container {
+    flex: 1;
+}
+
+/* Footer tự động đẩy xuống dưới */
+.footer {
+    /* Nếu cần, có thể thêm padding, background, ... */
+    margin-top: auto;
+}

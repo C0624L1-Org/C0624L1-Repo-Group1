@@ -1,0 +1,64 @@
+/* Brand Section */
+.brand-section {
+    background-color: #fff;
+    padding: 20px 0;
+    border-top: 3px solid #0073e6;  /* Màu xanh đặc trưng cho section Brand */
+}
+
+.brand-header {
+    padding: 0 15px;
+}
+
+.brand-title {
+    font-weight: bold;
+    color: #0073e6;
+    font-size: 24px;
+}
+
+/* Slider Container */
+.brand-slider {
+    position: relative;
+    overflow: hidden;
+}
+
+.brand-items {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+/* Mỗi brand card chiếm 20% chiều rộng (5 thương hiệu hiển thị cùng lúc) */
+.brand-items .brand-card {
+    flex: 0 0 20%;
+}
+
+.brand-card {
+    border: 1px solid #eaeaea;
+    padding: 10px;
+    border-radius: 5px;
+    background: #fff;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.brand-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.brand-image {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.brand-image img {
+    max-height: 80px;
+    object-fit: contain;
+    transition: transform 0.3s ease-in-out;
+}
+
+.brand-image img:hover {
+    transform: scale(1.05);
+}
+
+.brand-name {
+    font-size: 16px;
+    margin: 0;
+}

@@ -51,6 +51,13 @@
                     <input type="text" id="stock" th:field="*{stock}" class="form-control">
                     <p class="text-danger small" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></p>
                 </div>
+
+                <!--Discount-->
+                <div class="mb-3">
+                    <label for="discount" class="form-label">Giảm giá (%)</label>
+                    <input type="text" id="discount" th:field="*{discount}" class="form-control" placeholder="Nếu không có nhập 0">
+                    <p class="text-danger small" th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"></p>
+                </div>
                 <!--Image-->
                 <div class="mb-3">
                     <label for="image" class="form-label">Ảnh sản phẩm(URL)</label>

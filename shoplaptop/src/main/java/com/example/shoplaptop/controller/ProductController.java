@@ -104,7 +104,10 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public String updateProduct(@Valid @ModelAttribute("productDTO") ProductDTO productDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String updateProduct(@Valid @ModelAttribute("productDTO") ProductDTO productDTO,
+                                BindingResult bindingResult,
+                                Model model,
+                                RedirectAttributes redirectAttributes) {
         Product product = iProductService.getById(productDTO.getId());
 
         System.out.println("updated productDTO: " + productDTO.toString());

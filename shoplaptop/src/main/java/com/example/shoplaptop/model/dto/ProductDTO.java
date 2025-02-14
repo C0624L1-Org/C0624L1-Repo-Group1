@@ -19,10 +19,11 @@ public class ProductDTO implements Validator {
     private String image;
     private Integer stock;
     private Category category;
+    private Integer discount;
 
     public ProductDTO() {}
 
-    public ProductDTO(Integer id, String name, String description, BigDecimal price, String image, Integer stock, Category category) {
+    public ProductDTO(Integer id, String name, String description, BigDecimal price, String image, Integer stock, Category category, Integer discount) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,6 +31,7 @@ public class ProductDTO implements Validator {
         this.image = image;
         this.stock = stock;
         this.category = category;
+        this.discount = discount;
     }
 
     public Integer getId() {
@@ -88,6 +90,22 @@ public class ProductDTO implements Validator {
         this.category = category;
     }
 
+    public Integer getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Integer discount) {
+        this.discount = discount;
+    }
+
+    public BigDecimal getDiscountPrice() {
+        if (discount != null && discount > 0) {
+            BigDecimal discountPrice = BigDecimal.valueOf(100 - discount).divide(BigDecimal.valueOf(100));
+            return price.multiply(discountPrice);
+        }
+        return price;
+    }
+
     @Override
     public String toString() {
         return "ProductDTO{" +
@@ -114,35 +132,42 @@ public class ProductDTO implements Validator {
         if(name.trim().isEmpty()) {
             errors.rejectValue("name", "input.null");
         } else if (name.length() > 50) {
-            errors.rejectValue("name", "", "The brand name is too long");
+            errors.rejectValue("name", "", "Tên thương hiệu quá dài");
         }
 
         String description = product.getDescription();
         if(description.trim().isEmpty()) {
             errors.rejectValue("description", "input.null");
         } else if (description.length() > 250) {
-            errors.rejectValue("description", "", "Product description contains a maximum of 250 characters");
+            errors.rejectValue("description", "", "Mô tả sản phẩm chứa tối đa 250 ký tự");
         }
 
         BigDecimal price = product.getPrice();
         if(price == null) {
             errors.rejectValue("price", "input.null");
         } else if (price.compareTo(BigDecimal.ZERO) < 0 || price.compareTo(new BigDecimal("500000000")) > 0) {
-            errors.rejectValue("price", "", "Invalid price value! Price value must be between 0 and 500000000");
+            errors.rejectValue("price", "", "Giá trị giá phải nằm trong khoảng từ 0 đến 500000000");
         }
 
         Integer stock = product.getStock();
         if(stock == null) {
             errors.rejectValue("stock", "input.null");
         } else if (stock < 0) {
-            errors.rejectValue("stock", "", "Stock value must be greater than zero");
+            errors.rejectValue("stock", "", "Số lượng không thể bé hơn 0");
         }
 
         String logo = product.getImage();
         if (logo == null || logo.isEmpty()) {
             errors.rejectValue("image", "input.null");
         } else if (logo.length() > 255) {
-            errors.rejectValue("image", "", "Image Link is too long");
+            errors.rejectValue("image", "", "URl quá dài");
+        }
+
+        Integer discount = product.getDiscount();
+        if(discount == null) {
+            errors.rejectValue("discount", "input.null");
+        } else if (discount < 0 || discount > 100) {
+            errors.rejectValue("discount", "", "Không được bé hơn 0% và lớn hơn 100%");
         }
     }
 }
