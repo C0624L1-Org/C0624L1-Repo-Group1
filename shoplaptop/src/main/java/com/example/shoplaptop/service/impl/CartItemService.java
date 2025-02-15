@@ -5,6 +5,9 @@ import com.example.shoplaptop.model.Product;
 import com.example.shoplaptop.model.Users;
 import com.example.shoplaptop.repository.ICartItemRepository;
 import com.example.shoplaptop.service.ICartItemService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,9 @@ public class CartItemService implements ICartItemService {
 
     @Autowired
     private ProductService productService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public List<CartItem> getCartItemsByUser(Users user) {
@@ -95,6 +101,21 @@ public class CartItemService implements ICartItemService {
             totalPrice += cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())).doubleValue();
         }
         return totalPrice;
+    }
+
+
+    @Transactional
+    @Override
+    public void deleteByUser(Users user) {
+        try {
+            List<CartItem> cartItemList = cartItemRepository.getCartItemsByUser(user);
+            cartItemRepository.deleteByUserId(user.getId());
+
+            entityManager.flush();
+            entityManager.clear();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -55,6 +56,11 @@ public class ProductService implements IProductService {
     @Override
     public Page<Product> searchProductByNameAndCategory(String name, String category, Pageable pageable) {
         return iProductRepository.findByNameContainingAndCategory(name, category, pageable);
+    }
+
+    @Override
+    public Page<Product> searchProducts(Long brandId, BigDecimal priceMin, BigDecimal priceMax, Pageable pageable) {
+        return iProductRepository.searchProducts(brandId, priceMin, priceMax, pageable);
     }
 
 
