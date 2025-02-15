@@ -98,7 +98,7 @@ public class CartItemService implements ICartItemService {
         long totalPrice = 0;
         List<CartItem> cartItemList = cartItemRepository.getCartItemsByUser(user);
         for(CartItem cartItem : cartItemList){
-            totalPrice += cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())).doubleValue();
+            totalPrice += cartItem.getProduct().getDiscountPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())).doubleValue();
         }
         return totalPrice;
     }
