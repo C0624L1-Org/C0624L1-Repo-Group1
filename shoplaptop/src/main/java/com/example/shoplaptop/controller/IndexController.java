@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
+import java.math.BigDecimal;
 
 @Controller
 public class IndexController {
@@ -72,5 +72,29 @@ public class IndexController {
     public String detailProduct(@PathVariable int id, Model model) {
         model.addAttribute("product", iProductService.getById(id));
         return "detail-product";
+    }
+
+    //Filter
+    @GetMapping("/home/products/filter")
+    public String filterProducts(
+            @RequestParam(value = "brand", required = false) Long brandId,
+            @RequestParam(value = "priceMin", required = false) BigDecimal priceMin,
+            @RequestParam(value = "priceMax", required = false) BigDecimal priceMax,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            Model model) {
+        Pageable pageable = PageRequest.of(page, 6);
+        Page<Product> productPage = iProductService.searchProducts(brandId, priceMin, priceMax, pageable);
+
+        model.addAttribute("productPage", productPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("brand", brandId);
+        model.addAttribute("priceMin", priceMin);
+        model.addAttribute("priceMax", priceMax);
+
+        model.addAttribute("products", iProductService.findAll());
+        model.addAttribute("categories", iCategoryService.findAll());
+        Users user = globalControllerAdvice.currentUser();
+        model.addAttribute("user", user);
+        return "fragments/product-list";
     }
 }

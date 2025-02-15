@@ -3,6 +3,7 @@ package com.example.shoplaptop.service;
 import com.example.shoplaptop.model.CartItem;
 import com.example.shoplaptop.model.Product;
 import com.example.shoplaptop.model.Users;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface ICartItemService {
     void removeProductFromCartItemOfUser(Users user, Product product);
     int countProductInCartItemOfUser(Users user);
     long totalPriceInCartItemOfUser(Users user);
+
+    void deleteByUser(Users user);
 }
