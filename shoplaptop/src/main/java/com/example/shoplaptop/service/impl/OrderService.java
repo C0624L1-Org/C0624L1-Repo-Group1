@@ -8,6 +8,8 @@ import com.example.shoplaptop.repository.IOrderItemRepository;
 import com.example.shoplaptop.repository.IOrderRepository;
 import com.example.shoplaptop.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -53,5 +55,10 @@ public class OrderService implements IOrderService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Page<OrderSummary> findAll(Pageable pageable) {
+        return iOrderRepository.findAll(pageable);
     }
 }

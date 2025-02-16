@@ -8,18 +8,19 @@ import com.example.shoplaptop.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-@RequestMapping("/home/order")
+
 public class OrderController {
     @Autowired
     private IUserService iUserService;
@@ -30,7 +31,7 @@ public class OrderController {
     @Autowired
     private IOrderService iOrderService;
 
-    @GetMapping("")
+    @GetMapping("/home/order")
     public String showOrderPage(@RequestParam("user") Long userId, Model model) {
         Users user = iUserService.getById(userId);
         List<CartItem> cartItemList = iCartItemService.getCartItemsByUser(user);
@@ -45,10 +46,10 @@ public class OrderController {
         model.addAttribute("orderDTO", orderDTO);
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("paymentTypes", PaymentType.values());
-        return "dashboard/orders/view";
+        return "dashboard/orders/customer/view";
     }
 
-    @PostMapping("/{user}/create")
+    @PostMapping("/home/order/{user}/create")
     public String createOrder(@PathVariable("user") Long id,
                               @Valid @ModelAttribute("orderDTO") OrderSummaryDTO orderDTO, BindingResult bindingResult,
                               Model model, RedirectAttributes redirectAttributes) {
@@ -61,10 +62,10 @@ public class OrderController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("cartItemList", iCartItemService.getCartItemsByUser(user));
             model.addAttribute("orderDTO", orderDTO);
-            model.addAttribute("user",user);
+            model.addAttribute("user", user);
             model.addAttribute("totalPrice", iCartItemService.totalPriceInCartItemOfUser(user));
             model.addAttribute("paymentTypes", PaymentType.values());
-            return "dashboard/orders/view";
+            return "dashboard/orders/customer/view";
         }
         OrderSummary orderSummary = new OrderSummary();
         BeanUtils.copyProperties(orderDTO, orderSummary);
@@ -75,9 +76,18 @@ public class OrderController {
         List<CartItem> cartItemList = iCartItemService.getCartItemsByUser(user);
         iCartItemService.deleteByUser(user);
 
-        redirectAttributes.addFlashAttribute("messageType","success");
+        redirectAttributes.addFlashAttribute("messageType", "success");
         redirectAttributes.addFlashAttribute("message", "Đặt hàng thành công");
-        return "redirect:/cart";
+        return "redirect:/home";
+    }
 
+    @GetMapping("/dashboard/orders")
+    public String showOrdersPage(@RequestParam(value = "page", required = false, defaultValue = "0") int page, Model model) {
+        Pageable pageable = PageRequest.of(page, 3);
+        Page<OrderSummary> orders = iOrderService.findAll(pageable);
+        model.addAttribute("orders", orders);
+        model.addAttribute("processingOrderStatus", OrderStatus.processing);
+        model.addAttribute("status", OrderStatus.values());
+        return "dashboard/orders/admin/list";
     }
 }

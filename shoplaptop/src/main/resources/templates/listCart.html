@@ -41,13 +41,13 @@
                 <a class="link-offset-2 link-underline link-underline-opacity-0"
                    th:href="@{/cart/addQuantity(userId=${user.getId()},productId=${cartItem.getProduct().getId()})}">+</a>
             </td>
-            <td th:text="${#numbers.formatInteger(cartItem.getQuantity()*cartItem.getProduct().discountPrice,1,'POINT') + ' VNĐ' }"></td>
+            <td th:text="${#numbers.formatInteger(cartItem.getQuantity()*cartItem.getProduct().discountPrice,1,'POINT') + ' đ' }"></td>
         </tr>
 
         </tbody>
     </table>
 
-    <b>Tổng Tiền: </b><span th:text="${#numbers.formatInteger(totalPrice,1,'POINT')+ ' VNĐ'}"></span></br>
+    <b>Tổng Tiền: </b><span th:text="${#numbers.formatInteger(totalPrice,1,'POINT')+ ' đ'}"></span></br>
     <a class="btn btn-primary" th:href="@{/allProduct}">Trở Lại Trang Sản Phẩm</a>
     <a class="btn btn-info" th:href="@{/home/order(user=${userId})}">Thanh Toán (<span th:text="${countProduct}"></span>)</a>
 
