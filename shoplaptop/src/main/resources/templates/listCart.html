@@ -15,8 +15,13 @@
 
 </head>
 <body>
-<h1 class="text-center">Giỏ Hàng</h1>
-<div class="container">
+<!-- Navbar -->
+<div th:replace="~{/common/navbar :: navbar}"></div>
+<!-- Hiển thị thông báo -->
+<div th:replace="~{fragments/toast.html}"></div>
+
+<div class="main-content mt-5">
+    <h1 class="text-center">Giỏ Hàng</h1>
     <table class="table table-bordered">
         <thead>
         <tr>

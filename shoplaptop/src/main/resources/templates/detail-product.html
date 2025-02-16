@@ -18,7 +18,7 @@
 <div th:replace="~{/common/navbar :: navbar}"></div>
 
 <!-- Main Content -->
-<div class="container mt-5" style="margin-top: 20px">
+<div class="main-content mt-5">
   <div class="row">
     <!-- Left Column: Product Image -->
     <div class="col-lg-6">
@@ -39,10 +39,10 @@
       <hr>
       <div class="mb-3">
         <h4>
-          <span class="text-danger fw-bold" th:text="${product.discountPrice}">0₫</span>
+          <span class="text-danger fw-bold" th:text="${#numbers.formatInteger(product.discountPrice,1,'POINT')} + ' VND'">0₫</span>
           <span class="text-muted text-decoration-line-through ms-2"
                 th:if="${product.discount != null and product.discount > 0}"
-                th:text="${product.price}">0₫</span>
+                th:text="${#numbers.formatInteger(product.price,1,'POINT')} + ' VND'">0₫</span>
         </h4>
       </div>
       <p class="lead" th:text="${product.description}">Mô tả sản phẩm...</p>

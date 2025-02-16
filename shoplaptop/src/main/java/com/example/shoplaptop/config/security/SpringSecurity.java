@@ -52,7 +52,7 @@ public class SpringSecurity {
                                 "/reset-password",
                                 "/allProduct",
                                 "/allProduct/inform",
-                                "/detail-product").permitAll()
+                                "/detail-product/**").permitAll()
                         .requestMatchers("/dashboard/**").hasRole("ADMIN")
                         .requestMatchers("/home/**").hasAnyRole("CUSTOMER", "ADMIN")
                         .anyRequest().authenticated()
