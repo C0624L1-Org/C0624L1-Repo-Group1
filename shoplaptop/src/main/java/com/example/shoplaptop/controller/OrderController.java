@@ -77,7 +77,7 @@ public class OrderController {
 
         redirectAttributes.addFlashAttribute("messageType","success");
         redirectAttributes.addFlashAttribute("message", "Đặt hàng thành công");
-        return "redirect:/Vss";
+        return "redirect:/cart";
 
     }
 }

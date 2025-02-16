@@ -16,6 +16,7 @@
     <link href="/css/flashSale.css" rel="stylesheet">
     <link href="/css/slide.css" rel="stylesheet">
     <link href="/css/footer.css" rel="stylesheet">
+    <link href="/css/dashboard/users/pagination.css" rel="stylesheet">
 </head>
 <body>
 <!-- Navbar -->
@@ -82,7 +83,10 @@
         <!-- Slide -->
         <div class="flash-sale-slider overflow-hidden">
             <div class="flash-sale-items d-flex">
-                <div class="product-card me-3" th:each="product : ${products}">
+                <!-- Chỉ hiển thị nếu product.discount > 0 -->
+                <div class="product-card me-3"
+                     th:each="product : ${products}"
+                     th:if="${product.discount != null and product.discount > 0}">
                     <div class="product-image position-relative">
                         <img th:src="@{${product.image}}" alt="Sản phẩm" class="img-fluid">
                         <span class="discount-badge" th:text="'-' + ${product.discount} + '%'"></span>
@@ -90,9 +94,22 @@
                     <div class="product-info mt-2 text-center">
                         <h6 class="product-title" th:text="${product.name}">Tên sản phẩm</h6>
                         <div class="product-price">
-                            <span class="price-current" th:text="${product.discountPrice}">0₫</span>
-                            <span class="price-old" th:if="${product.discount != null and product.discount > 0}" th:text="${product.price}">0₫</span>
+                            <span class="price-current"
+                                  th:text="${#numbers.formatInteger(product.discountPrice,1,'POINT')} + ' VND'">0₫</span>
+                            <span class="price-old"
+                                  th:if="${product.discount != null and product.discount > 0}"
+                                  th:text="${#numbers.formatInteger(product.price,1,'POINT')} + ' VND'">0₫</span>
                         </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="product-actions mt-2 d-flex justify-content-around">
+                        <a th:href="@{/detail-product/{id}(id=${product.id})}" class="btn btn-outline-primary btn-sm">
+                            Xem Chi Tiết
+                        </a>
+<!--                        <a th:href="@{/cart/add(userId=${currentUser.id}, productId=${product.id})}" class="btn btn-outline-warning btn-sm">-->
+<!--                            Thêm Vào Giỏ-->
+<!--                        </a>-->
                     </div>
                 </div>
             </div>
@@ -100,20 +117,22 @@
     </div>
 </div>
 
+
 <!-- Brand Section -->
 <div class="brand-section">
     <div class="container">
-        <!-- Brand Section Header -->
+        <!-- Header -->
         <div class="brand-header d-flex justify-content-between align-items-center mb-4">
             <h2 class="brand-title">THƯƠNG HIỆU</h2>
             <a href="#" class="btn btn-outline-primary">Xem thêm</a>
         </div>
-        <!-- Brand Slider -->
+        <!-- Slider -->
         <div class="brand-slider overflow-hidden">
             <div class="brand-items d-flex">
                 <div class="brand-card me-3" th:each="brand : ${categories}">
                     <div class="brand-image text-center">
                         <img th:src="@{${brand.logo}}" alt="Brand Logo" class="img-fluid">
+<!--                        <a th:href="@{/home}"></a>-->
                     </div>
 <!--                    <div class="brand-info mt-2 text-center">-->
 <!--                        <h6 class="brand-name" th:text="${brand.name}">Tên thương hiệu</h6>-->
@@ -126,18 +145,7 @@
 </div>
 
 <!-- Filter & Product Category -->
-<!--<div id="productListContainer" class="col-md-9">-->
-<!--    &lt;!&ndash; Nội dung danh sách sản phẩm (fragment) sẽ được load ở đây &ndash;&gt;-->
-<!--    <div class="row" th:replace="/fragments/product-list :: productListFragment"></div>-->
-<!--</div>-->
 <div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <h2 class="text-center">Tìm kiếm sản phẩm</h2>
-        </div>
-    </div>
-</div>
-<div class="container mt-4">
     <div class="row">
         <!-- Sidebar Filter -->
         <div class="col-md-3">
@@ -146,23 +154,50 @@
                     <h5>Bộ Lọc</h5>
                 </div>
                 <div class="card-body">
-                    <form id="filterForm" th:action="@{/products}" method="get">
-                        <!-- Lọc theo Thương Hiệu -->
+                    <!-- Form filter, action trỏ đến /home -->
+                    <form id="filterForm" th:action="@{/home}" method="get">
+                        <!-- Hidden field cho trang -->
+                        <input type="hidden" name="page" value="0" />
+
+                        <!-- Lọc theo Danh Mục (Thương Hiệu) -->
                         <div class="mb-3">
-                            <label for="brandFilter" class="form-label">Thương Hiệu</label>
-                            <select id="brandFilter" name="brand" class="form-select">
-                                <option value="">Tất cả</option>
-                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                            <label for="categoryFilter" class="form-label">Thương Hiệu</label>
+                            <select id="categoryFilter" name="categoryName" class="form-select">
+                                <!-- Option "Tất cả" sẽ được chọn nếu categoryName rỗng -->
+                                <option value="" th:selected="${categoryName == null or categoryName == ''}">Tất cả</option>
+                                <option th:each="cat : ${categories}"
+                                        th:value="${cat.name}"
+                                        th:text="${cat.name}"
+                                        th:selected="${cat.name == categoryName}">
+                                </option>
                             </select>
                         </div>
+
                         <!-- Lọc theo Khoảng Giá -->
                         <div class="mb-3">
                             <label class="form-label">Khoảng Giá</label>
                             <div class="d-flex align-items-center">
-                                <input type="number" name="priceMin" class="form-control me-2" placeholder="Từ">
-                                <input type="number" name="priceMax" class="form-control" placeholder="Đến">
+                                <input type="number" name="priceMin" class="form-control me-2" placeholder="Từ" th:value="${priceMin}">
+                                <input type="number" name="priceMax" class="form-control" placeholder="Đến" th:value="${priceMax}">
                             </div>
                         </div>
+
+                        <!-- Lọc theo Sắp xếp Giá -->
+                        <div class="mb-3">
+                            <label for="sortOrder" class="form-label">Sắp xếp theo giá</label>
+                            <select id="sortOrder" name="sortOrder" class="form-select">
+                                <option value="" th:selected="${sortOrder == null or sortOrder == ''}">Mặc định</option>
+                                <option value="asc" th:selected="${sortOrder == 'asc'}">Giá từ thấp đến cao</option>
+                                <option value="desc" th:selected="${sortOrder == 'desc'}">Giá từ cao xuống thấp</option>
+                            </select>
+                        </div>
+
+                        <!-- Lọc theo Tên Sản Phẩm -->
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Tên sản phẩm</label>
+                            <input type="text" id="productName" class="form-control" name="productName" placeholder="Nhập tên sản phẩm" th:value="${productName}">
+                        </div>
+
                         <!-- Nút Lọc -->
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary w-100">Lọc</button>
@@ -173,44 +208,76 @@
         </div>
 
         <!-- Phần hiển thị sản phẩm đã lọc -->
-        <div class="col-md-9">
-            <div class="row">
-                <!-- Lặp qua danh sách sản phẩm -->
-                <div class="col-md-4 mb-4" th:each="product : ${products}" th:object="${user}">
-                    <div class="card h-100">
-                        <!-- Hình ảnh sản phẩm -->
-                        <img th:src="@{${product.image}}" class="card-img-top" alt="Sản phẩm">
-                        <div class="card-body text-center">
-                            <!-- Badge giảm giá nếu có -->
-                            <span class="badge bg-danger discount-badge"
-                                  th:if="${product.discount != null and product.discount > 0}"
-                                  th:text="'-' + ${product.discount} + '%'"></span>
-                            <!-- Tên sản phẩm -->
-                            <h5 class="card-title" th:text="${product.name}">Tên sản phẩm</h5>
-                            <!-- Giá sản phẩm: hiển thị giá sau giảm và giá gốc nếu có giảm giá -->
-                            <p class="card-text">
-                                <span class="price-current fw-bold" th:text="${product.discountPrice}" style="color: red">0₫</span>
-                                <span class="price-old text-muted text-decoration-line-through ms-2"  style="color: red"
-                                      th:if="${product.discount != null and product.discount > 0}"
-                                      th:text="${product.price}">0₫</span>
-                            </p>
-                            <!-- Số lượng sản phẩm còn lại -->
-                            <p class="small text-muted">Còn lại: <span th:text="${product.stock}"></span> sản phẩm</p>
-                        </div>
-                        <div class="card-footer d-flex justify-content-around">
-                            <a th:href="@{/detail-product/{id}(id=${product.id})}" class="btn btn-outline-primary btn-sm">Xem Chi Tiết</a>
-                            <a th:if="${user != null}" th:href="@{/cart/add(userId=${user.id},productId=${product.id})}" class="btn btn-outline-warning btn-sm">Thêm Vào Giỏ</a>
-                            <a th:if="${user == null}" th:href="@{/allProduct/inform}" class="btn btn-outline-warning btn-sm">Thêm Vào Giỏ</a>
+        <div class="col-md-9" id="productListContainer">
+            <div th:if="${productPage.content.isEmpty()}">
+                <div class="alert alert-warning" role="alert">
+                    Không tìm thấy sản phẩm nào.
+                </div>
+                <a th:href="@{/home}" class="btn btn-secondary mt-2">
+                    <i class="fas fa-arrow-left"></i> Quay lại trang chủ
+                </a>
+            </div>
+            <div th:if="${!productPage.content.isEmpty()}">
+                <div class="row">
+                    <!-- Lặp qua danh sách sản phẩm từ productPage.content -->
+                    <div class="col-md-4 mb-4" th:each="product : ${productPage.content}">
+                        <div class="card h-100">
+                            <img th:src="${product.image}" class="card-img-top" alt="Sản phẩm">
+                            <div class="card-body text-center">
+                        <span class="badge bg-danger discount-badge"
+                              th:if="${product.discount != null and product.discount > 0}"
+                              th:text="'-' + ${product.discount} + '%'"></span>
+                                <h5 class="card-title" th:text="${product.name}">Tên sản phẩm</h5>
+                                <p class="card-text">
+                                    <span class="price-current fw-bold" th:text="${#numbers.formatInteger(product.discountPrice,1,'POINT')} + ' VND'" style="color: red">0₫</span>
+                                    <span class="price-old text-muted text-decoration-line-through ms-2" style="color: red"
+                                          th:if="${product.discount != null and product.discount > 0}"
+                                          th:text="${#numbers.formatInteger(product.price,1,'POINT')}">0₫</span>
+                                </p>
+                                <p class="small text-muted">Còn lại: <span th:text="${product.stock}"></span> sản phẩm</p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-around">
+                                <a th:href="@{/detail-product/{id}(id=${product.id})}" class="btn btn-outline-primary btn-sm">Xem Chi Tiết</a>
+                                <a th:if="${currentUser != null}" th:href="@{/cart/add(userId=${currentUser.id},productId=${product.id})}" class="btn btn-outline-warning btn-sm">Thêm Vào Giỏ</a>
+                                <a th:if="${currentUser == null}" th:href="@{/login}" class="btn btn-outline-warning btn-sm">Thêm Vào Giỏ</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Phân trang -->
+                <nav th:if="${productPage.totalPages > 1}" aria-label="Pagination">
+                    <ul class="pagination justify-content-center">
+                        <!-- Nút Previous -->
+                        <li class="page-item" th:classappend="${productPage.hasPrevious()} ? '' : 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/home(page=${productPage.number - 1}, categoryName=${categoryName}, priceMin=${priceMin}, priceMax=${priceMax}, productName=${productName})}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <!-- Hiển thị các số trang -->
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0, productPage.totalPages - 1)}"
+                            th:classappend="${i == productPage.number} ? ' active' : ''">
+                            <a class="page-link"
+                               th:href="@{/home(page=${i}, categoryName=${categoryName}, priceMin=${priceMin}, priceMax=${priceMax}, productName=${productName})}"
+                               th:text="${i + 1}">1</a>
+                        </li>
+                        <!-- Nút Next -->
+                        <li class="page-item" th:classappend="${productPage.hasNext()} ? '' : 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/home(page=${productPage.number + 1}, categoryName=${categoryName}, priceMin=${priceMin}, priceMax=${priceMax}, productName=${productName})}"
+                               aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
-
-
     </div>
 </div>
-
 
 
 <!-- Footer -->
@@ -219,6 +286,52 @@
 <script src="/js/banner.js"></script>
 <script src="/js/flashSale.js"></script>
 <script src="/js/slide.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // Xử lý sự kiện submit của form filter
+        $('#filterForm').submit(function(event){
+            event.preventDefault(); // Ngăn chặn submit mặc định
+
+            var url = $(this).attr('action');
+            var data = $(this).serialize();
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: data,
+                success: function(response) {
+                    var newContent = $(response).find('#productListContainer').html();
+                    $('#productListContainer').html(newContent);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Có lỗi xảy ra:", error);
+                }
+            });
+        });
+
+        // Xử lý phân trang qua AJAX
+        $('#productListContainer').on('click', '.pagination a', function(event){
+            event.preventDefault(); // Ngăn chặn chuyển trang mặc định
+
+            var url = $(this).attr('href');
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    var newContent = $(response).find('#productListContainer').html();
+                    $('#productListContainer').html(newContent);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Có lỗi xảy ra:", error);
+                }
+            });
+        });
+    });
+</script>
+
 
 <!-- FontAwesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">

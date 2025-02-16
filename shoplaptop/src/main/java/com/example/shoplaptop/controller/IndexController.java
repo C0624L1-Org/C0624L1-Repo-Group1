@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,13 +43,61 @@ public class IndexController {
     }
 
     @GetMapping("/home")
-    public String home(Model model) {
-        model.addAttribute("products", iProductService.findAll());
+    public String home(
+            @RequestParam(value = "productName", required = false) String productName,
+            @RequestParam(value = "categoryName", required = false) String categoryName,
+            @RequestParam(value = "priceMin", required = false) String priceMinStr,
+            @RequestParam(value = "priceMax", required = false) String priceMaxStr,
+            @RequestParam(value = "sortOrder", required = false) String sortOrder,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            Model model) {
+
+        // Chuyển đổi priceMin và priceMax từ String sang BigDecimal
+        BigDecimal priceMin = (priceMinStr == null || priceMinStr.trim().isEmpty())
+                ? null : new BigDecimal(priceMinStr);
+        BigDecimal priceMax = (priceMaxStr == null || priceMaxStr.trim().isEmpty())
+                ? null : new BigDecimal(priceMaxStr);
+
+        //Sắp xếp
+        Sort sort = Sort.unsorted();
+        if ("asc".equalsIgnoreCase(sortOrder)) {
+            sort = Sort.by("price").ascending();
+        } else if ("desc".equalsIgnoreCase(sortOrder)) {
+            sort = Sort.by("price").descending();
+        }
+
+        Pageable pageable = PageRequest.of(page, 6, sort);
+
+        boolean isSearch = (productName != null && !productName.trim().isEmpty())
+                || (categoryName != null && !categoryName.trim().isEmpty())
+                || (priceMin != null)
+                || (priceMax != null);
+
+        if (isSearch) {
+            Page<Product> productPage = iProductService.findByFilters(productName, categoryName, priceMin, priceMax, pageable);
+            model.addAttribute("productPage", productPage);
+        } else {
+            Page<Product> productPage = iProductService.findAll(pageable);
+            model.addAttribute("productPage", productPage);
+        }
+
         model.addAttribute("categories", iCategoryService.findAll());
         Users user = globalControllerAdvice.currentUser();
         model.addAttribute("user", user);
+
+        model.addAttribute("productName", productName);
+        model.addAttribute("categoryName", categoryName);
+        model.addAttribute("products", iProductService.findAll());
+        model.addAttribute("brands", iCategoryService.findAll());
+
+        model.addAttribute("priceMin", priceMin);
+        model.addAttribute("priceMax", priceMax);
+        model.addAttribute("sortOrder", sortOrder);
+        model.addAttribute("currentPage", page);
+
         return "home";
     }
+
 
     @GetMapping("/allProduct")
     public String showProductList(@RequestParam(name = "page", defaultValue = "0", required = false) int page,
@@ -74,27 +123,4 @@ public class IndexController {
         return "detail-product";
     }
 
-    //Filter
-    @GetMapping("/home/products/filter")
-    public String filterProducts(
-            @RequestParam(value = "brand", required = false) Long brandId,
-            @RequestParam(value = "priceMin", required = false) BigDecimal priceMin,
-            @RequestParam(value = "priceMax", required = false) BigDecimal priceMax,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            Model model) {
-        Pageable pageable = PageRequest.of(page, 6);
-        Page<Product> productPage = iProductService.searchProducts(brandId, priceMin, priceMax, pageable);
-
-        model.addAttribute("productPage", productPage);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("brand", brandId);
-        model.addAttribute("priceMin", priceMin);
-        model.addAttribute("priceMax", priceMax);
-
-        model.addAttribute("products", iProductService.findAll());
-        model.addAttribute("categories", iCategoryService.findAll());
-        Users user = globalControllerAdvice.currentUser();
-        model.addAttribute("user", user);
-        return "fragments/product-list";
-    }
 }

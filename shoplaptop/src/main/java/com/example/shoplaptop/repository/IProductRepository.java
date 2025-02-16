@@ -33,14 +33,21 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
     Page<Product> findByNameContainingAndCategory(@Param("name") String name, @Param("brand") String brand, Pageable pageable);
 
     //Filter
-    @Query("SELECT p FROM Product p " +
-            "WHERE (:brandId IS NULL OR p.category.id = :brandId) " +
-            "AND (:priceMin IS NULL OR p.price >= :priceMin) " +
-            "AND (:priceMax IS NULL OR p.price <= :priceMax)")
-    Page<Product> searchProducts(@Param("brandId") Long brandId,
-                                 @Param("priceMin") BigDecimal priceMin,
-                                 @Param("priceMax") BigDecimal priceMax,
-                                 Pageable pageable);
+    @Query("select p from Product p " +
+            "where (:productName is null or lower(p.name) like lower(concat('%', :productName, '%'))) " +
+            "and (:categoryName is null or lower(p.category.name) like lower(concat('%', :categoryName, '%'))) " +
+            "and (:priceMin is null or (CASE WHEN p.discount is not null and p.discount > 0 " +
+            "      THEN (p.price * (100 - p.discount)) / 100 ELSE p.price END) >= :priceMin) " +
+            "and (:priceMax is null or (CASE WHEN p.discount is not null and p.discount > 0 " +
+            "      THEN (p.price * (100 - p.discount)) / 100 ELSE p.price END) <= :priceMax)")
+    Page<Product> findByFilters(@Param("productName") String productName,
+                                @Param("categoryName") String categoryName,
+                                @Param("priceMin") BigDecimal priceMin,
+                                @Param("priceMax") BigDecimal priceMax,
+                                Pageable pageable);
 
+
+    @Query("SELECT p FROM Product p WHERE p.category.id = :categoryId")
+    List<Product> findProductsByCategoryId(@Param("categoryId") Long categoryId);
 
 }

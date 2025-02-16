@@ -21,5 +21,6 @@ public interface IProductService {
     Page<Product> searchProductByNameAndCategory(String name, String category, Pageable pageable);
 
     //Filter
-    Page<Product> searchProducts(Long brandId, BigDecimal priceMin, BigDecimal priceMax, Pageable pageable);
+    Page<Product> findByFilters(String productName, String categoryName, BigDecimal priceMin, BigDecimal priceMax, Pageable pageable);
+    List<Product> findProductsByCategoryId(Long categoryId);
 }

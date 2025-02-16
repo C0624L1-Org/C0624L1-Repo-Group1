@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
@@ -57,12 +58,15 @@ public class CartItemController {
 
     }
 
-
     @RequestMapping("/add")
     public String addProductInCart(@RequestParam(name = "page", defaultValue = "0", required = false) int page,
-                                   @RequestParam(name = "userId") Long userId, Model model,
+                                   @RequestParam(name = "userId") Long userId,
+                                   Model model,
+                                   RedirectAttributes redirectAttributes,
                                    @RequestParam(name = "productId") int productId) {
         if (userId == null) {
+            redirectAttributes.addFlashAttribute("messageType", "error");
+            redirectAttributes.addFlashAttribute("message", "Bạn cần phải đăng nhập!");
             return "redirect:/login";
         }
         Users user = userRepository.getById(userId);
@@ -72,7 +76,9 @@ public class CartItemController {
         Pageable pageable = PageRequest.of(page, 10);
         Page<Product> products = iProductService.findAll(pageable);
         model.addAttribute("products", products);
-        return "redirect:/allProduct";
+        redirectAttributes.addFlashAttribute("messageType", "success");
+        redirectAttributes.addFlashAttribute("message", "Đã thêm vào giỏ của bạn!");
+        return "redirect:/home";
     }
 
 
