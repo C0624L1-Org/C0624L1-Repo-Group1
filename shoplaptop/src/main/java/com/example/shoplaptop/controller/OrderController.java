@@ -31,7 +31,7 @@ public class OrderController {
     @Autowired
     private IOrderService iOrderService;
 
-    @GetMapping("/home/order")
+    @GetMapping("/home/order/add")
     public String showOrderPage(@RequestParam("user") Long userId, Model model) {
         Users user = iUserService.getById(userId);
         List<CartItem> cartItemList = iCartItemService.getCartItemsByUser(user);
@@ -56,6 +56,7 @@ public class OrderController {
         Users user = iUserService.getById(id);
         orderDTO.setOrderDateTime(java.time.LocalDateTime.now());
         orderDTO.setOrderStatus(OrderStatus.processing);
+        orderDTO.setPaymentType(PaymentType.CASH);
         orderDTO.setPaid(false);
 
         new OrderSummaryDTO().validate(orderDTO, bindingResult);
