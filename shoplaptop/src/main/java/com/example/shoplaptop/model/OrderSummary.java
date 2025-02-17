@@ -160,7 +160,6 @@ public class OrderSummary {
                 ", orderStatus=" + orderStatus +
                 ", paymentType=" + paymentType +
                 ", isPaid=" + isPaid +
-                ", orderItemList=" + orderItemList +
                 ", fullName='" + fullName + '\'' +
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
