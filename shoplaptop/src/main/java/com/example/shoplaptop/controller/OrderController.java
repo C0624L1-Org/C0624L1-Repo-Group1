@@ -58,6 +58,7 @@ public class OrderController {
         return "dashboard/orders/customer/list";
     }
 
+
     @GetMapping("/home/order/{id}/detail")
     public String showOrderDetail(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
         OrderSummary order = iOrderService.getById(id);

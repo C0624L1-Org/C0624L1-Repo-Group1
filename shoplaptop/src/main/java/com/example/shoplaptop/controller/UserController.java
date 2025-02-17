@@ -107,7 +107,7 @@ public class UserController {
         iUserService.save(user);
 
         long totalUsers = iUserService.countUsers();
-        int lastPage = (int) Math.ceil((double) totalUsers / 2) - 1;
+        int lastPage = (int) Math.ceil((double) totalUsers / 5) - 1;
 
         redirectAttributes.addFlashAttribute("messageType", "success");
         redirectAttributes.addFlashAttribute("message", "Thêm người dùng mới thành công!");
