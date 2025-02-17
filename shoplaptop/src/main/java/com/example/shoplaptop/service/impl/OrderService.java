@@ -1,9 +1,6 @@
 package com.example.shoplaptop.service.impl;
 
-import com.example.shoplaptop.model.CartItem;
-import com.example.shoplaptop.model.OrderItem;
-import com.example.shoplaptop.model.OrderSummary;
-import com.example.shoplaptop.model.Users;
+import com.example.shoplaptop.model.*;
 import com.example.shoplaptop.repository.IOrderItemRepository;
 import com.example.shoplaptop.repository.IOrderRepository;
 import com.example.shoplaptop.service.IOrderService;
@@ -63,6 +60,11 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public Page<OrderSummary> findAllByUserId(Long userId, Pageable pageable) {
+        return iOrderRepository.findAllByUserId(userId, pageable);
+    }
+
+    @Override
     public OrderSummary getById(Integer id) {
         return iOrderRepository.getById(id);
     }
@@ -75,5 +77,10 @@ public class OrderService implements IOrderService {
     @Override
     public long countOrder() {
         return iOrderRepository.count();
+    }
+
+    @Override
+    public Page<OrderSummary> findAllByOrderStatus(OrderStatus status, Pageable pageable) {
+        return iOrderRepository.findAllByOrderStatus(status, pageable);
     }
 }
