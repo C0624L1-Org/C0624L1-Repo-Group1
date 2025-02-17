@@ -36,6 +36,28 @@ public class OrderController {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    @Autowired
+    private GlobalControllerAdvice globalControllerAdvice;
+
+    @GetMapping(value = "/home/order")
+    public String showAllOrderPageCustomer(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                                           @RequestParam(value = "s", required = false, defaultValue = "-1") int s,
+                                           Model model) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<OrderSummary> orders = null;
+        if (s >= 0 && s <= 2) {
+            System.out.println("Status: " + OrderStatus.values()[s]);
+            orders = iOrderService.findAllByOrderStatus(globalControllerAdvice.currentUser().getId(), OrderStatus.values()[s], pageable);
+            System.out.println(orders.toString());
+        } else {
+            orders = iOrderService.findAllByUserId(globalControllerAdvice.currentUser().getId(), pageable);
+        }
+        model.addAttribute("orders", orders);
+        model.addAttribute("status", OrderStatus.values());
+        model.addAttribute("s", s);
+        return "dashboard/orders/customer/list";
+    }
+
     @GetMapping("/home/order/add")
     public String showOrderPage(@RequestParam("user") Long userId, Model model) {
         Users user = iUserService.getById(userId);

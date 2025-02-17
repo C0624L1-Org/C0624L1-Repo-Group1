@@ -62,7 +62,7 @@ public class ProductController {
     @PostMapping("/add")
     public String addProduct(@Valid @ModelAttribute("product") ProductDTO productDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (iProductService.existsByName(productDTO.getName())) {
-            bindingResult.rejectValue("name", "", "Sản phẩm không có sẵn!");
+            bindingResult.rejectValue("name", "", "Đã tồn tại sản phẩm này!");
         }
 
         new ProductDTO().validate(productDTO, bindingResult);

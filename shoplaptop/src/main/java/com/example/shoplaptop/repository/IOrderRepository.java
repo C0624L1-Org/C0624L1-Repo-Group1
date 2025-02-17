@@ -26,4 +26,7 @@ public interface IOrderRepository extends JpaRepository<OrderSummary, Integer> {
 
     @Query("select order from OrderSummary order where order.orderStatus = :status")
     Page<OrderSummary> findAllByOrderStatus(@Param("status") OrderStatus status, Pageable pageable);
+
+    @Query("select order from OrderSummary order where order.user.id = :userId and order.orderStatus = :status")
+    Page<OrderSummary> findAllByOrderStatus(@Param("userId")Long userId, @Param("status") OrderStatus status, Pageable pageable);
 }

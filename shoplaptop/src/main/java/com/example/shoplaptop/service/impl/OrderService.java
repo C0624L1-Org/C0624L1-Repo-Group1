@@ -83,4 +83,9 @@ public class OrderService implements IOrderService {
     public Page<OrderSummary> findAllByOrderStatus(OrderStatus status, Pageable pageable) {
         return iOrderRepository.findAllByOrderStatus(status, pageable);
     }
+
+    @Override
+    public Page<OrderSummary> findAllByOrderStatus(Long userId, OrderStatus status, Pageable pageable) {
+        return iOrderRepository.findAllByOrderStatus(userId, status, pageable);
+    }
 }

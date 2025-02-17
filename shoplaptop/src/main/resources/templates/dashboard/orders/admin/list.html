@@ -55,10 +55,38 @@
         </tr>
         </tbody>
     </table>
-    <a th:if="${orders.hasPrevious()}" th:href="@{/dashboard/orders(page=${orders.number - 1})}">Previous</a>
-    <span th:text="${(orders.number+1) + '/' + orders.totalPages}"></span>
-    <a th:if="${orders.hasNext()}" th:href="@{/dashboard/orders(page=${orders.number + 1})}">Next</a>
+
 </div>
+<!--<a th:if="${orders.hasPrevious()}" th:href="@{/dashboard/orders(page=${orders.number - 1})}">Previous</a>-->
+<!--<span th:text="${(orders.number+1) + '/' + orders.totalPages}"></span>-->
+<!--<a th:if="${orders.hasNext()}" th:href="@{/dashboard/orders(page=${orders.number + 1})}">Next</a>-->
+
+<nav aria-label="Pagination" th:if="${!orders.content.isEmpty()}">
+    <ul class="pagination justify-content-center">
+        <!-- Nút Previous -->
+        <li class="page-item" th:classappend="${orders.hasPrevious()} ? '' : 'disabled'">
+            <a class="page-link" th:href="@{/dashboard/orders(page=${orders.number - 1})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <!-- Hiển thị các số trang -->
+        <li class="page-item" th:each="i : ${#numbers.sequence(0, orders.totalPages - 1)}"
+            th:classappend="${i == orders.number} ? 'active' : ''">
+            <a class="page-link"
+               th:href="@{/dashboard/orders(page=${i})}"
+               th:text="${i + 1}">
+            </a>
+        </li>
+
+        <!-- Nút Next -->
+        <li class="page-item" th:classappend="${orders.hasNext()} ? '' : 'disabled'">
+            <a class="page-link" th:href="@{/dashboard/orders(page=${orders.number + 1})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
 <!-- FontAwesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">

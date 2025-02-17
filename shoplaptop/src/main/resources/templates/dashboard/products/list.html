@@ -69,12 +69,12 @@
                     </thead>
                     <tbody id="product-list">
                             <tr th:if="${products.content.isEmpty()}">
-                                <td colspan="6" class="text-center">No products found!</td>
+                                <td colspan="6" class="text-center">Không tìm thấy sản phẩm nào!</td>
                             </tr>
                             <tr th:if="${products.content.isEmpty()}">
                                 <td colspan="6" class="text-center">
                                     <a th:href="@{/dashboard/products/list}" class="btn btn-secondary">
-                                        <i class="fas fa-arrow-left"></i> Back To List
+                                        <i class="fas fa-arrow-left"></i> Quay lại danh sách
                                     </a>
                                 </td>
                             </tr>
