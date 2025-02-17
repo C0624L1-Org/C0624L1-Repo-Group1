@@ -61,4 +61,14 @@ public class OrderService implements IOrderService {
     public Page<OrderSummary> findAll(Pageable pageable) {
         return iOrderRepository.findAll(pageable);
     }
+
+    @Override
+    public OrderSummary getById(Integer id) {
+        return iOrderRepository.getById(id);
+    }
+
+    @Override
+    public List<OrderItem> getOrderItemsByOrderId(Integer orderId) {
+        return iOrderItemRepository.findAllByOrderSummaryId(orderId);
+    }
 }

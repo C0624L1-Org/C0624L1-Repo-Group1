@@ -151,8 +151,6 @@ public class Product {
                 ", image='" + image + '\'' +
                 ", stock=" + stock +
                 ", category=" + category +
-                ", cartItemList=" + cartItemList +
-                ", orderItemList=" + orderItemList +
                 ", discount=" + discount +
                 '}';
     }

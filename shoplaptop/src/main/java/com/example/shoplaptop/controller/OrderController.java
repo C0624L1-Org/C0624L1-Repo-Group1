@@ -90,4 +90,39 @@ public class OrderController {
         model.addAttribute("status", OrderStatus.values());
         return "dashboard/orders/admin/list";
     }
+
+    @GetMapping("/dashboard/orders/{id}/detail")
+    public String showOrderDetailPage(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
+        OrderSummary order = iOrderService.getById(id);
+        if (order == null) {
+            System.out.println("Order Summary is null");
+            redirectAttributes.addFlashAttribute("messageType", "error");
+            redirectAttributes.addFlashAttribute("message", "Gặp lỗi khi thực hiện chức năng này");
+            return "redirect:/dashboard/orders";
+
+        } else {
+            List<OrderItem> orderItemList = iOrderService.getOrderItemsByOrderId(order.getId());
+            model.addAttribute("orderItemList", orderItemList);
+            model.addAttribute("order", order);
+            model.addAttribute("status",OrderStatus.values());
+            return "dashboard/orders/admin/detail";
+        }
+    }
+    @GetMapping("/dashboard/orders/{id}/success")
+    public String successOrderSummary(@PathVariable Integer id) {
+        OrderSummary order = iOrderService.getById(id);
+        order.setOrderStatus(OrderStatus.successful);
+        iOrderService.save(order);
+        System.out.println(order.toString());
+        return "redirect:/dashboard/orders";
+    }
+
+    @GetMapping("/dashboard/orders/{id}/fail")
+    public String failOrderSummary(@PathVariable Integer id) {
+        OrderSummary order = iOrderService.getById(id);
+        order.setOrderStatus(OrderStatus.failed);
+        iOrderService.save(order);
+        System.out.println(order.toString());
+        return "redirect:/dashboard/orders";
+    }
 }

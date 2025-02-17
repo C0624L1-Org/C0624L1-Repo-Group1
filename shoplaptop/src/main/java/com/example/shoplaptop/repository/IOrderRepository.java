@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 public interface IOrderRepository extends JpaRepository<OrderSummary, Integer> {
     OrderSummary save(OrderSummary orderSummary);
     Page<OrderSummary> findAll(Pageable pageable);
+    OrderSummary getById(Integer id);
 }
