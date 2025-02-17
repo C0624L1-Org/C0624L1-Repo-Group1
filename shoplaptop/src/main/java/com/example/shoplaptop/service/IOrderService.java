@@ -1,13 +1,11 @@
 package com.example.shoplaptop.service;
 
-import com.example.shoplaptop.model.CartItem;
-import com.example.shoplaptop.model.OrderItem;
-import com.example.shoplaptop.model.OrderSummary;
-import com.example.shoplaptop.model.Users;
+import com.example.shoplaptop.model.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.hibernate.query.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,9 +20,14 @@ public interface IOrderService {
 
     Page<OrderSummary> findAll(Pageable pageable);
 
+    Page<OrderSummary> findAllByUserId(@Param("userId")Long userId, Pageable pageable);
+
+
     OrderSummary getById(Integer id);
 
     List<OrderItem> getOrderItemsByOrderId(Integer orderId);
 
     long countOrder();
+
+    Page<OrderSummary> findAllByOrderStatus(@Param("status") OrderStatus status, Pageable pageable);
 }

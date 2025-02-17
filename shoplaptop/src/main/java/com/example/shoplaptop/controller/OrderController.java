@@ -87,6 +87,7 @@ public class OrderController {
         return "redirect:/home";
     }
 
+
     @GetMapping("/dashboard/orders")
     public String showOrdersPage(@RequestParam(value = "page", required = false, defaultValue = "0") int page, Model model) {
         Pageable pageable = PageRequest.of(page, 3);
@@ -110,12 +111,13 @@ public class OrderController {
             List<OrderItem> orderItemList = iOrderService.getOrderItemsByOrderId(order.getId());
             model.addAttribute("orderItemList", orderItemList);
             model.addAttribute("order", order);
-            model.addAttribute("status",OrderStatus.values());
+            model.addAttribute("status", OrderStatus.values());
             return "dashboard/orders/admin/detail";
         }
     }
+
     @GetMapping("/dashboard/orders/{id}/success")
-    public String successOrderSummary(@PathVariable Integer id, @RequestParam("page") int page, RedirectAttributes redirectAttributes) {
+    public String successOrderSummary(@PathVariable Integer id, @RequestParam(value = "page", required = false, defaultValue = "0") int page, RedirectAttributes redirectAttributes) {
         OrderSummary order = iOrderService.getById(id);
         order.setOrderStatus(OrderStatus.successful);
         iOrderService.save(order);
@@ -138,13 +140,13 @@ public class OrderController {
         }
         System.out.println(order.toString());
         redirectAttributes.addFlashAttribute("messageType", "success");
-        redirectAttributes.addFlashAttribute("message","Xác nhận trạng thái đơn hàng thành công");
-        return "redirect:/dashboard/orders?page="+page;
+        redirectAttributes.addFlashAttribute("message", "Xác nhận trạng thái đơn hàng thành công");
+        return "redirect:/dashboard/orders?page=" + page;
     }
 
 
     @GetMapping("/dashboard/orders/{id}/fail")
-    public String failOrderSummary(@PathVariable Integer id, @RequestParam("page") int page, RedirectAttributes redirectAttributes) {
+    public String failOrderSummary(@PathVariable Integer id, @RequestParam(value = "page", required = false, defaultValue = "0") int page, RedirectAttributes redirectAttributes) {
         OrderSummary order = iOrderService.getById(id);
         order.setOrderStatus(OrderStatus.failed);
         iOrderService.save(order);
@@ -166,7 +168,7 @@ public class OrderController {
         }
         System.out.println(order.toString());
         redirectAttributes.addFlashAttribute("messageType", "success");
-        redirectAttributes.addFlashAttribute("message","Xác nhận trạng thái đơn hàng thành công");
-        return "redirect:/dashboard/orders?page="+page;
+        redirectAttributes.addFlashAttribute("message", "Xác nhận trạng thái đơn hàng thành công");
+        return "redirect:/dashboard/orders?page=" + page;
     }
 }
