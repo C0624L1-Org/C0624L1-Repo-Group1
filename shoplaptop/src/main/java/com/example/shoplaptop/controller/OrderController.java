@@ -34,49 +34,7 @@ public class OrderController {
     private IOrderService iOrderService;
 
     @Autowired
-    private GlobalControllerAdvice globalControllerAdvice;
-
-    @Autowired
     private JavaMailSender javaMailSender;
-
-    @GetMapping(value = "/home/order")
-    public String showAllOrderPageCustomer(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-                                           @RequestParam(value = "s", required = false, defaultValue = "-1") int s,
-                                           Model model) {
-        Pageable pageable = PageRequest.of(page, 5);
-        Page<OrderSummary> orders = null;
-        if (s >= 0 && s <= 2) {
-            System.out.println("Status: " + OrderStatus.values()[s]);
-            orders = iOrderService.findAllByOrderStatus(OrderStatus.values()[s], pageable);
-            System.out.println(orders.toString());
-        } else {
-            orders = iOrderService.findAllByUserId(globalControllerAdvice.currentUser().getId(), pageable);
-        }
-        model.addAttribute("orders", orders);
-        model.addAttribute("status", OrderStatus.values());
-        model.addAttribute("s", s);
-        return "dashboard/orders/customer/list";
-    }
-
-    @GetMapping("/home/order/{id}/detail")
-    public String showOrderDetail(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
-        OrderSummary order = iOrderService.getById(id);
-        if (order == null) {
-            System.out.println("Order Summary is null");
-            redirectAttributes.addFlashAttribute("messageType", "error");
-            redirectAttributes.addFlashAttribute("message", "Gặp lỗi khi thực hiện chức năng này");
-            return "redirect:/home/order";
-
-        } else {
-            List<OrderItem> orderItemList = iOrderService.getOrderItemsByOrderId(order.getId());
-            model.addAttribute("orderItemList", orderItemList);
-            model.addAttribute("order", order);
-            model.addAttribute("status", OrderStatus.values());
-            return "dashboard/orders/customer/detail";
-        }
-    }
-
-
 
     @GetMapping("/home/order/add")
     public String showOrderPage(@RequestParam("user") Long userId, Model model) {
