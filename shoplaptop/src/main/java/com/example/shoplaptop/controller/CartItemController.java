@@ -71,13 +71,19 @@ public class CartItemController {
         }
         Users user = userRepository.getById(userId);
         Product product = productRepository.getById(productId);
-        cartItemService.addProductToCartItemOfUser(user, product);
 
         Pageable pageable = PageRequest.of(page, 10);
         Page<Product> products = iProductService.findAll(pageable);
         model.addAttribute("products", products);
-        redirectAttributes.addFlashAttribute("messageType", "success");
-        redirectAttributes.addFlashAttribute("message", "Đã thêm vào giỏ của bạn!");
+        if (product.getStock() <= 0) {
+            redirectAttributes.addFlashAttribute("messageType", "error");
+            redirectAttributes.addFlashAttribute("message", "Không thể them vào giỏ hang vì số lượng không đủ!");
+        } else {
+            cartItemService.addProductToCartItemOfUser(user, product);
+            redirectAttributes.addFlashAttribute("messageType", "success");
+            redirectAttributes.addFlashAttribute("message", "Đã thêm vào giỏ của bạn!");
+        }
+
         return "redirect:/home";
     }
 

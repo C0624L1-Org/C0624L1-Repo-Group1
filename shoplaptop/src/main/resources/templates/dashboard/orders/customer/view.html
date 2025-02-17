@@ -60,15 +60,13 @@
         <input type="hidden" name="orderAmount" th:value="${totalPrice}"/>
         <p><b>Tổng tiền: </b><span th:text="${#numbers.formatInteger(totalPrice,1,'POINT')}"></span></p>
 
-        <p><b>Phương thức thanh toán</b></p>
+        <!--<p><b>Phương thức thanh toán</b></p>
         <div class="form-check" th:each="pt,l : ${paymentTypes}">
             <input class="form-check-input" type="radio" th:field="*{paymentType}" th:value="${pt}" th:id="'pt_'+${l.count}">
             <label class="form-check-label" th:text="${pt}" th:for="'pt_'+${l.count}">
             </label>
         </div>
-        <p class="text-danger small" th:if="${#fields.hasErrors('paymentType')}" th:errors="*{paymentType}"></p>
-
-
+        <p class="text-danger small" th:if="${#fields.hasErrors('paymentType')}" th:errors="*{paymentType}"></p>-->
 
         <button type="submit">Đặt Hàng</button>
     </form>

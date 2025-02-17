@@ -234,11 +234,12 @@
                                           th:if="${product.discount != null and product.discount > 0}"
                                           th:text="${#numbers.formatInteger(product.price,1,'POINT')}">0₫</span>
                                 </p>
-                                <p class="small text-muted">Còn lại: <span th:text="${product.stock}"></span> sản phẩm</p>
+                                <p class="small text-muted" th:if="${product.stock > 0}">Còn lại: <span th:text="${product.stock}"></span> sản phẩm</p>
+                                <p class="small text-muted" th:unless="${product.stock > 0}">Hết hàng</p>
                             </div>
                             <div class="card-footer d-flex justify-content-around">
                                 <a th:href="@{/detail-product/{id}(id=${product.id})}" class="btn btn-outline-primary btn-sm">Xem Chi Tiết</a>
-                                <a th:if="${currentUser != null}" th:href="@{/cart/add(userId=${currentUser.id},productId=${product.id})}" class="btn btn-outline-warning btn-sm">Thêm Vào Giỏ</a>
+                                <a th:if="${currentUser != null and product.stock > 0}" th:href="@{/cart/add(userId=${currentUser.id},productId=${product.id})}" class="btn btn-outline-warning btn-sm">Thêm Vào Giỏ</a>
                                 <a th:if="${currentUser == null}" th:href="@{/login}" class="btn btn-outline-warning btn-sm">Thêm Vào Giỏ</a>
                             </div>
                         </div>

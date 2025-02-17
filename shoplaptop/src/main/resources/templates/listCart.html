@@ -22,7 +22,8 @@
 
 <div class="main-content mt-5">
     <h1 class="text-center">Giỏ Hàng</h1>
-    <table class="table table-bordered">
+    <p>Bạn chưa có sản phẩm nào trong giỏ hàng </p>
+    <table class="table table-bordered" th:if="${cartItem.size() > 0}">
         <thead>
         <tr>
             <th>Tên Sản Phẩm</th>
@@ -48,8 +49,8 @@
     </table>
 
     <b>Tổng Tiền: </b><span th:text="${#numbers.formatInteger(totalPrice,1,'POINT')+ ' đ'}"></span></br>
-    <a class="btn btn-primary" th:href="@{/allProduct}">Trở Lại Trang Sản Phẩm</a>
-    <a class="btn btn-info" th:href="@{/home/order(user=${userId})}">Thanh Toán (<span th:text="${countProduct}"></span>)</a>
+    <a class="btn btn-primary" th:href="@{/home}">Trở Lại Trang Sản Phẩm</a>
+    <a th:if="${cartItem.size() > 0}" class="btn btn-info" th:href="@{/home/order/add(user=${userId})}">Thanh Toán (<span th:text="${countProduct}"></span>)</a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </div>
