@@ -109,20 +109,24 @@ public class OrderController {
         }
     }
     @GetMapping("/dashboard/orders/{id}/success")
-    public String successOrderSummary(@PathVariable Integer id) {
+    public String successOrderSummary(@PathVariable Integer id, @RequestParam("page") int page, RedirectAttributes redirectAttributes) {
         OrderSummary order = iOrderService.getById(id);
         order.setOrderStatus(OrderStatus.successful);
         iOrderService.save(order);
         System.out.println(order.toString());
-        return "redirect:/dashboard/orders";
+        redirectAttributes.addFlashAttribute("messageType", "success");
+        redirectAttributes.addFlashAttribute("message","Xác nhận trạng thái đơn hàng thành công");
+        return "redirect:/dashboard/orders?page="+page;
     }
 
     @GetMapping("/dashboard/orders/{id}/fail")
-    public String failOrderSummary(@PathVariable Integer id) {
+    public String failOrderSummary(@PathVariable Integer id, @RequestParam("page") int page, RedirectAttributes redirectAttributes) {
         OrderSummary order = iOrderService.getById(id);
         order.setOrderStatus(OrderStatus.failed);
         iOrderService.save(order);
         System.out.println(order.toString());
-        return "redirect:/dashboard/orders";
+        redirectAttributes.addFlashAttribute("messageType", "success");
+        redirectAttributes.addFlashAttribute("message","Xác nhận trạng thái đơn hàng thành công");
+        return "redirect:/dashboard/orders?page="+page;
     }
 }

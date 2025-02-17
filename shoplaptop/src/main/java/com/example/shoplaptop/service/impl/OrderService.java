@@ -71,4 +71,9 @@ public class OrderService implements IOrderService {
     public List<OrderItem> getOrderItemsByOrderId(Integer orderId) {
         return iOrderItemRepository.findAllByOrderSummaryId(orderId);
     }
+
+    @Override
+    public long countOrder() {
+        return iOrderRepository.count();
+    }
 }

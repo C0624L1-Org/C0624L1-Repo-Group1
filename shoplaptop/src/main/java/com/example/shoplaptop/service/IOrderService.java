@@ -15,9 +15,16 @@ import java.util.List;
 
 public interface IOrderService {
     void saveOrderItems(OrderSummary order, Users user);
+
     void saveAllOrderItemList(List<OrderItem> orderItemList);
+
     OrderSummary save(OrderSummary orderSummary);
+
     Page<OrderSummary> findAll(Pageable pageable);
+
     OrderSummary getById(Integer id);
+
     List<OrderItem> getOrderItemsByOrderId(Integer orderId);
+
+    long countOrder();
 }
