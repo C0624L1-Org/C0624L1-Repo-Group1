@@ -22,7 +22,7 @@
 
 <div class="main-content mt-5">
     <h1 class="text-center">Giỏ Hàng</h1>
-    <p>Bạn chưa có sản phẩm nào trong giỏ hàng </p>
+    <p th:unless="${cartItem.size() > 0}">Bạn chưa có sản phẩm nào trong giỏ hàng </p>
     <table class="table table-bordered" th:if="${cartItem.size() > 0}">
         <thead>
         <tr>

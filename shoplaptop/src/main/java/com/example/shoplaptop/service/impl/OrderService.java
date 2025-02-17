@@ -7,6 +7,7 @@ import com.example.shoplaptop.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -80,7 +81,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Page<OrderSummary> findAllByOrderStatus(OrderStatus status, Pageable pageable) {
-        return iOrderRepository.findAllByOrderStatus(status, pageable);
+    public Page<OrderSummary> findAllByOrderStatus(Long userId, OrderStatus status, Pageable pageable) {
+        return iOrderRepository.findAllByOrderStatus(userId, status, pageable);
     }
 }
