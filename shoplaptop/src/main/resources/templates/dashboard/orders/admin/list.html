@@ -11,10 +11,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Custom Styles -->
     <link href="/css/dashboard/navbar.css" rel="stylesheet">
-    <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/dashboard/sidebar.css" rel="stylesheet"/>
+    <link href="/css/dashboard/dashboard.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="~{/common/navbar :: navbar}"></div>
+<!-- Navbar -->
+<div th:insert="dashboard/common/navbar :: navbar"></div>
+<!-- Sidebar -->
+<div th:insert="dashboard/common/sidebar :: sidebar"></div>
 <!-- Hiển thị thông báo -->
 <div th:replace="~{fragments/toast.html}"></div>
 
@@ -26,7 +30,7 @@
             <th>STT</th>
             <th>Ngày Tạo</th>
             <th>Tài Khoản</th>
-            <th>Số Lượng</th>
+            <th>Mã đơn hàng</th>
             <th>Tổng Tiền</th>
             <th>Trạng Thái</th>
             <th>Hành Động</th>
@@ -38,7 +42,7 @@
             <td th:text="${l.count}"></td>
             <td th:text="${#temporals.format(o.orderDateTime, 'dd-MM-yyyy HH:mm')}"></td>
             <td th:text="${o.user.username}"></td>
-            <td th:text="${o.orderItemList.size()}"></td>
+            <td th:text="${o.id}"></td>
             <td th:text="${#numbers.formatInteger(o.orderAmount,1,'POINT') + 'đ'}"></td>
             <td th:text="${o.orderStatus == status[0]} ? 'Thất Bại' : (${o.orderStatus == status[1]} ? 'Thành Công' : 'Đang Xử Lý')"></td>
             <td>

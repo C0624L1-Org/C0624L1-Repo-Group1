@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +32,9 @@ public class OrderController {
 
     @Autowired
     private IOrderService iOrderService;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @GetMapping("/home/order/add")
     public String showOrderPage(@RequestParam("user") Long userId, Model model) {
@@ -114,17 +119,51 @@ public class OrderController {
         OrderSummary order = iOrderService.getById(id);
         order.setOrderStatus(OrderStatus.successful);
         iOrderService.save(order);
+
+        //Email
+        String emailSubject = "Cảm ơn bạn đã đặt hàng tại ShopLaptop EO ẾT AI!";
+        String emailContent = "Xin chào " + order.getFullName() + ",\n\n" +
+                "Đơn hàng của bạn đã được xác nhận thành công với thông tin:\n" +
+                "Mã đơn hàng: " + order.getId() + "\n" +
+                "Ngày đặt: " + order.getOrderDateTime() + "\n" +
+                "Tổng tiền: " + order.getOrderAmount() + "\n" +
+                "Trạng thái: Đang giao hàng" + "\n\n" +
+                "Cảm ơn bạn đã mua sắm tại ShopLaptop EO ẾT AI!";
+        if (order.getUser() != null && order.getUser().getEmail() != null) {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(order.getUser().getEmail());
+            message.setSubject(emailSubject);
+            message.setText(emailContent);
+            javaMailSender.send(message);
+        }
         System.out.println(order.toString());
         redirectAttributes.addFlashAttribute("messageType", "success");
         redirectAttributes.addFlashAttribute("message","Xác nhận trạng thái đơn hàng thành công");
         return "redirect:/dashboard/orders?page="+page;
     }
 
+
     @GetMapping("/dashboard/orders/{id}/fail")
     public String failOrderSummary(@PathVariable Integer id, @RequestParam("page") int page, RedirectAttributes redirectAttributes) {
         OrderSummary order = iOrderService.getById(id);
         order.setOrderStatus(OrderStatus.failed);
         iOrderService.save(order);
+        //Email
+        String emailSubject = "Cảm ơn bạn đã đặt hàng tại ShopLaptop EO ẾT AI!";
+        String emailContent = "Xin chào " + order.getFullName() + ",\n\n" +
+                "Đơn hàng của bạn đã bị từ chối với thông tin:\n" +
+                "Mã đơn hàng: " + order.getId() + "\n" +
+                "Ngày đặt: " + order.getOrderDateTime() + "\n" +
+                "Tổng tiền: " + order.getOrderAmount() + "\n" +
+                "Trạng thái: Chúng tôi không thể liên lạc với bạn qua Số điện thoại: " + order.getPhoneNumber() + "\n\n" +
+                "Cảm ơn bạn đã quan tâm tới ShopLaptop EO ẾT AI!";
+        if (order.getUser() != null && order.getUser().getEmail() != null) {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(order.getUser().getEmail());
+            message.setSubject(emailSubject);
+            message.setText(emailContent);
+            javaMailSender.send(message);
+        }
         System.out.println(order.toString());
         redirectAttributes.addFlashAttribute("messageType", "success");
         redirectAttributes.addFlashAttribute("message","Xác nhận trạng thái đơn hàng thành công");
