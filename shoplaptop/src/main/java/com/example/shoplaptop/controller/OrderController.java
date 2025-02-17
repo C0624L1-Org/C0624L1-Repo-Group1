@@ -58,6 +58,24 @@ public class OrderController {
         return "dashboard/orders/customer/list";
     }
 
+
+    @GetMapping("/home/order/{id}/detail")
+    public String showOrderDetail(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
+        OrderSummary order = iOrderService.getById(id);
+        if (order == null) {
+            System.out.println("Order Summary is null");
+            redirectAttributes.addFlashAttribute("messageType", "error");
+            redirectAttributes.addFlashAttribute("message", "Gặp lỗi khi thực hiện chức năng này");
+            return "redirect:/home/order";
+        } else {
+            List<OrderItem> orderItemList = iOrderService.getOrderItemsByOrderId(order.getId());
+            model.addAttribute("orderItemList", orderItemList);
+            model.addAttribute("order", order);
+            model.addAttribute("status", OrderStatus.values());
+            return "dashboard/orders/customer/detail";
+        }
+    }
+
     @GetMapping("/home/order/add")
     public String showOrderPage(@RequestParam("user") Long userId, Model model) {
         Users user = iUserService.getById(userId);
