@@ -29,5 +29,5 @@ public interface IOrderService {
 
     long countOrder();
 
-    Page<OrderSummary> findAllByOrderStatus(@Param("status") OrderStatus status, Pageable pageable);
+    Page<OrderSummary> findAllByOrderStatus(@Param("userId") Long userId, @Param("status") OrderStatus status, Pageable pageable);
 }
