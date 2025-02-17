@@ -44,8 +44,8 @@
             <td>
                 <a class="btn btn-primary" th:href="@{/dashboard/orders/{id}/detail(id=${o.id})}">Xem Chi Tiết </a>
                 <span th:if="${o.orderStatus == status[2]}">
-                    <a class="btn btn-success" th:href="@{/dashboard/orders/{id}/success(id=${o.id})}" th:onclick="return confirm('Xác nhận đơn hàng số ' + [[${l.count}]] + ' thành công ?')">Thành Công </a>
-                    <a class="btn btn-danger" th:href="@{/dashboard/orders/{id}/fail(id=${o.id})}" th:onclick="return confirm('Xác nhận đơn hàng số ' + [[${l.count}]] + ' thất bại ?')">Thất Bại </a>
+                    <a class="btn btn-success" th:href="@{/dashboard/orders/{id}/success(id=${o.id}, page = ${orders.number})}" th:onclick="return confirm('Xác nhận đơn hàng số ' + [[${l.count}]] + ' thành công ?')">Thành Công </a>
+                    <a class="btn btn-danger" th:href="@{/dashboard/orders/{id}/fail(id=${o.id}, page = ${orders.number})}" th:onclick="return confirm('Xác nhận đơn hàng số ' + [[${l.count}]] + ' thất bại ?')">Thất Bại </a>
                 </span>
             </td>
         </tr>
