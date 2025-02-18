@@ -124,7 +124,7 @@ public class OrderController {
 
         redirectAttributes.addFlashAttribute("messageType", "success");
         redirectAttributes.addFlashAttribute("message", "Đặt hàng thành công");
-        return "redirect:/home";
+        return "redirect:/home/order";
     }
 
 

@@ -3,7 +3,9 @@ package com.example.shoplaptop.common;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +18,18 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
-        request.getSession().setAttribute("ERROR_MESSAGE", "Sai tài khoản hoặc mật khẩu!");
+        String errorMessage = "Sai tài khoản hoặc mật khẩu!"; // Mặc định
 
-        super.setDefaultFailureUrl("/login");
-        super.onAuthenticationFailure(request, response, exception);
+        if (exception instanceof InternalAuthenticationServiceException
+                && exception.getCause() instanceof UserDisabledException) {
+            errorMessage = exception.getCause().getMessage();
+        } else if (exception instanceof UsernameNotFoundException) {
+            errorMessage = exception.getMessage();
+        } else if (exception instanceof UserDisabledException) {
+            errorMessage = exception.getMessage();
+        }
+
+        request.getSession().setAttribute("ERROR_MESSAGE", errorMessage);
+        response.sendRedirect("/login");
     }
 }

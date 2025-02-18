@@ -191,4 +191,8 @@ public class Users {
                 ", role=" + role +
                 '}';
     }
+
+    public boolean isStatus() {
+        return status;
+    }
 }

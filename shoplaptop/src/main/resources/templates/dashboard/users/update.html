@@ -81,6 +81,7 @@
                 <!-- Avatar -->
                 <div class="mb-3">
                     <label for="avatar" class="form-label">Ảnh đại diện</label>
+                    <img th:src="@{${user.avatar}}" class="form-control-file">
                     <input type="text" id="avatar" class="form-control" th:field="*{avatar}" placeholder="Nhập URL của avatar">
 <!--                    <p class="text-danger small" th:if="${#fields.hasErrors('avatar')}" th:errors="*{avatar}"></p>-->
                 </div>
