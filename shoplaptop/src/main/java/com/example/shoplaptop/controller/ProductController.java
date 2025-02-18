@@ -40,7 +40,7 @@ public class ProductController {
                                   @RequestParam(name = "brand", required = false) String brand,
                                   Model model) {
 
-        Pageable pageable = PageRequest.of(page, 8);
+        Pageable pageable = PageRequest.of(page, 4);
         Page<Product> products = iProductService.findAll(pageable);
         if (productName != null && brand != null && (!productName.trim().isEmpty() || !brand.trim().isEmpty())) {
             products = iProductService.searchProductByNameAndCategory(productName, brand, pageable);

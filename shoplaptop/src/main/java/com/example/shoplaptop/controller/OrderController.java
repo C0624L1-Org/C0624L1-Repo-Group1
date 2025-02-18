@@ -102,7 +102,7 @@ public class OrderController {
         orderDTO.setOrderDateTime(java.time.LocalDateTime.now());
         orderDTO.setOrderStatus(OrderStatus.processing);
         orderDTO.setPaymentType(PaymentType.CASH);
-        orderDTO.setPaid(false);
+        orderDTO.setPaid(true);
 
         new OrderSummaryDTO().validate(orderDTO, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -121,7 +121,6 @@ public class OrderController {
 
         List<CartItem> cartItemList = iCartItemService.getCartItemsByUser(user);
         iCartItemService.deleteByUser(user);
-
         redirectAttributes.addFlashAttribute("messageType", "success");
         redirectAttributes.addFlashAttribute("message", "Đặt hàng thành công");
         return "redirect:/home/order";

@@ -43,6 +43,10 @@ public class CartItemService implements ICartItemService {
 
     @Override
     public void addProductToCartItemOfUser(Users user, Product product) {
+        Product currentProduct = productService.getById(product.getId());
+        if (currentProduct.getStock() <= 0) {
+            throw new RuntimeException("Không đủ hàng!");
+        }
         if(!checkProductAndUserInCartItem(user,product)) {
             CartItem cartItem = new CartItem(user,product,1);
             cartItemRepository.save(cartItem);
@@ -53,6 +57,9 @@ public class CartItemService implements ICartItemService {
             List<CartItem> cartItemList = cartItemRepository.getCartItemsByUser(user);
             for(CartItem cartItem : cartItemList){
                 if(cartItem.getProduct().getId() == product.getId()){
+                    if (currentProduct.getStock() <= 0) {
+                        throw new RuntimeException("Không đủ hàng!");
+                    }
                     if (product.getStock() >0){
                         cartItem.setQuantity(cartItem.getQuantity()+1);
                         cartItemRepository.save(cartItem);
@@ -115,6 +122,23 @@ public class CartItemService implements ICartItemService {
             entityManager.clear();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deleteCartItemCompletely(Users user, Product product) {
+        List<CartItem> cartItemList = cartItemRepository.getCartItemsByUser(user);
+        for (CartItem cartItem : cartItemList) {
+            if (cartItem.getProduct().getId().equals(product.getId())) {
+                int quantity = cartItem.getQuantity();
+                product.setStock(product.getStock() + quantity);
+                productService.save(product);
+                cartItemRepository.delete(cartItem);
+                entityManager.flush();
+                entityManager.clear();
+                break;
+            }
         }
     }
 
