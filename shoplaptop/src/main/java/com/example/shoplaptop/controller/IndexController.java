@@ -58,6 +58,14 @@ public class IndexController {
         BigDecimal priceMax = (priceMaxStr == null || priceMaxStr.trim().isEmpty())
                 ? null : new BigDecimal(priceMaxStr);
 
+        if (priceMin != null && priceMin.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Giá tối thiểu không được nhỏ hơn 0");
+        }
+        if (priceMax != null && priceMax.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Giá tối đa không được nhỏ hơn 0");
+        }
+
+
         //Sắp xếp
         Sort sort = Sort.unsorted();
         if ("asc".equalsIgnoreCase(sortOrder)) {

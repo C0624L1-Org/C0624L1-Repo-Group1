@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="width=device-width, initial-scale=1">
     <title>Đăng nhập</title>
 
     <!-- Bootstrap CSS -->
@@ -18,21 +18,62 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f8f9fa;
+            background: linear-gradient(to right, #d0e9ff, #9df7ff);
+            animation: fadeIn 0.5s ease-in-out;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
         .login-container {
             max-width: 400px;
             padding: 2rem;
             background: white;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-in-out;
         }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
         .form-control {
             padding-left: 2.5rem;
+            transition: 0.3s ease-in-out;
         }
+
+        .form-control:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+        }
+
         .input-group-text {
             width: 2.5rem;
             justify-content: center;
+            background: #4facfe;
+            color: white;
+        }
+
+        .btn-primary {
+            background: #4facfe;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #00f2fe;
+        }
+
+        .text-muted a {
+            color: #4facfe;
+            text-decoration: none;
+        }
+
+        .text-muted a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -41,30 +82,39 @@
 <div th:replace="~{/common/navbar :: navbar}"></div>
 <!-- Hiển thị thông báo -->
 <div th:replace="~{fragments/toast.html}"></div>
+
 <div class="login-container">
-    <h2 class="text-center mb-4">Login</h2>
-    <div th:if="${param.error}" class="alert alert-danger">Sai tài khoản hoặc mật khẩu!</div>
-    <div th:if="${param.logout}" class="alert alert-success">Bạn cần phải đăng xuất!</div>
+    <h2 class="text-center mb-4">🔐 Đăng nhập</h2>
+
+    <div th:if="${param.error}" class="alert alert-danger d-flex align-items-center">
+        <i class="fas fa-exclamation-circle me-2"></i> Sai tài khoản hoặc mật khẩu!
+    </div>
+
+    <div th:if="${param.logout}" class="alert alert-success d-flex align-items-center">
+        <i class="fas fa-check-circle me-2"></i> Bạn đã đăng xuất thành công!
+    </div>
+
     <form method="post" th:action="@{/perform_login}">
         <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
             <input type="text" id="username" name="username" class="form-control" placeholder="Nhập tài khoản">
         </div>
+
         <div class="mb-3 input-group">
             <span class="input-group-text"><i class="fas fa-lock"></i></span>
             <input type="password" id="password" name="password" class="form-control" placeholder="Nhập mật khẩu">
-            <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+            <span class="input-group-text toggle-password" id="togglePassword">
                 <i class="fas fa-eye"></i>
-            </button>
+            </span>
         </div>
-<!--        <div class="mb-3 form-check">-->
-<!--            <input type="checkbox" id="remember-me" name="remember-me" class="form-check-input">-->
-<!--            <label for="remember-me" class="form-check-label">Remember me</label>-->
-<!--        </div>-->
+
         <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
-        <div class="text-center mt-3">
-            <span>or</span> <a th:href="@{/register}" class="link-primary">Đăng ký</a>
-            <span>or</span> <a th:href="@{/forgot-password}" class="link-primary">Quên mật khẩu</a>
+
+        <div class="text-center mt-3 text-muted">
+            <span>Chưa có tài khoản?</span>
+            <a th:href="@{/register}">Đăng ký</a>
+            <br>
+            <a th:href="@{/forgot-password}">Quên mật khẩu?</a>
         </div>
     </form>
 </div>

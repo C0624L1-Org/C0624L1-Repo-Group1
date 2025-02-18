@@ -75,15 +75,14 @@ public class CartItemController {
         Pageable pageable = PageRequest.of(page, 10);
         Page<Product> products = iProductService.findAll(pageable);
         model.addAttribute("products", products);
-        if (product.getStock() <= 0) {
-            redirectAttributes.addFlashAttribute("messageType", "error");
-            redirectAttributes.addFlashAttribute("message", "Không thể them vào giỏ hang vì số lượng không đủ!");
-        } else {
+        try {
             cartItemService.addProductToCartItemOfUser(user, product);
             redirectAttributes.addFlashAttribute("messageType", "success");
             redirectAttributes.addFlashAttribute("message", "Đã thêm vào giỏ của bạn!");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("messageType", "error");
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
         }
-
         return "redirect:/home";
     }
 
@@ -107,6 +106,18 @@ public class CartItemController {
         Users user = userRepository.getById(userId);
         Product product = productRepository.getById(productId);
         cartItemService.removeProductFromCartItemOfUser(user, product);
+        return "redirect:/cart";
+    }
+
+    @RequestMapping("/remove")
+    public String removeCartItem(@RequestParam(name = "userId") Long userId,
+                                 @RequestParam(name = "productId") int productId,
+                                 RedirectAttributes redirectAttributes) {
+        Users user = userRepository.getById(userId);
+        Product product = productRepository.getById(productId);
+        cartItemService.deleteCartItemCompletely(user, product);
+        redirectAttributes.addFlashAttribute("messageType", "success");
+        redirectAttributes.addFlashAttribute("message", "Đã xoá sản phẩm khỏi giỏ hàng.");
         return "redirect:/cart";
     }
 }
