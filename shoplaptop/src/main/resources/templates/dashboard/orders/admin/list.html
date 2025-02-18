@@ -13,6 +13,7 @@
     <link href="/css/dashboard/navbar.css" rel="stylesheet">
     <link href="/css/dashboard/sidebar.css" rel="stylesheet"/>
     <link href="/css/dashboard/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dashboard/users/pagination.css">
 </head>
 <body>
 <!-- Navbar -->
@@ -24,6 +25,28 @@
 
 <div class="main-content mt-5">
     <h1>Đơn Hàng</h1>
+    <!-- Search -->
+<!--    <form th:action="@{/dashboard/users/list}" method="get" class="row g-3 mb-3 align-items-center">-->
+<!--        <div class="col-md-4">-->
+<!--            <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Tìm kiếm theo Tài khoản, email, Họ Tên" th:value="${keyword}">-->
+<!--        </div>-->
+<!--        <div class="col-md-4">-->
+<!--            <select id="role" name="role" class="form-select">-->
+<!--                <option value="" th:selected="${role == null}">Chọn Role</option>-->
+<!--                <option th:each="r : ${roles}"-->
+<!--                        th:value="${r}"-->
+<!--                        th:text="${r}"-->
+<!--                        th:selected="${role != null && role.name() == r.name()}">-->
+<!--                </option>-->
+<!--            </select>-->
+<!--        </div>-->
+
+<!--        <div class="col-md-1 d-flex align-items-end">-->
+<!--            <button type="submit" class="btn btn-primary w-100">-->
+<!--                <i class="fas fa-search"></i> Tìm kiếm-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </form>-->
     <table class="table">
         <thead>
         <tr>

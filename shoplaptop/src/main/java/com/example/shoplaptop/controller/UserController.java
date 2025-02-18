@@ -258,20 +258,21 @@ public class UserController {
 
         if (loggedInUsername.equals(userToDelete.getUsername())) {
             redirectAttributes.addFlashAttribute("messageType", "error");
-            redirectAttributes.addFlashAttribute("message", "Bạn không thể tự xóa chính mình!");
+            redirectAttributes.addFlashAttribute("message", "Bạn không thể tự khóa chính mình!");
             return "redirect:/dashboard/users/list?page=" + page;
         }
 
         if (userToDelete.getRole() == Role.ADMIN) {
             if (!"admin".equalsIgnoreCase(loggedInUsername)) {
                 redirectAttributes.addFlashAttribute("messageType", "error");
-                redirectAttributes.addFlashAttribute("message", "Bạn không có quyền xóa Admin!");
+                redirectAttributes.addFlashAttribute("message", "Bạn không có quyền khóa Admin!");
                 return "redirect:/dashboard/users/list?page=" + page;
             }
         }
 
         try {
-            iUserService.deleteById(id);
+            userToDelete.setStatus(false);
+            iUserService.save(userToDelete);
             long totalUsers = iUserService.countUsers();
             int lastPage = (int) Math.ceil((double) totalUsers / 5) - 1;
 
@@ -280,10 +281,10 @@ public class UserController {
             }
 
             redirectAttributes.addFlashAttribute("messageType", "success");
-            redirectAttributes.addFlashAttribute("message", "Xoá thành công!");
+            redirectAttributes.addFlashAttribute("message", "Người dùng đã bị khóa!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("messageType", "error");
-            redirectAttributes.addFlashAttribute("message", "Có lỗi khi xoá người dùng này!");
+            redirectAttributes.addFlashAttribute("message", "Có lỗi khi khóa người dùng này!");
         }
         return "redirect:/dashboard/users/list?page=" + page;
     }
